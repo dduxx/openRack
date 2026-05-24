@@ -1,0 +1,21 @@
+
+# buildscad
+build/
+dependencies/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
