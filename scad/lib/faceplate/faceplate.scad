@@ -1,6 +1,6 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
-include <../utils/rack_units.scad>
-include <../utils/standard.scad>
+include <../const/rack_units.scad>
+include <../const/standard.scad>
 
 $fn = FACET_NUMBER;
 
