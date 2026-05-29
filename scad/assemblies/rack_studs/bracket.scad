@@ -5,24 +5,35 @@ include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 
 $fn = FACET_NUMBER;
 
-OUTER_SQUARE = RACK_UNIT_HOLE_SPACING - ( (RACK_UNIT_HOLE_SPACING - RACK_SQUARE_HOLE_XY) / 2);
+NUT_RETAINER_XY = RACK_UNIT_HOLE_SPACING - ( (RACK_UNIT_HOLE_SPACING - RACK_SQUARE_HOLE_XY) / 2);
+NUT_RETAINER_THICKNESS = 4;
+
+INSERT_XY = inches_to_mm(3 / 8) - 0.4;
+INSERT_THICKNESS = 2;
+
+NUT_HEIGHT = 3;
+NUT_BUFFER = 0.2;
 
 up(2) {
     difference() {
         union() {
-            linear_extrude(height=4) {
-                square([OUTER_SQUARE, OUTER_SQUARE], center=true);
+            linear_extrude(NUT_RETAINER_THICKNESS) {
+                square([NUT_RETAINER_XY, NUT_RETAINER_XY], center=true);
             }
 
-            down(2) {
-                linear_extrude(2) {
-                    square([inches_to_mm(3 / 8), inches_to_mm(3 / 8)], center=true);
+            down(INSERT_THICKNESS) {
+                linear_extrude(INSERT_THICKNESS) {
+                    square([INSERT_XY, INSERT_XY], center=true);
                 }
             }
         }
 
         up(1) {
-            nut_cutout(flat_to_flat=THREE_EIGHTHS_NUT_FLAT_TO_FLAT, nut_height=3);
+            nut_cutout(
+                flat_to_flat=THREE_EIGHTHS_NUT_FLAT_TO_FLAT, 
+                nut_height=NUT_HEIGHT, 
+                buffer=NUT_BUFFER
+            );
         }
 
         down(2) {

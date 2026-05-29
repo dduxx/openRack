@@ -15,7 +15,7 @@ module faceplate(
 ) {
     difference() {
         cuboid(
-            [width, thickness, calc_rack_unit_height(rack_units)],
+            [width, thickness, RACK_UNIT * rack_units],
             rounding=rad,
             edges=[LEFT + TOP, LEFT + BOTTOM, RIGHT + TOP, RIGHT + BOTTOM],
             anchor=FRONT + LEFT + BOTTOM
