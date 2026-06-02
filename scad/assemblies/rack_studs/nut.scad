@@ -14,7 +14,7 @@ BASE_RAD = inches_to_mm(1 / 2) / 2;
 TEXTURE_SIZE = [3, 3];
 TEXTURE_DEPTH = 1.5;
 
-HANDLE_HEIGHT = 20;
+HANDLE_HEIGHT = 15;
 HANDLE_RAD_TOP = 4;
 
 WING_FILLET_RAD = 0.5;
@@ -29,6 +29,15 @@ difference() {
             tex_size=TEXTURE_SIZE,
             tex_depth=TEXTURE_DEPTH
         );
+        xflip(){
+            linear_sweep(
+                circle(r=BASE_RAD),
+                h=BASE_HEIGHT,
+                texture="diamonds",
+                tex_size=TEXTURE_SIZE,
+                tex_depth=TEXTURE_DEPTH
+            );
+        }
 
         up(8) {
             cylinder(h=HANDLE_HEIGHT, r2=HANDLE_RAD_TOP, r1=BASE_RAD - 1);
