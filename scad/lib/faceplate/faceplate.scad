@@ -4,11 +4,13 @@ include <../const/standard.scad>
 
 $fn = FACET_NUMBER;
 
+FACEPLATE_FILLET_RAD = 2;
+
 module faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
     thickness = FRONT_PLATE_THIKCNESS,
-    rad = STANDARD_FILLET_RAD,
+    rad = FACEPLATE_FILLET_RAD,
     skip_holes = [],
     holes_on_left = true,
     holes_on_right = true
@@ -50,7 +52,7 @@ module vented_faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
     thickness = FRONT_PLATE_THIKCNESS,
-    rad = STANDARD_FILLET_RAD,
+    rad = FACEPLATE_FILLET_RAD,
     skip_holes = [],
     holes_on_left = true,
     holes_on_right = true,

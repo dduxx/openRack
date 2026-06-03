@@ -1,6 +1,5 @@
 include <../utils/unit_conversion.scad>
 
-STANDARD_FILLET_RAD = 2;
 FRONT_PLATE_THIKCNESS = 4;
 FACET_NUMBER = 100;
 

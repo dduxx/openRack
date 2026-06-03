@@ -9,6 +9,7 @@ DRIVE_SLED_WALL = 1.5;
 DRIVE_SLED_LATCH_DEPTH = 20;
 DRIVE_SLED_LATCH_EDGE_OFFSET = 8;
 DRIVE_SLED_LATCH_HOOK = 4;
+DRIVE_SLED_LATCH_HEIGHT = (DRIVE_SLED_WALL + THREE_POINT_FIVE_HDD_HEIGHT) - (2 * DRIVE_SLED_WALL);
 
 // screw slots
 HDD_SCREW_SLOT_WIDTH = HDD_SCREW_RAD * 2;
@@ -49,13 +50,20 @@ module three_point_five_inch_drive_sled(
                     [x, y, z],
                     rounding = edge_fillet,
                     anchor=FRONT + LEFT + BOTTOM,
-                    edges=[RIGHT + BACK, BACK + LEFT]
+                    edges=[
+                        RIGHT + BACK, 
+                        BACK + LEFT, 
+                        LEFT + TOP, 
+                        RIGHT + TOP, 
+                        LEFT + BOTTOM, 
+                        RIGHT + BOTTOM
+                    ]
                 );
 
                 // left side latch
-                fwd(DRIVE_SLED_LATCH_DEPTH + DRIVE_SLED_WALL) {
+                fwd(DRIVE_SLED_LATCH_DEPTH + DRIVE_SLED_WALL) up(DRIVE_SLED_WALL) {
                     _sled_latch(
-                        z, 
+                        DRIVE_SLED_LATCH_HEIGHT, 
                         edge_fillet
                     );
                 }
@@ -63,9 +71,9 @@ module three_point_five_inch_drive_sled(
                 // right side latch
                 right(x) {
                     xflip(){
-                        fwd(DRIVE_SLED_LATCH_DEPTH + DRIVE_SLED_WALL) {
+                        fwd(DRIVE_SLED_LATCH_DEPTH + DRIVE_SLED_WALL) up(DRIVE_SLED_WALL) {
                             _sled_latch(
-                                z, 
+                                DRIVE_SLED_LATCH_HEIGHT, 
                                 edge_fillet
                             );
                         }
