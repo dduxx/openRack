@@ -9,7 +9,7 @@ NUT_BUFFER = 0.2;
 NUT_HEIGHT = 3;
 
 BASE_HEIGHT = 8;
-BASE_RAD = inches_to_mm(1 / 2) / 2;
+BASE_RAD = inches_to_mm(7/16) / 2;
 
 TEXTURE_SIZE = [3, 3];
 TEXTURE_DEPTH = 1.5;
