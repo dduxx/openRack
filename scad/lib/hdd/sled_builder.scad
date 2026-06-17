@@ -1,8 +1,13 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
-include <../const/hdd.scad>
-include <../const/standard.scad>
+include <../fasteners/screws.scad>
+include <hdd.scad>
 
-$fn = FACET_NUMBER;
+// general sled dimensions
+DRIVE_SLED_WALL = 1.5;
+DRIVE_SLED_FRONT_DEPTH = 10;
+
+DRIVE_SLED_EDGE_FILLET = 1;
+
 
 // screw slots
 HDD_SCREW_SLOT_WIDTH = HDD_SCREW_RAD * 2;

@@ -2,5 +2,9 @@
 	{
 		"url": "https://github.com/BelfrySCAD/BOSL2.git",
 		"ref": "v2.0.741"
-	}
+	},
+    {
+        "url": "https://github.com/dduxx/scadUnitConversionLib.git",
+        "ref": "v1.0.0"
+    }
 ]

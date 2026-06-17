@@ -1,9 +1,10 @@
-include <../../lib/const/standard.scad>
-include <../../lib/const/rack_units.scad>
-include <../../lib/utils/unit_conversion.scad>
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
+include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
+include <../../lib/fasteners/nuts.scad>
+include <../../lib/fasteners/screws.scad>
+include <../../lib/rack_units.scad>
 
-$fn = FACET_NUMBER;
+$fn = 100;
 
 NUT_RETAINER_XY = RACK_UNIT_HOLE_SPACING - ( (RACK_UNIT_HOLE_SPACING - RACK_SQUARE_HOLE_XY) / 2);
 NUT_RETAINER_THICKNESS = 4;
@@ -30,14 +31,14 @@ up(2) {
 
         up(1) {
             nut_cutout(
-                flat_to_flat=THREE_EIGHTHS_NUT_FLAT_TO_FLAT, 
-                nut_height=NUT_HEIGHT, 
+                flat_to_flat=THREE_EIGHTHS_NUT_FLAT_TO_FLAT,
+                nut_height=NUT_HEIGHT,
                 buffer=NUT_BUFFER
             );
         }
 
         down(2) {
-            screw_cutout(countersink_rad=0);
+            screw_cutout(TEN_THIRTY_TWO_SCREW_RAD);
         }
     }
 }

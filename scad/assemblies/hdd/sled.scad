@@ -1,13 +1,6 @@
-include <../../lib/hdd/sled.scad>
+include <../../lib/hdd/sled_builder.scad>
 
-// general sled dimensions
-DRIVE_SLED_WALL = 1.5;
-DRIVE_SLED_FRONT_DEPTH = 10;
-DRIVE_SLED_LATCH_EDGE_OFFSET = 15;
-DRIVE_SLED_LATCH_HOOK = 4;
-DRIVE_SLED_LATCH_HEIGHT = (DRIVE_SLED_WALL + THREE_POINT_FIVE_HDD_HEIGHT) - (2 * DRIVE_SLED_WALL);
-
-DRIVE_SLED_EDGE_FILLET = 1;
+$fn = 100;
 
 // cutouts
 HAS_BOTTOM_CUTOUT = true;
