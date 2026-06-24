@@ -19,22 +19,24 @@ KEYSTONE_FRONT_WALL_THICKNESS = 1;
 KEYSTONE_FRONT_WALL_TOP_HEIGHT = 3.7;
 KEYSTONE_FRONT_WALL_BOTTOM_HEIGHT = KEYSTONE_LATCH_HEIGHT;
 
-module keystone(rows = 1, columns = 1, rad = KEYSTONE_OUTER_RAD) {
+module keystone(rows = 1, columns = 1, rad = KEYSTONE_OUTER_RAD, spacing = 0) {
     difference() {
-        keystone_negative(rows, columns, rad);
+        keystone_negative(rows, columns, rad, spacing);
 
         for (i = [0 : columns - 1]) {
             for (j = [0 : rows - 1]) {
-                right(i * KEYSTONE_OUTER_X) up(j * KEYSTONE_OUTER_Z) {
-                    right((KEYSTONE_OUTER_X - KEYSTONE_INNER_X) / 2) {
-                        up((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z) / 2) {
-                            cube(
-                                [
-                                    KEYSTONE_INNER_X,
-                                    KEYSTONE_INNER_Y,
-                                    KEYSTONE_INNER_Z,
-                                ]
-                            );
+                right((i * KEYSTONE_OUTER_X) + (i * spacing)) {
+                    up((j * KEYSTONE_OUTER_Z) + (j * spacing)) {
+                        right((KEYSTONE_OUTER_X - KEYSTONE_INNER_X + spacing) / 2) {
+                            up((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z + spacing) / 2) {
+                                cube(
+                                    [
+                                        KEYSTONE_INNER_X,
+                                        KEYSTONE_INNER_Y,
+                                        KEYSTONE_INNER_Z,
+                                    ]
+                                );
+                            }
                         }
                     }
                 }
@@ -44,47 +46,52 @@ module keystone(rows = 1, columns = 1, rad = KEYSTONE_OUTER_RAD) {
 
     for (i = [0 : columns - 1]) {
         for (j = [0 : rows - 1]) {
-            right(i * KEYSTONE_OUTER_X) up(j * KEYSTONE_OUTER_Z) {
-                // bottom hook latch
-                right(KEYSTONE_INNER_X + (KEYSTONE_OUTER_X - KEYSTONE_INNER_X) / 2) {
-                    up((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z) / 2) {
-                        _keystone_latch(KEYSTONE_LATCH_DEPTH, KEYSTONE_LATCH_HEIGHT);
-                    }
-
-                }
-
-                // top hook latch
-                right(KEYSTONE_INNER_X + (KEYSTONE_OUTER_X - KEYSTONE_INNER_X) / 2) {
-                    up(KEYSTONE_OUTER_Z - ((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z) / 2)) {
-                        zflip() {
+            right((i * KEYSTONE_OUTER_X) + (i * spacing)) {
+                up((j * KEYSTONE_OUTER_Z) + (j * spacing)) {
+                    // bottom hook latch
+                    right(KEYSTONE_INNER_X + (KEYSTONE_OUTER_X - KEYSTONE_INNER_X + spacing) / 2) {
+                        up((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z + spacing) / 2) {
                             _keystone_latch(KEYSTONE_LATCH_DEPTH, KEYSTONE_LATCH_HEIGHT);
                         }
-                    }
-                }
 
-                // bottom front
-                back(KEYSTONE_OUTER_Y - KEYSTONE_FRONT_WALL_THICKNESS) {
-                    up((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z) / 2) {
-                        cube([
-                            KEYSTONE_OUTER_X,
-                            KEYSTONE_FRONT_WALL_THICKNESS,
-                            KEYSTONE_FRONT_WALL_BOTTOM_HEIGHT
-                        ]);
                     }
-                }
 
-                // top front
-                back(KEYSTONE_OUTER_Y - KEYSTONE_FRONT_WALL_THICKNESS) {
-                    up(
-                        KEYSTONE_OUTER_Z -
-                            ((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z) / 2) -
-                            KEYSTONE_FRONT_WALL_TOP_HEIGHT
-                    ) {
-                        cube([
-                            KEYSTONE_OUTER_X,
-                            KEYSTONE_FRONT_WALL_THICKNESS,
-                            KEYSTONE_FRONT_WALL_TOP_HEIGHT
-                        ]);
+                    // top hook latch
+                    right(KEYSTONE_INNER_X + (KEYSTONE_OUTER_X - KEYSTONE_INNER_X + spacing) / 2) {
+                        up(
+                            KEYSTONE_OUTER_Z -
+                                ((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z - spacing) / 2)
+                        ) {
+                            zflip() {
+                                _keystone_latch(KEYSTONE_LATCH_DEPTH, KEYSTONE_LATCH_HEIGHT);
+                            }
+                        }
+                    }
+
+                    // bottom front
+                    back(KEYSTONE_OUTER_Y - KEYSTONE_FRONT_WALL_THICKNESS) {
+                        up((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z + spacing) / 2) {
+                            cube([
+                                KEYSTONE_OUTER_X,
+                                KEYSTONE_FRONT_WALL_THICKNESS,
+                                KEYSTONE_FRONT_WALL_BOTTOM_HEIGHT
+                            ]);
+                        }
+                    }
+
+                    // top front
+                    back(KEYSTONE_OUTER_Y - KEYSTONE_FRONT_WALL_THICKNESS) {
+                        up(
+                            KEYSTONE_OUTER_Z -
+                                ((KEYSTONE_OUTER_Z - KEYSTONE_INNER_Z - spacing) / 2) -
+                                KEYSTONE_FRONT_WALL_TOP_HEIGHT
+                        ) {
+                            cube([
+                                KEYSTONE_OUTER_X,
+                                KEYSTONE_FRONT_WALL_THICKNESS,
+                                KEYSTONE_FRONT_WALL_TOP_HEIGHT
+                            ]);
+                        }
                     }
                 }
             }
@@ -96,12 +103,13 @@ module keystone_negative(
     rows=1,
     columns=1,
     rad = KEYSTONE_OUTER_RAD,
+    spacing = 0
 ) {
     cuboid(
         [
-            KEYSTONE_OUTER_X * columns,
+            (KEYSTONE_OUTER_X * columns) + (spacing * columns),
             KEYSTONE_OUTER_Y,
-            KEYSTONE_OUTER_Z * rows
+            (KEYSTONE_OUTER_Z * rows) + (spacing * rows)
         ],
         rounding = rad,
         anchor = BOTTOM + LEFT + FRONT,
