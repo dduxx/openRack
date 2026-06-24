@@ -107,9 +107,9 @@ module keystone_negative(
 ) {
     cuboid(
         [
-            (KEYSTONE_OUTER_X * columns) + (spacing * columns),
+            calcualte_keystone_panel_width(columns, spacing),
             KEYSTONE_OUTER_Y,
-            (KEYSTONE_OUTER_Z * rows) + (spacing * rows)
+            calcualte_keystone_panel_height(rows, spacing)
         ],
         rounding = rad,
         anchor = BOTTOM + LEFT + FRONT,
@@ -133,3 +133,12 @@ module _keystone_latch(depth, height) {
         }
     }
 }
+
+function calcualte_keystone_panel_width(
+    columns = 1, spacing = 0
+) = (KEYSTONE_OUTER_X * columns) + (spacing * columns);
+
+function calcualte_keystone_panel_height(
+    rows = 1, spacing = 0
+) = (KEYSTONE_OUTER_Z * rows) + (spacing * rows);
+
