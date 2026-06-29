@@ -3,7 +3,7 @@ include <../fasteners/screws.scad>
 include <hdd.scad>
 
 // general sled dimensions
-DRIVE_SLED_WALL = 1.5;
+DRIVE_SLED_WALL = 4;
 DRIVE_SLED_FRONT_DEPTH = 10;
 
 DRIVE_SLED_EDGE_FILLET = 1;
@@ -11,6 +11,8 @@ DRIVE_SLED_EDGE_FILLET = 1;
 
 // screw slots
 HDD_SCREW_SLOT_WIDTH = HDD_SCREW_RAD * 2;
+HDD_SCREW_HEAD_RAD = 8 / 2;
+
 THREE_POINT_FIVE_SCREW_SLOT_LENGTH = 100;
 TWO_POINT_FIVE_SCREW_SLOT_LENGTH = 80;
 
@@ -94,7 +96,7 @@ module three_point_five_inch_drive_sled(
             // screw slots
             if (has_screw_slots) {
                 screw_mount_y_trans = (
-                    THREE_POINT_FIVE_HDD_DEPTH - THREE_POINT_FIVE_SCREW_SLOT_LENGTH
+                    THREE_POINT_FIVE_HDD_DEPTH
                 ) / 2;
 
                 // left bottom drive hole slot
@@ -274,11 +276,15 @@ module _sled_bottom_cutout(bottom_cutout_rad, bottom_cutout_length) {
 }
 
 module _screw_mount_cutout(height, screw_mount_cutout_length) {
-    hull() {
-        cylinder(h=height, r=HDD_SCREW_SLOT_WIDTH/2);
-        back(screw_mount_cutout_length) {
-            cylinder(h=height, r=HDD_SCREW_SLOT_WIDTH/2);
-        }
+    zrot(90) {
+        screw_slot(
+            HDD_SCREW_SLOT_WIDTH/2,
+            screw_mount_cutout_length,
+            countersink_rad = HDD_SCREW_HEAD_RAD,
+            countersink_depth = height - 1,
+            total_length = height,
+            thread_buffer = 0,
+        );
     }
 }
 

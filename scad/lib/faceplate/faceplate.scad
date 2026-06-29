@@ -8,6 +8,8 @@ FACEPLATE_JOIN_SUPPORT_X = 0;
 FACEPLATE_JOIN_SUPPORT_Y = 0;
 FACEPLATE_JOIN_SUPPORT_Z = 0;
 
+FACEPLATE_SCREW_SLOT_ALLOWANCE = 3;
+
 module faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
@@ -47,8 +49,10 @@ module faceplate(
                                     (RACK_UNIT * i)
                             ) {
                                 rotate([-90, 0, 0]) {
-                                    screw_cutout(
+                                    screw_slot(
                                         TEN_THIRTY_TWO_SCREW_RAD,
+                                        (TEN_THIRTY_TWO_SCREW_RAD * 2) +
+                                            FACEPLATE_SCREW_SLOT_ALLOWANCE,
                                         countersink_rad = countersink_rad,
                                         countersink_depth = FRONT_PLATE_THICKNESS / 2
                                     );
@@ -65,8 +69,10 @@ module faceplate(
                                 (RACK_UNIT * i)
                             ) {
                                 rotate([-90, 0, 0]) {
-                                    screw_cutout(
+                                    screw_slot(
                                         TEN_THIRTY_TWO_SCREW_RAD,
+                                        (TEN_THIRTY_TWO_SCREW_RAD * 2) +
+                                            FACEPLATE_SCREW_SLOT_ALLOWANCE,
                                         countersink_rad = countersink_rad,
                                         countersink_depth = FRONT_PLATE_THICKNESS / 2
                                     );

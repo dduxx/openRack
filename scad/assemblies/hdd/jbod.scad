@@ -14,7 +14,7 @@ JBOD_SECTION_WIDTH = JBOD_RACK_TYPE == "NINETEEN_INCH" ?
     TEN_INCH_STANDARD_WIDTH / JBOD_SECTIONS;
 JBOD_SKIPPED_HOLES = [1, 3, 4, 5, 7];
 
-JBOD_ROD_BUFFER = 0.5;
+JBOD_ROD_BUFFER = 0.2;
 
 SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
 
@@ -72,11 +72,11 @@ difference() {
     }
 
 
-    back(TEN_TWENTY_FOUR_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS) {
+    back(SIX_THIRTY_TWO_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
-                    TEN_TWENTY_FOUR_THREADED_ROD_RAD,
+                    SIX_THIRTY_TWO_THREADED_ROD_RAD,
                     JBOD_SECTION_WIDTH,
                     buffer = JBOD_ROD_BUFFER,
                 );
@@ -85,13 +85,13 @@ difference() {
     }
 
     back(drive_enclosure_depth() -
-        TEN_TWENTY_FOUR_THREADED_ROD_RAD -
+        SIX_THIRTY_TWO_THREADED_ROD_RAD -
         JBOD_ROD_BUFFER - FRONT_PLATE_THICKNESS
     ) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
-                    TEN_TWENTY_FOUR_THREADED_ROD_RAD,
+                    SIX_THIRTY_TWO_THREADED_ROD_RAD,
                     JBOD_SECTION_WIDTH,
                     buffer = JBOD_ROD_BUFFER,
                 );
