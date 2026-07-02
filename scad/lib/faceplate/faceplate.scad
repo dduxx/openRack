@@ -4,9 +4,11 @@ include <../fasteners/screws.scad>
 
 FRONT_PLATE_THICKNESS = 4;
 FACEPLATE_FILLET_RAD = 2;
-FACEPLATE_JOIN_SUPPORT_X = 0;
-FACEPLATE_JOIN_SUPPORT_Y = 0;
-FACEPLATE_JOIN_SUPPORT_Z = 0;
+
+FACEPLATE_JOIN_SUPPORT_X = 10;
+FACEPLATE_JOIN_SUPPORT_Y = 10;
+
+FACEPLATE_JOIN_SUPPORT_KEY_Z = 10;
 
 FACEPLATE_SCREW_SLOT_ALLOWANCE = 3;
 
@@ -88,16 +90,14 @@ module faceplate(
     // left join support
     if (join_support_left) {
         back(thickness) {
-            xflip() {
-                _join_support(rack_units, thickness, rad);
-            }
+            _join_support(rack_units, rad);
         }
     }
 
     // right join support
     if (join_support_right) {
-        right(width) back(thickness) {
-            _join_support(rack_units, thickness, rad);
+        right(width - FACEPLATE_JOIN_SUPPORT_X) back(thickness) {
+            _join_support(rack_units, rad);
         }
     }
 }
@@ -165,44 +165,108 @@ module vented_faceplate(
     }
 }
 
-module _join_support(rack_units, thickness, fillet) {
+module _join_support(rack_units, fillet) {
+    z = rack_units * RACK_UNIT;
+
     difference() {
+        // join post
         cuboid(
-            [thickness, 3 * thickness, RACK_UNIT * rack_units],
-            edges = [TOP + BACK, BACK + BOTTOM],
+            [
+                FACEPLATE_JOIN_SUPPORT_X, FACEPLATE_JOIN_SUPPORT_Y, z
+            ],
+            anchor = BOTTOM + LEFT + FRONT,
+            edges = [LEFT + BACK, BACK + RIGHT],
             rounding = fillet,
-            anchor = RIGHT + FRONT + BOTTOM
         );
 
-        left(thickness) {
-            back((3 * thickness) / 2) {
-                up((RACK_UNIT * rack_units) - (RACK_UNIT * rack_units / 5)) {
-                    yrot(90) {
-                        screw_cutout(
-                            screw_rad = M4_SCREW_RAD,
-                            countersink_rad = 2 * M4_SCREW_RAD,
-                            countersink_depth = thickness / 2,
-                            total_length = thickness,
-                            thread_buffer = 0.2
-                        );
-                    }
-                }
+        // join key cutout bottom
+        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y / 2) up(z / 4) {
+            cuboid(
+                [
+                    FACEPLATE_JOIN_SUPPORT_X,
+                    FACEPLATE_JOIN_SUPPORT_Y / 2 + 1,
+                    FACEPLATE_JOIN_SUPPORT_KEY_Z + 1
+                ],
+                anchor = FRONT,
+                edges = [LEFT + BACK, BACK + RIGHT],
+                rounding = fillet,
+            );
+        }
+
+        // join key hole bottom
+        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y) up(z / 4) {
+            xrot(90) {
+                screw_cutout(
+                    screw_rad = M4_SCREW_RAD,
+                    countersink_rad = 2 * M4_SCREW_RAD,
+                    countersink_depth = 0,
+                    total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                    thread_buffer = 0.2
+                );
             }
         }
 
-        left(thickness) {
-            back((3 * thickness) / 2) {
-                up((RACK_UNIT * rack_units / 5)) {
-                    yrot(90) {
-                        screw_cutout(
-                            screw_rad = M4_SCREW_RAD,
-                            countersink_rad = 2 * M4_SCREW_RAD,
-                            countersink_depth = thickness / 2,
-                            total_length = thickness,
-                            thread_buffer = 0.2
-                        );
-                    }
-                }
+        // join key cutout top
+        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y / 2) up(z - (z / 4)) {
+            cuboid(
+                [
+                    FACEPLATE_JOIN_SUPPORT_X,
+                    FACEPLATE_JOIN_SUPPORT_Y / 2 + 1,
+                    FACEPLATE_JOIN_SUPPORT_KEY_Z + 1
+                ],
+                anchor = FRONT,
+                edges = [LEFT + BACK, BACK + RIGHT],
+                rounding = fillet,
+            );
+        }
+
+        // join key hole top
+        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y) up(z - (z / 4)) {
+            xrot(90) {
+                screw_cutout(
+                    screw_rad = M4_SCREW_RAD,
+                    countersink_rad = 2 * M4_SCREW_RAD,
+                    countersink_depth = 0,
+                    total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                    thread_buffer = 0.2
+                );
+            }
+        }
+    }
+}
+
+module join_support_key(fillet) {
+    difference() {
+        cuboid(
+            [
+                FACEPLATE_JOIN_SUPPORT_X * 2,
+                FACEPLATE_JOIN_SUPPORT_KEY_Z,
+                FACEPLATE_JOIN_SUPPORT_Y
+            ],
+            rounding = fillet,
+            edges = [LEFT + TOP, TOP + RIGHT],
+            anchor = BOTTOM + FRONT + LEFT
+        );
+
+        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
+            screw_cutout(
+                screw_rad = M4_SCREW_RAD,
+                countersink_rad = 2 * M4_SCREW_RAD,
+                countersink_depth = 0,
+                total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                thread_buffer = 0.2
+            );
+        }
+
+        right((FACEPLATE_JOIN_SUPPORT_X / 2) + FACEPLATE_JOIN_SUPPORT_X) {
+            back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
+                screw_cutout(
+                    screw_rad = M4_SCREW_RAD,
+                    countersink_rad = 2 * M4_SCREW_RAD,
+                    countersink_depth = 0,
+                    total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                    thread_buffer = 0.2
+                );
             }
         }
     }

@@ -113,6 +113,7 @@ right (
                         rad=DRIVE_SLED_EDGE_FILLET,
                         fillet_top = i == 0,
                         fillet_bottom = i == DRIVES_PER_SECTION - 1,
+                        has_sata_connector = true,
                         sled_buffer = DRIVE_ENCLOSURE_SLED_BUFFER,
                     );
                 }

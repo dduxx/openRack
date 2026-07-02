@@ -6,6 +6,7 @@ HDD_SCREW_RAD = 3.5 / 2;
 TEN_THIRTY_TWO_SCREW_RAD = inches_to_mm(3/16) / 2;
 
 M4_SCREW_RAD = 2;
+M3_SCREW_RAD = 1.5;
 
 module screw_cutout(
     screw_rad,
