@@ -22,16 +22,15 @@ difference() {
         fillet_right = SECTION == "RIGHT"
     );
 
-    up((RACK_UNIT * 1) / 2) {
+    right(SECTION_WIDTH / 2) up(RACK_UNIT / 2){
         xrot(90) {
-            right(inches_to_mm(5/8)) down(FRONT_PLATE_THICKNESS) {
-                hull() {
-                    cylinder(h = FRONT_PLATE_THICKNESS, r = SLOT_RAD);
-
-                    right(SECTION_WIDTH - (2 * inches_to_mm(5/8))) {
-                        cylinder(h = FRONT_PLATE_THICKNESS, r = SLOT_RAD);
-                    }
-                }
+            down(FRONT_PLATE_THICKNESS) {
+                screw_slot(
+                    SLOT_RAD,
+                    SECTION_WIDTH - (2 * inches_to_mm(5/8)),
+                    total_length = FRONT_PLATE_THICKNESS,
+                    thread_buffer = 0.5,
+                );
             }
         }
     }
