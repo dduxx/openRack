@@ -3,7 +3,7 @@ include <../fasteners/screws.scad>
 include <hdd.scad>
 include <sled_builder.scad>
 
-DRIVE_ENCLOSURE_SLED_BUFFER = 0.5;
+DRIVE_ENCLOSURE_SLED_BUFFER = 1;
 
 SATA_CONNECTOR_MOUNT_X = 55;
 SATA_CONNECTOR_MOUNT_Y = 15;
@@ -40,22 +40,47 @@ module three_point_five_inch_enclosure(
         right(drive_enclosure_width(DRIVE_SLED_WALL) - SATA_CONNECTOR_MOUNT_X - DRIVE_SLED_WALL) {
             back(drive_enclosure_depth()) {
                 difference() {
-                    cuboid(
-                        [
-                            SATA_CONNECTOR_MOUNT_X,
-                            SATA_CONNECTOR_MOUNT_Y,
-                            DRIVE_SLED_WALL - SATA_CONNECTOR_Z_BUFFER
-                        ],
-                        rounding = rad,
-                        edges = [LEFT + BACK, BACK + RIGHT],
-                        anchor = BOTTOM + LEFT + FRONT
-                    );
+                    union() {
+                        cuboid(
+                            [
+                                SATA_CONNECTOR_MOUNT_X,
+                                SATA_CONNECTOR_MOUNT_Y,
+                                DRIVE_SLED_WALL
+                            ],
+                            rounding = rad,
+                            edges = [LEFT + BACK, BACK + RIGHT],
+                            anchor = BOTTOM + LEFT + FRONT
+                        );
+
+                        back(DRIVE_SLED_WALL) up(DRIVE_SLED_WALL) {
+                            xrot(90) yrot(90) xflip() {
+                                linear_extrude(SATA_CONNECTOR_MOUNT_X)
+                                right_triangle(
+                                    [DRIVE_SLED_WALL, DRIVE_SLED_WALL - SATA_CONNECTOR_Z_BUFFER]
+                                );
+                            }
+                        }
+
+                        back(DRIVE_SLED_WALL) up(DRIVE_SLED_WALL) {
+                            cuboid(
+                                [
+                                    SATA_CONNECTOR_MOUNT_X,
+                                    SATA_CONNECTOR_MOUNT_Y - DRIVE_SLED_WALL,
+                                    DRIVE_SLED_WALL - SATA_CONNECTOR_Z_BUFFER
+                                ],
+                                rounding = rad,
+                                edges = [LEFT + BACK, BACK + RIGHT],
+                                anchor = BOTTOM + LEFT + FRONT
+                            );
+                        }
+
+                    }
 
                     right(SATA_CONNECTOR_MOUNT_X - SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET) {
                         back(SATA_CONNECTOR_HOLE_Y_OFFSET) {
                             screw_cutout(
                                 M3_SCREW_RAD,
-                                total_length = DRIVE_SLED_WALL,
+                                total_length = 2 * DRIVE_SLED_WALL,
                                 thread_buffer = 0,
                             );
                         }
@@ -68,7 +93,7 @@ module three_point_five_inch_enclosure(
                         back(SATA_CONNECTOR_HOLE_Y_OFFSET) {
                             screw_cutout(
                                 M3_SCREW_RAD,
-                                total_length = DRIVE_SLED_WALL,
+                                total_length = 2 * DRIVE_SLED_WALL,
                                 thread_buffer = 0,
                             );
                         }

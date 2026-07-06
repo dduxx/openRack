@@ -72,11 +72,11 @@ difference() {
     }
 
 
-    back(SIX_THIRTY_TWO_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS) {
+    back(QUARTER_INCH_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
-                    SIX_THIRTY_TWO_THREADED_ROD_RAD,
+                    QUARTER_INCH_THREADED_ROD_RAD,
                     JBOD_SECTION_WIDTH,
                     buffer = JBOD_ROD_BUFFER,
                 );
@@ -85,13 +85,13 @@ difference() {
     }
 
     back(drive_enclosure_depth() -
-        SIX_THIRTY_TWO_THREADED_ROD_RAD -
+        QUARTER_INCH_THREADED_ROD_RAD -
         JBOD_ROD_BUFFER - FRONT_PLATE_THICKNESS
     ) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
-                    SIX_THIRTY_TWO_THREADED_ROD_RAD,
+                    QUARTER_INCH_THREADED_ROD_RAD,
                     JBOD_SECTION_WIDTH,
                     buffer = JBOD_ROD_BUFFER,
                 );
