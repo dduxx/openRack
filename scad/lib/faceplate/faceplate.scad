@@ -10,7 +10,7 @@ FACEPLATE_JOIN_SUPPORT_Y = 10;
 
 FACEPLATE_JOIN_SUPPORT_KEY_Z = 10;
 
-FACEPLATE_SCREW_SLOT_ALLOWANCE = 3;
+FACEPLATE_SCREW_SLOT_ALLOWANCE = 5;
 
 module faceplate(
     rack_units = 1,
@@ -241,7 +241,7 @@ module join_support_key(fillet) {
             [
                 FACEPLATE_JOIN_SUPPORT_X * 2,
                 FACEPLATE_JOIN_SUPPORT_KEY_Z,
-                FACEPLATE_JOIN_SUPPORT_Y
+                FACEPLATE_JOIN_SUPPORT_Y / 2
             ],
             rounding = fillet,
             edges = [LEFT + TOP, TOP + RIGHT],
