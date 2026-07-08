@@ -3,7 +3,8 @@ include <../fasteners/screws.scad>
 include <hdd.scad>
 
 // general sled dimensions
-DRIVE_SLED_WALL = 4;
+DRIVE_SLED_FLOOR = 4;
+DRIVE_SLED_WALL = 2;
 DRIVE_SLED_FRONT_DEPTH = 10;
 
 DRIVE_SLED_EDGE_FILLET = 1;
@@ -31,6 +32,7 @@ TWO_POINT_FIVE_CONNECTOR_COUTOUT_DEPTH = 10;
 
 // front panel
 THUMB_SLOT_WIDTH = 17;
+THUMB_SLOT_TAPER = 1;
 VENT_COUNT = 13;
 VENT_WIDTH = 2.5;
 LABEL_WIDTH = 45;
@@ -38,6 +40,7 @@ LABEL_HEIGHT = 12.5;
 
 module three_point_five_inch_drive_sled(
     drive_sled_wall,
+    drive_sled_floor,
     drive_sled_front_depth,
     edge_fillet = 1,
     has_bottom_cutout = false,
@@ -48,7 +51,7 @@ module three_point_five_inch_drive_sled(
 ) {
     sled_x = (2 * drive_sled_wall) + THREE_POINT_FIVE_HDD_WIDTH;
     sled_y = THREE_POINT_FIVE_HDD_DEPTH;
-    sled_z = drive_sled_wall + THREE_POINT_FIVE_HDD_HEIGHT;
+    sled_z = drive_sled_floor + THREE_POINT_FIVE_HDD_HEIGHT;
 
     back(drive_sled_front_depth) {
         difference() {
@@ -69,7 +72,7 @@ module three_point_five_inch_drive_sled(
 
 
             // 3.5 inch drive negative
-            right(drive_sled_wall) up (drive_sled_wall) {
+            right(drive_sled_wall) up(drive_sled_floor) {
                 cube([
                     THREE_POINT_FIVE_HDD_WIDTH,
                     THREE_POINT_FIVE_HDD_DEPTH,
@@ -102,7 +105,7 @@ module three_point_five_inch_drive_sled(
                 // left bottom drive hole slot
                 right(HDD_BOTTOM_HOLE_EDGE_OFFSET + DRIVE_SLED_WALL) back(screw_mount_y_trans) {
                     _screw_mount_cutout(
-                        drive_sled_wall,
+                        drive_sled_floor,
                         THREE_POINT_FIVE_SCREW_SLOT_LENGTH
                     );
                 }
@@ -111,7 +114,7 @@ module three_point_five_inch_drive_sled(
                 right(THREE_POINT_FIVE_HDD_WIDTH - HDD_BOTTOM_HOLE_EDGE_OFFSET + drive_sled_wall) {
                     back(screw_mount_y_trans) {
                         _screw_mount_cutout(
-                            drive_sled_wall,
+                            drive_sled_floor,
                             THREE_POINT_FIVE_SCREW_SLOT_LENGTH
                         );
                     }
@@ -126,7 +129,7 @@ module three_point_five_inch_drive_sled(
                 ) {
                     back(THREE_POINT_FIVE_HDD_DEPTH) {
                         _connector_cutout(
-                            drive_sled_wall,
+                            drive_sled_floor,
                             THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
                             THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
                             CONNECTOR_COUTOUT_SCALE_FACTOR,
@@ -140,6 +143,7 @@ module three_point_five_inch_drive_sled(
     _drive_sled_front(
         drive_sled_front_depth,
         drive_sled_wall,
+        drive_sled_floor,
         edge_fillet,
         has_vents = has_vents,
         has_label = has_label
@@ -148,6 +152,7 @@ module three_point_five_inch_drive_sled(
 
 module three_point_five_to_two_point_five_inch_drive_sled(
     drive_sled_wall,
+    drive_sled_floor,
     drive_sled_front_depth,
     edge_fillet = 1,
     has_bottom_cutout = false,
@@ -158,15 +163,16 @@ module three_point_five_to_two_point_five_inch_drive_sled(
 ) {
     sled_x = (2 * drive_sled_wall) + THREE_POINT_FIVE_HDD_WIDTH;
     sled_y = THREE_POINT_FIVE_HDD_DEPTH;
-    sled_z = drive_sled_wall + THREE_POINT_FIVE_HDD_HEIGHT;
+    sled_z = drive_sled_floor + THREE_POINT_FIVE_HDD_HEIGHT;
 
     adapter_x = (2 * drive_sled_wall) + TWO_POINT_FIVE_HDD_WIDTH;
     adapter_y = drive_sled_wall + TWO_POINT_FIVE_HDD_DEPTH;
-    adapter_z = drive_sled_wall + TWO_POINT_FIVE_HDD_HEIGHT;
+    adapter_z = drive_sled_floor + TWO_POINT_FIVE_HDD_HEIGHT;
 
     difference() {
         three_point_five_inch_drive_sled(
             drive_sled_wall = drive_sled_wall,
+            drive_sled_floor = drive_sled_floor,
             drive_sled_front_depth = drive_sled_front_depth,
             edge_fillet = edge_fillet,
             has_vents = has_vents,
@@ -179,14 +185,14 @@ module three_point_five_to_two_point_five_inch_drive_sled(
         );
 
         right(sled_x - adapter_x) {
-            back(drive_sled_front_depth + drive_sled_wall + sled_y - adapter_y) {
+            back(drive_sled_front_depth + sled_y - adapter_y) {
                 _two_point_five_adapter_base([adapter_x, adapter_y, adapter_z], edge_fillet);
             }
         }
     }
 
     right(sled_x - adapter_x) {
-        back(drive_sled_front_depth + drive_sled_wall + sled_y - adapter_y) {
+        back(drive_sled_front_depth + sled_y - adapter_y) {
             _two_point_five_adapter(
                 [adapter_x, adapter_y, adapter_z],
                 edge_fillet,
@@ -201,13 +207,14 @@ module three_point_five_to_two_point_five_inch_drive_sled(
 module _drive_sled_front(
     drive_sled_front_depth,
     drive_sled_wall,
+    drive_sled_floor,
     fillet,
     has_vents = false,
     has_label = false
 ) {
     x = (2 * drive_sled_wall) + THREE_POINT_FIVE_HDD_WIDTH;
     y = drive_sled_front_depth;
-    z = drive_sled_wall + THREE_POINT_FIVE_HDD_HEIGHT;
+    z = drive_sled_floor + THREE_POINT_FIVE_HDD_HEIGHT;
 
     difference() {
         cuboid(
@@ -217,15 +224,23 @@ module _drive_sled_front(
             anchor = BOTTOM + LEFT + FRONT
         );
 
-        right((THUMB_SLOT_WIDTH / 2) + drive_sled_wall) up(z/2) back(y - drive_sled_wall) {
+        right((THUMB_SLOT_WIDTH / 2) + drive_sled_wall) up(z/2) back(y) {
             xrot(90) {
-                cylinder(h = y - drive_sled_wall, r = THUMB_SLOT_WIDTH/2);
+                cylinder(
+                    h = y,
+                    r1 = THUMB_SLOT_WIDTH/2,
+                    r2 = (THUMB_SLOT_WIDTH/2) - THUMB_SLOT_TAPER
+                );
             }
         }
 
-        right(x - (THUMB_SLOT_WIDTH / 2) - drive_sled_wall) up(z/2) back(y - drive_sled_wall) {
+        right(x - (THUMB_SLOT_WIDTH / 2) - drive_sled_wall) up(z/2) back(y) {
             xrot(90) {
-                cylinder(h = y - drive_sled_wall, r = THUMB_SLOT_WIDTH/2);
+                cylinder(
+                    h = y,
+                    r1 = THUMB_SLOT_WIDTH/2,
+                    r2 = (THUMB_SLOT_WIDTH/2) - THUMB_SLOT_TAPER
+                );
             }
         }
 
@@ -267,10 +282,10 @@ module _vent_slot(vent_width, vent_height, vent_depth) {
 
 module _sled_bottom_cutout(bottom_cutout_rad, bottom_cutout_length) {
     hull() {
-        cylinder(h=DRIVE_SLED_WALL, r=bottom_cutout_rad);
+        cylinder(h=DRIVE_SLED_FLOOR, r=bottom_cutout_rad);
 
         back(bottom_cutout_length - (2 * bottom_cutout_rad)) {
-            cylinder(h=DRIVE_SLED_WALL, r=bottom_cutout_rad);
+            cylinder(h=DRIVE_SLED_FLOOR, r=bottom_cutout_rad);
         }
     }
 }
@@ -343,14 +358,14 @@ module _two_point_five_adapter(
         if (has_screw_slots) {
             // left screw hole cutout
             right(x_trans + HDD_BOTTOM_HOLE_EDGE_OFFSET) {
-                back((xyz[1] - TWO_POINT_FIVE_SCREW_SLOT_LENGTH)/2) {
+                back(xyz[1] / 2) {
                     _screw_mount_cutout(z_trans, TWO_POINT_FIVE_SCREW_SLOT_LENGTH);
                 }
             }
 
             // right screw hole cutout
             right(xyz[0] - HDD_BOTTOM_HOLE_EDGE_OFFSET - x_trans) {
-                back((xyz[1] - TWO_POINT_FIVE_SCREW_SLOT_LENGTH)/2) {
+                back(xyz[1] / 2) {
                     _screw_mount_cutout(z_trans, TWO_POINT_FIVE_SCREW_SLOT_LENGTH);
                 }
             }

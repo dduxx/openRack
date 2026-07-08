@@ -51,11 +51,16 @@ difference() {
         }
     }
 
-    right((JBOD_SECTION_WIDTH - (drive_enclosure_height(DRIVE_SLED_WALL) * DRIVES_PER_SECTION))/2) {
+    right(
+        (
+            JBOD_SECTION_WIDTH -
+                (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION)
+            ) / 2
+    ) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/2) {
             cuboid(
                 [
-                    drive_enclosure_height(DRIVE_SLED_WALL) * DRIVES_PER_SECTION,
+                    drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION,
                     drive_enclosure_depth(),
                     drive_enclosure_width(DRIVE_SLED_WALL)
                 ],
@@ -101,12 +106,16 @@ difference() {
 }
 
 right (
-    ((JBOD_SECTION_WIDTH - (drive_enclosure_height(DRIVE_SLED_WALL) * DRIVES_PER_SECTION))/2) +
-        (drive_enclosure_height(DRIVE_SLED_WALL))
+    (
+        (
+            JBOD_SECTION_WIDTH -
+                (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION)
+        ) / 2
+    ) + (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL))
 ) {
     up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/2) {
         for (i = [0 : DRIVES_PER_SECTION - 1]) {
-            right(i * drive_enclosure_height(DRIVE_SLED_WALL)) {
+            right(i * drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL)) {
                 yrot(-90) {
                     three_point_five_inch_enclosure(
                         wall=DRIVE_SLED_WALL,

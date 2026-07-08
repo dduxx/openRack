@@ -14,6 +14,7 @@ SATA_CONNECTOR_HOLE_Y_OFFSET = 6.5;
 
 module three_point_five_inch_enclosure(
     wall=DRIVE_SLED_WALL,
+    drive_sled_floor=DRIVE_SLED_FLOOR,
     rad=DRIVE_SLED_EDGE_FILLET,
     fillet_top = true,
     fillet_bottom = true,
@@ -23,21 +24,25 @@ module three_point_five_inch_enclosure(
     difference() {
         _three_point_five_inch_enclosure_base(
             wall,
+            drive_sled_floor,
             rad,
             fillet_top,
             fillet_bottom
         );
 
         x_trans = (drive_enclosure_width(wall) - drive_sled_width(wall, sled_buffer)) / 2;
-        z_trans = (drive_enclosure_height(wall) - drive_sled_height(wall, sled_buffer)) / 2;
+        z_trans = (
+            drive_enclosure_height(drive_sled_floor, wall) -
+                drive_sled_height(drive_sled_floor, sled_buffer)
+        ) / 2;
 
         right(x_trans) up(z_trans) {
-            _sled_negative(wall, rad, sled_buffer);
+            _sled_negative(wall, drive_sled_floor, rad, sled_buffer);
         }
     }
 
     if (has_sata_connector) {
-        right(drive_enclosure_width(DRIVE_SLED_WALL) - SATA_CONNECTOR_MOUNT_X - DRIVE_SLED_WALL) {
+        right(drive_enclosure_width(wall) - SATA_CONNECTOR_MOUNT_X - wall) {
             back(drive_enclosure_depth()) {
                 difference() {
                     union() {
@@ -45,28 +50,28 @@ module three_point_five_inch_enclosure(
                             [
                                 SATA_CONNECTOR_MOUNT_X,
                                 SATA_CONNECTOR_MOUNT_Y,
-                                DRIVE_SLED_WALL
+                                wall
                             ],
                             rounding = rad,
                             edges = [LEFT + BACK, BACK + RIGHT],
                             anchor = BOTTOM + LEFT + FRONT
                         );
 
-                        back(DRIVE_SLED_WALL) up(DRIVE_SLED_WALL) {
+                        back(wall) up(wall) {
                             xrot(90) yrot(90) xflip() {
                                 linear_extrude(SATA_CONNECTOR_MOUNT_X)
                                 right_triangle(
-                                    [DRIVE_SLED_WALL, DRIVE_SLED_WALL - SATA_CONNECTOR_Z_BUFFER]
+                                    [wall, drive_sled_floor - SATA_CONNECTOR_Z_BUFFER]
                                 );
                             }
                         }
 
-                        back(DRIVE_SLED_WALL) up(DRIVE_SLED_WALL) {
+                        back(wall) up(wall) {
                             cuboid(
                                 [
                                     SATA_CONNECTOR_MOUNT_X,
-                                    SATA_CONNECTOR_MOUNT_Y - DRIVE_SLED_WALL,
-                                    DRIVE_SLED_WALL - SATA_CONNECTOR_Z_BUFFER
+                                    SATA_CONNECTOR_MOUNT_Y - wall,
+                                    drive_sled_floor - SATA_CONNECTOR_Z_BUFFER
                                 ],
                                 rounding = rad,
                                 edges = [LEFT + BACK, BACK + RIGHT],
@@ -80,7 +85,7 @@ module three_point_five_inch_enclosure(
                         back(SATA_CONNECTOR_HOLE_Y_OFFSET) {
                             screw_cutout(
                                 M3_SCREW_RAD,
-                                total_length = 2 * DRIVE_SLED_WALL,
+                                total_length = wall + drive_sled_floor,
                                 thread_buffer = 0,
                             );
                         }
@@ -93,7 +98,7 @@ module three_point_five_inch_enclosure(
                         back(SATA_CONNECTOR_HOLE_Y_OFFSET) {
                             screw_cutout(
                                 M3_SCREW_RAD,
-                                total_length = 2 * DRIVE_SLED_WALL,
+                                total_length = wall + drive_sled_floor,
                                 thread_buffer = 0,
                             );
                         }
@@ -106,13 +111,14 @@ module three_point_five_inch_enclosure(
 
 module _three_point_five_inch_enclosure_base(
     wall,
+    drive_sled_floor,
     rad,
     fillet_top,
     fillet_bottom
 ) {
     x = drive_enclosure_width(wall);
     y = drive_enclosure_depth();
-    z = drive_enclosure_height(wall);
+    z = drive_enclosure_height(drive_sled_floor, wall);
 
     top_edge = fillet_top ? [LEFT + TOP, RIGHT + TOP] : [];
     bot_edge = fillet_bottom ? [RIGHT + BOTTOM, LEFT + BOTTOM] : [];
@@ -127,12 +133,13 @@ module _three_point_five_inch_enclosure_base(
 
 module _sled_negative(
     wall,
+    drive_sled_floor,
     rad,
     buffer = 0.5
 ) {
     x = drive_sled_width(wall, buffer);
     y = drive_enclosure_depth();
-    z = drive_sled_height(wall, buffer);
+    z = drive_sled_height(drive_sled_floor, buffer);
     cuboid(
         [x, y, z],
         rounding = rad,
@@ -150,8 +157,11 @@ function drive_enclosure_width(wall) = (2 * wall) + drive_sled_width(wall);
 
 function drive_enclosure_depth() = THREE_POINT_FIVE_HDD_DEPTH + DRIVE_SLED_FRONT_DEPTH;
 
-function drive_enclosure_height(wall) = (2 * wall) + drive_sled_height(wall);
+function drive_enclosure_height(drive_sled_floor, wall) = (2 * wall) +
+    drive_sled_height(drive_sled_floor);
 
 function drive_sled_width(wall, buffer = 0) = (2 * wall) + THREE_POINT_FIVE_HDD_WIDTH + buffer;
 
-function drive_sled_height(wall, buffer = 0) = wall + THREE_POINT_FIVE_HDD_HEIGHT + buffer;
+function drive_sled_height(drive_sled_floor, buffer = 0) = drive_sled_floor +
+    THREE_POINT_FIVE_HDD_HEIGHT +
+    buffer;
