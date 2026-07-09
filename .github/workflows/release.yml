@@ -1,0 +1,104 @@
+name: Release
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install OpenSCAD nightly
+        run: sudo snap install openscad-nightly
+
+      - name: Install buildscad
+        run: |
+          git clone https://github.com/dduxx/buildscad /tmp/buildscad
+          cd /tmp/buildscad
+          git checkout v1.2.1
+          pip install -e .
+
+      - name: Determine next version
+        id: version
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          LAST_VERSION=${LAST_TAG#v}
+
+          if [ "$LAST_TAG" = "v0.0.0" ]; then
+            COMMITS=$(git log --pretty=format:"%s")
+          else
+            COMMITS=$(git log "${LAST_TAG}..HEAD" --pretty=format:"%s")
+          fi
+
+          MAJOR=0; MINOR=0; PATCH=0
+
+          if echo "$COMMITS" | grep -qE '(BREAKING CHANGE|^[a-z]+(\([^)]+\))?!:)'; then
+            MAJOR=1
+          elif echo "$COMMITS" | grep -qE '^feat(\([^)]+\))?:'; then
+            MINOR=1
+          else
+            PATCH=1
+          fi
+
+          IFS='.' read -r MAJ_CUR MIN_CUR PAT_CUR <<< "$LAST_VERSION"
+          MAJ_CUR=${MAJ_CUR:-0}
+          MIN_CUR=${MIN_CUR:-0}
+          PAT_CUR=${PAT_CUR:-0}
+
+          NEW_MAJ=$((MAJ_CUR + MAJOR))
+          NEW_MIN=$((MIN_CUR + MINOR))
+          NEW_PAT=$((PAT_CUR + PATCH))
+
+          if [ "$MAJOR" -eq 1 ]; then NEW_MIN=0; NEW_PAT=0; fi
+          if [ "$MINOR" -eq 1 ]; then NEW_PAT=0; fi
+
+          NEW_VERSION="${NEW_MAJ}.${NEW_MIN}.${NEW_PAT}"
+          TAG="v${NEW_VERSION}"
+
+          echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "Version: ${NEW_VERSION}"
+
+      - name: Update version and commit
+        run: |
+          sed -i "s/^BUILDSCAD_VERSION=.*/BUILDSCAD_VERSION=${{ steps.version.outputs.new_version }}/" buildscad.properties
+          git add buildscad.properties
+          git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }}"
+
+      - name: Tag and push
+        run: |
+          git tag ${{ steps.version.outputs.tag }}
+          git push origin main --tags
+
+      - name: Build
+        run: buildscad build
+
+      - name: Zip build artifacts
+        run: zip -r build.zip build/
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create ${{ steps.version.outputs.tag }} build.zip --generate-notes --title "${{ steps.version.outputs.tag }}"
