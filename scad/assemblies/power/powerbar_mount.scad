@@ -1,11 +1,15 @@
-include <../../lib/faceplate/faceplate.scad>
-include <../../lib/rack_units.scad>
 include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
+include <../../lib/faceplate/faceplate.scad>
 include <../../lib/fasteners/screws.scad>
+include <../../lib/rack_units.scad>
 
 $fn = 100;
 
-SECTION_WIDTH = NINETEEN_INCH_STANDARD_WIDTH / 3;
+POWERBAR_SECTIONS = 3;
+POWERBAR_RACK_TYPE = "NINETEEN_INCH"; // [NINETEEN_INCH, TEN_INCH]
+SECTION_WIDTH = POWERBAR_RACK_TYPE == "NINETEEN_INCH" ?
+    NINETEEN_INCH_STANDARD_WIDTH / POWERBAR_SECTIONS :
+    TEN_INCH_STANDARD_WIDTH / POWERBAR_SECTIONS;
 SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
 
 SLOT_RAD = M4_SCREW_RAD + 0.5;
