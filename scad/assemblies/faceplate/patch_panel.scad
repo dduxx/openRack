@@ -47,16 +47,18 @@ difference() {
     }
 }
 
-right(PATCH_PANEL_SECTION_WIDTH / 2) up(RACK_UNIT / 2) {
-    // centering the panel
-    left(calcualte_keystone_panel_width(JACKS_PER_SECTION) / 2) {
-        down(calcualte_keystone_panel_height(1) / 2) {
-            keystone(
-                rows = 1,
-                columns = JACKS_PER_SECTION,
-                rad = KEYSTONE_OUTER_RAD,
-                spacing = 0
-            );
+right(PATCH_PANEL_SECTION_WIDTH / 2) back(KEYSTONE_OUTER_Y) up(RACK_UNIT / 2) {
+    yflip() {
+        // centering the panel
+        left(calcualte_keystone_panel_width(JACKS_PER_SECTION) / 2) {
+            down(calcualte_keystone_panel_height(1) / 2) {
+                keystone(
+                    rows = 1,
+                    columns = JACKS_PER_SECTION,
+                    rad = KEYSTONE_OUTER_RAD,
+                    spacing = 0
+                );
+            }
         }
     }
 }
