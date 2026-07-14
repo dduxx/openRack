@@ -2,6 +2,7 @@ include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../fasteners/screws.scad>
 include <hdd.scad>
 include <sled_builder.scad>
+include <../../lib/utils/ellipse.scad>
 
 DRIVE_ENCLOSURE_SLED_BUFFER = 0.75;
 
@@ -11,6 +12,9 @@ SATA_CONNECTOR_Z_BUFFER = 2;
 SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET = 12;
 SATA_CONNECTOR_HOLE_DISTANCE = 40;
 SATA_CONNECTOR_HOLE_Y_OFFSET = 7.5;
+
+MATERIAL_REMOVAL_FACTOR_X = 2.75;
+MATERIAL_REMOVAL_FACTOR_Y = 2.25;
 
 module three_point_five_inch_enclosure(
     wall=DRIVE_SLED_WALL,
@@ -38,6 +42,26 @@ module three_point_five_inch_enclosure(
 
         right(x_trans) up(z_trans) {
             _sled_negative(wall, drive_sled_floor, rad, sled_buffer);
+        }
+
+        right(drive_enclosure_width(wall) / 2) back(drive_enclosure_depth() / 2) {
+            elliptic_cylinder([
+                (drive_enclosure_width(wall) / MATERIAL_REMOVAL_FACTOR_X) * 2,
+                (drive_enclosure_depth() / MATERIAL_REMOVAL_FACTOR_Y) * 2,
+                drive_enclosure_height(drive_sled_floor, wall)
+            ]);
+        }
+
+        back(drive_enclosure_depth() / 2) up(drive_enclosure_height(drive_sled_floor, wall) / 2) {
+            yrot(90) {
+                elliptic_cylinder([
+                    (drive_enclosure_height(drive_sled_floor, wall) / MATERIAL_REMOVAL_FACTOR_X) *
+                        2,
+                    (drive_enclosure_depth() / MATERIAL_REMOVAL_FACTOR_Y) *
+                        2,
+                    drive_enclosure_width(wall)
+                ]);
+            }
         }
     }
 
