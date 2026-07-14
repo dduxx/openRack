@@ -1,6 +1,7 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
 include <../../lib/faceplate/faceplate.scad>
+include <../../lib/fan.scad>
 include <../../lib/fasteners/rod.scad>
 include <../../lib/hdd/sled_enclosure_builder.scad>
 include <../../lib/utils/ellipse.scad>
@@ -20,6 +21,8 @@ JBOD_ROD_BUFFER = 0.2;
 SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
 
 DRIVES_PER_SECTION = 3;
+
+FAN_BUFFER = 2;
 
 difference() {
     union() {
@@ -126,6 +129,36 @@ difference() {
                         ((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL))) /
                             2
                     ]);
+                }
+            }
+
+            // 40mm fan mounts
+            left(
+                (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) + inches_to_mm(5/8)) /
+                    2
+            ) {
+                back(drive_enclosure_depth()) {
+                    up(
+                        (
+                            (
+                                (JBOD_RACK_UNITS * RACK_UNIT) -
+                                    (drive_enclosure_width(DRIVE_SLED_WALL))
+                            ) / 2
+                        ) - (2 * (DRIVE_SLED_WALL + FAN_BUFFER))
+                    ) {
+                        right((FORTY_MM_FAN_XY / 2) + (i * (FAN_BUFFER + FORTY_MM_FAN_XY))) {
+                            up(FORTY_MM_FAN_XY / 2) {
+                                xrot(90) {
+                                    fan_mounting_holes(
+                                        hole_rad = M3_SCREW_RAD,
+                                        hole_depth = 20,
+                                        thread_buffer = 0,
+                                        holes = [0, 1]
+                                    );
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
