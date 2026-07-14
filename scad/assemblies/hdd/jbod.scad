@@ -3,6 +3,7 @@ include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conve
 include <../../lib/faceplate/faceplate.scad>
 include <../../lib/fasteners/rod.scad>
 include <../../lib/hdd/sled_enclosure_builder.scad>
+include <../../lib/utils/ellipse.scad>
 
 $fn = 100;
 
@@ -77,7 +78,7 @@ difference() {
     }
 
 
-    back(QUARTER_INCH_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS) {
+    back(QUARTER_INCH_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS * 4) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
@@ -91,7 +92,7 @@ difference() {
 
     back(drive_enclosure_depth() -
         QUARTER_INCH_THREADED_ROD_RAD -
-        JBOD_ROD_BUFFER - FRONT_PLATE_THICKNESS
+        JBOD_ROD_BUFFER - FRONT_PLATE_THICKNESS * 4
     ) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
@@ -100,6 +101,32 @@ difference() {
                     JBOD_SECTION_WIDTH,
                     buffer = JBOD_ROD_BUFFER,
                 );
+            }
+        }
+    }
+
+
+    right (
+        (
+            (
+                JBOD_SECTION_WIDTH -
+                    (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION)
+            ) / 2
+        ) + ((drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) / 2))
+    ) {
+        for (i = [0 : DRIVES_PER_SECTION - 1]) {
+            right (i * drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL)) {
+                back(drive_enclosure_depth() / 2) {
+                    elliptic_cylinder([
+                        (
+                            drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) /
+                                MATERIAL_REMOVAL_FACTOR_X
+                        ) * 2,
+                        (drive_enclosure_depth() / MATERIAL_REMOVAL_FACTOR_Y) * 2,
+                        ((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL))) /
+                            2
+                    ]);
+                }
             }
         }
     }
