@@ -1,6 +1,6 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
-include <../rack_units.scad>
 include <../fasteners/screws.scad>
+include <../rack_units.scad>
 
 FRONT_PLATE_THICKNESS = 4;
 FACEPLATE_FILLET_RAD = 2;
@@ -12,6 +12,30 @@ FACEPLATE_JOIN_SUPPORT_KEY_Z = 10;
 
 FACEPLATE_SCREW_SLOT_ALLOWANCE = 5;
 
+// Module: faceplate()
+// Description = creates a front panel for rack mount appliances meant to be used as a base for
+//   creating new assemblies.
+// Arguments:
+//   rack_units = number of rack units the faceplate should occupy. default is 1
+//   width = the width of the front panel. default is `NINETEEN_INCH_STANDARD_WIDTH`
+//   thickness = the thickness of the faceplate. default is `FRONT_PLATE_THICKNESS`
+//   rad = the corner radius used on the front panel. default is `FACEPLATE_FILLET_RAD`
+//   skip_holes = a list of screw hole numbers to skip. holes are numbered from the bottom up
+//     starting at 0. default is an empty list (all holes included)
+//   holes_on_left = boolean flag that will enable or disable mounting holes on the left side of the
+//     front panel. default is true
+//   holes_on_right = boolean flag that will enable or disable mounting holes on the right side of
+//     the front panel. default is true
+//   fillet_left = boolean flag that will enable or disable the corner fillets on the left side of
+//     the front panel. default is true
+//   fillet_right = boolean flag that will enable or disable the corner fillets on the right side of
+//     the front panel. default is true
+//   join_support_left = boolean flag that will enable or disable the join support beam on the left
+//     side of the front panel. default is false
+//   join_support_right = boolean flag that will enable or disable the join support beam on the
+//     right side of the front panel. default is false
+//   countersink_rad = radius of an optional countersink for the front panel mounting screws.
+//     default is 0.
 module faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
@@ -102,6 +126,32 @@ module faceplate(
     }
 }
 
+// Module: faceplate()
+// Description = creates a vented front panel for rack mount appliances meant to be used as a base
+//   for creating new assemblies.
+// Arguments:
+//   rack_units = number of rack units the faceplate should occupy. default is 1
+//   width = the width of the front panel. default is `NINETEEN_INCH_STANDARD_WIDTH`
+//   thickness = the thickness of the faceplate. default is `FRONT_PLATE_THICKNESS`
+//   rad = the corner radius used on the front panel. default is `FACEPLATE_FILLET_RAD`
+//   skip_holes = a list of screw hole numbers to skip. holes are numbered from the bottom up
+//     starting at 0. default is an empty list (all holes included)
+//   holes_on_left = boolean flag that will enable or disable mounting holes on the left side of the
+//     front panel. default is true
+//   holes_on_right = boolean flag that will enable or disable mounting holes on the right side of
+//     the front panel. default is true
+//   fillet_left = boolean flag that will enable or disable the corner fillets on the left side of
+//     the front panel. default is true
+//   fillet_right = boolean flag that will enable or disable the corner fillets on the right side of
+//     the front panel. default is true
+//   join_support_left = boolean flag that will enable or disable the join support beam on the left
+//     side of the front panel. default is false
+//   join_support_right = boolean flag that will enable or disable the join support beam on the
+//     right side of the front panel. default is false
+//   countersink_rad = radius of an optional countersink for the front panel mounting screws.
+//     default is 0.
+//   vent_width = the width of the vent holes. default is 3.5
+//   vent_sperator_width = the speration between each vent hole. default is 1.5
 module vented_faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
@@ -235,6 +285,11 @@ module _join_support(rack_units, fillet) {
     }
 }
 
+// Module: join_support_key()
+// Description: key used to fasten 2 front panels together. sized to fit within the join support
+//   post that can be added to the faceplates.
+// Arguments:
+//   fillet: fillet radius used to round the top corners of the join key
 module join_support_key(fillet) {
     difference() {
         cuboid(

@@ -150,6 +150,7 @@ difference() {
                             up(FORTY_MM_FAN_XY / 2) {
                                 xrot(90) {
                                     fan_mounting_holes(
+                                        hole_spacing = FORTY_MM_FAN_HOLE_SPACING,
                                         hole_rad = M3_SCREW_RAD,
                                         hole_depth = 20,
                                         thread_buffer = -JDBO_FASTNER_BUFFER,

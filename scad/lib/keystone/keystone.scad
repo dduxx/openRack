@@ -19,6 +19,14 @@ KEYSTONE_FRONT_WALL_THICKNESS = 1;
 KEYSTONE_FRONT_WALL_TOP_HEIGHT = 3.7;
 KEYSTONE_FRONT_WALL_BOTTOM_HEIGHT = KEYSTONE_LATCH_HEIGHT;
 
+// Module: keystone()
+// Description: creates a keystone jack panel with a grid of keystone bays. each bay includes
+//   latch hooks and front wall retainers to secure standard keystone insert modules.
+// Arguments:
+//   rows = number of rows of keystone bays. default is 1.
+//   columns = number of columns of keystone bays. default is 1.
+//   rad = corner rounding radius for the panel. default is `KEYSTONE_OUTER_RAD`
+//   spacing = additional gap between adjacent keystone bays. default is 0.
 module keystone(rows = 1, columns = 1, rad = KEYSTONE_OUTER_RAD, spacing = 0) {
     difference() {
         keystone_negative(rows, columns, rad, spacing);
@@ -99,6 +107,14 @@ module keystone(rows = 1, columns = 1, rad = KEYSTONE_OUTER_RAD, spacing = 0) {
     }
 }
 
+// Module: keystone_negative()
+// Description: creates a negative volume (cutout) for a keystone panel. can be used with
+//   `difference()` to carve keystone bays into another object.
+// Arguments:
+//   rows = number of rows of keystone bays. default is 1.
+//   columns = number of columns of keystone bays. default is 1.
+//   rad = corner rounding radius for the panel cutout. default is `KEYSTONE_OUTER_RAD`
+//   spacing = additional gap between adjacent keystone bays. default is 0.
 module keystone_negative(
     rows=1,
     columns=1,
@@ -122,6 +138,26 @@ module keystone_negative(
     );
 }
 
+// Function: calcualte_keystone_panel_width()
+// Description: calculates the total width of a keystone panel given the number of columns and
+//   the spacing between them.
+// Arguments:
+//   columns = number of keystone columns. default is 1.
+//   spacing = additional gap between adjacent keystone bays. default is 0.
+function calcualte_keystone_panel_width(
+    columns = 1, spacing = 0
+) = (KEYSTONE_OUTER_X * columns) + (spacing * columns);
+
+// Function: calcualte_keystone_panel_height()
+// Description: calculates the total height of a keystone panel given the number of rows and the
+//   spacing between them.
+// Arguments:
+//   rows = number of keystone rows. default is 1.
+//   spacing = additional gap between adjacent keystone bays. default is 0.
+function calcualte_keystone_panel_height(
+    rows = 1, spacing = 0
+) = (KEYSTONE_OUTER_Z * rows) + (spacing * rows);
+
 module _keystone_latch(depth, height) {
     back(depth) {
         yflip(){
@@ -133,12 +169,4 @@ module _keystone_latch(depth, height) {
         }
     }
 }
-
-function calcualte_keystone_panel_width(
-    columns = 1, spacing = 0
-) = (KEYSTONE_OUTER_X * columns) + (spacing * columns);
-
-function calcualte_keystone_panel_height(
-    rows = 1, spacing = 0
-) = (KEYSTONE_OUTER_Z * rows) + (spacing * rows);
 

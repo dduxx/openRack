@@ -2,6 +2,22 @@ include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../lib/rack_units.scad>
 include <./faceplate.scad>
 
+// Module: rack_ear()
+// Description: creates a rack mounting ear with an integrated faceplate section.
+// Arguments:
+//   width = the total width of the ear including the faceplate portion
+//   ear_depth = the depth of the ear that extends perpendicular to the faceplate
+//   is_left_ear = boolean flag indicating whether to generate the left ear (true) or right ear
+//     (false). default is true
+//   rack_units = number of rack units the ear should occupy. default is 1
+//   thickness = the thickness of the faceplate portion of the ear. default is
+//     `FRONT_PLATE_THICKNESS`
+//   rad = the corner radius used on the ear and faceplate. default is `FACEPLATE_FILLET_RAD`
+//   skip_holes = a list of screw hole numbers to skip. holes are numbered from the bottom up
+//     starting at 0. default is an empty list (all holes included)
+//   has_bottom_support = boolean flag that enables or disables a triangular support under the ear.
+//     default is true
+//   countersink_rad = radius of an optional countersink for the mounting screws. default is 0.
 module rack_ear(
     width,
     ear_depth,
