@@ -8,6 +8,18 @@ FORTY_MM_FAN_HOLE_SPACING = 32;
 ONE_TWENTY_MM_FAN_XY = 120;
 ONE_TWENTY_MM_FAN_HOLE_SPACING = 105;
 
+// Module: fan_negative()
+// Description: creates a negative volume (cutout) for a square fan. can be centered on any axis
+//   and includes a configurable buffer for clearance.
+// Arguments:
+//   xy_val = the width and height of the fan (square). must be a number representing the fan's
+//     x and y dimensions
+//   z = the depth/thickness of the fan cutout
+//   buffer = additional clearance added in all directions. default is 1.
+//   fillet = corner rounding radius for the cutout edges. default is 0.
+//   x_center = if true, centers the cutout along the x axis. default is false.
+//   y_center = if true, centers the cutout along the y axis. default is false.
+//   z_center = if true, centers the cutout along the z axis. default is false.
 module fan_negative(
     xy_val, z, buffer = 1, fillet = 0, x_center = false, y_center = false, z_center = false,
 ) {
@@ -41,9 +53,22 @@ module fan_negative(
     }
 }
 
-module fan_mounting_holes(hole_rad, hole_depth, thread_buffer = 0, holes = [0, 1, 2, 3]) {
+// Module: fan_mounting_holes()
+// Description: creates negative volumes (screw cutouts) for fan mounting holes arranged in a
+//   square pattern. each hole can be individually toggled via the `holes` parameter.
+//   hole 0 = front-left, hole 1 = front-right, hole 2 = back-right, hole 3 = back-left.
+// Arguments:
+//   hole_spacing = the center-to-center spacing between opposite screw holes (width of the
+//     square pattern)
+//   hole_rad = the radius of each mounting screw hole
+//   hole_depth = the depth of each mounting screw hole
+//   thread_buffer = additional clearance added to the screw shaft radius. default is 0.
+//   holes = list of hole indices to include. default is [0, 1, 2, 3] (all four holes)
+module fan_mounting_holes(
+    hole_spacing, hole_rad, hole_depth, thread_buffer = 0, holes = [0, 1, 2, 3],
+) {
     if (contains(0, holes)) {
-        left(FORTY_MM_FAN_HOLE_SPACING / 2) fwd(FORTY_MM_FAN_HOLE_SPACING / 2) {
+        left(hole_spacing / 2) fwd(hole_spacing / 2) {
             screw_cutout(
                 screw_rad = hole_rad,
                 countersink_rad = 0,
@@ -55,7 +80,7 @@ module fan_mounting_holes(hole_rad, hole_depth, thread_buffer = 0, holes = [0, 1
     }
 
     if (contains(1, holes)) {
-        right(FORTY_MM_FAN_HOLE_SPACING / 2) fwd(FORTY_MM_FAN_HOLE_SPACING / 2) {
+        right(hole_spacing / 2) fwd(hole_spacing / 2) {
             screw_cutout(
                 screw_rad = hole_rad,
                 countersink_rad = 0,
@@ -67,7 +92,7 @@ module fan_mounting_holes(hole_rad, hole_depth, thread_buffer = 0, holes = [0, 1
     }
 
     if (contains(2, holes)) {
-        right(FORTY_MM_FAN_HOLE_SPACING / 2) back(FORTY_MM_FAN_HOLE_SPACING / 2) {
+        right(hole_spacing / 2) back(hole_spacing / 2) {
             screw_cutout(
                 screw_rad = hole_rad,
                 countersink_rad = 0,
@@ -79,7 +104,7 @@ module fan_mounting_holes(hole_rad, hole_depth, thread_buffer = 0, holes = [0, 1
     }
 
     if (contains(3, holes)) {
-        left(FORTY_MM_FAN_HOLE_SPACING / 2) back(FORTY_MM_FAN_HOLE_SPACING / 2) {
+        left(hole_spacing / 2) back(hole_spacing / 2) {
             screw_cutout(
                 screw_rad = hole_rad,
                 countersink_rad = 0,
