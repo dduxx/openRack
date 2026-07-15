@@ -16,7 +16,7 @@ JBOD_SECTION_WIDTH = JBOD_RACK_TYPE == "NINETEEN_INCH" ?
     TEN_INCH_STANDARD_WIDTH / JBOD_SECTIONS;
 JBOD_SKIPPED_HOLES = [1, 3, 4, 5, 7];
 
-JBOD_ROD_BUFFER = 0.2;
+JDBO_FASTNER_BUFFER = 0.2;
 
 SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
 
@@ -81,13 +81,13 @@ difference() {
     }
 
 
-    back(QUARTER_INCH_THREADED_ROD_RAD + JBOD_ROD_BUFFER + FRONT_PLATE_THICKNESS * 4) {
+    back(QUARTER_INCH_THREADED_ROD_RAD + JDBO_FASTNER_BUFFER + FRONT_PLATE_THICKNESS * 4) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
                     QUARTER_INCH_THREADED_ROD_RAD,
                     JBOD_SECTION_WIDTH,
-                    buffer = JBOD_ROD_BUFFER,
+                    buffer = JDBO_FASTNER_BUFFER,
                 );
             }
         }
@@ -95,14 +95,14 @@ difference() {
 
     back(drive_enclosure_depth() -
         QUARTER_INCH_THREADED_ROD_RAD -
-        JBOD_ROD_BUFFER - FRONT_PLATE_THICKNESS * 4
+        JDBO_FASTNER_BUFFER - FRONT_PLATE_THICKNESS * 4
     ) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
                     QUARTER_INCH_THREADED_ROD_RAD,
                     JBOD_SECTION_WIDTH,
-                    buffer = JBOD_ROD_BUFFER,
+                    buffer = JDBO_FASTNER_BUFFER,
                 );
             }
         }
@@ -152,7 +152,7 @@ difference() {
                                     fan_mounting_holes(
                                         hole_rad = M3_SCREW_RAD,
                                         hole_depth = 20,
-                                        thread_buffer = 0,
+                                        thread_buffer = -JDBO_FASTNER_BUFFER,
                                         holes = [0, 1]
                                     );
                                 }

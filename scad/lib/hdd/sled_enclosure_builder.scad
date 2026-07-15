@@ -12,6 +12,7 @@ SATA_CONNECTOR_Z_BUFFER = 2;
 SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET = 12;
 SATA_CONNECTOR_HOLE_DISTANCE = 40;
 SATA_CONNECTOR_HOLE_Y_OFFSET = 7.5;
+SATA_CONNECTOR_THREAD_BUFFER = 0.2;
 
 MATERIAL_REMOVAL_FACTOR_X = 2.75;
 MATERIAL_REMOVAL_FACTOR_Y = 2.25;
@@ -110,7 +111,7 @@ module three_point_five_inch_enclosure(
                             screw_cutout(
                                 M3_SCREW_RAD,
                                 total_length = wall + drive_sled_floor,
-                                thread_buffer = 0,
+                                thread_buffer = SATA_CONNECTOR_THREAD_BUFFER,
                             );
                         }
                     }
@@ -123,7 +124,7 @@ module three_point_five_inch_enclosure(
                             screw_cutout(
                                 M3_SCREW_RAD,
                                 total_length = wall + drive_sled_floor,
-                                thread_buffer = 0,
+                                thread_buffer = SATA_CONNECTOR_THREAD_BUFFER,
                             );
                         }
                     }
