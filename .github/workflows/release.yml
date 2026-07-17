@@ -36,7 +36,7 @@ jobs:
         run: |
           git clone https://github.com/dduxx/buildscad /tmp/buildscad
           cd /tmp/buildscad
-          git checkout v1.2.1
+          git checkout v1.3.0
           pip install -e .
 
       - name: Determine next version
@@ -95,10 +95,10 @@ jobs:
         run: buildscad build
 
       - name: Zip build artifacts
-        run: zip -r build.zip build/
+        run: zip -r v${{ steps.version.outputs.new_version }}.zip build/
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create ${{ steps.version.outputs.tag }} build.zip --generate-notes --title "${{ steps.version.outputs.tag }}"
+          gh release create ${{ steps.version.outputs.tag }} v${{ steps.version.outputs.new_version }}.zip --generate-notes --title "${{ steps.version.outputs.tag }}"
