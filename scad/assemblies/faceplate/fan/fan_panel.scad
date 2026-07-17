@@ -1,7 +1,7 @@
-include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
-include <../../lib/faceplate/faceplate.scad>
-include <../../lib/fan.scad>
-include <../../lib/fasteners/screws.scad>
+include <../../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
+include <../../../lib/faceplate/faceplate.scad>
+include <../../../lib/fan.scad>
+include <../../../lib/fasteners/screws.scad>
 
 $fn = 100;
 

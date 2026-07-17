@@ -23,7 +23,7 @@ jobs:
         run: |
           git clone https://github.com/dduxx/buildscad /tmp/buildscad
           cd /tmp/buildscad
-          git checkout v1.2.1
+          git checkout v1.3.0
           pip install -e .
 
       - name: Build

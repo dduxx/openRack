@@ -1,6 +1,6 @@
-include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
-include <../../lib/faceplate/faceplate.scad>
-include <../../lib/keystone/keystone.scad>
+include <../../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
+include <../../../lib/faceplate/faceplate.scad>
+include <../../../lib/keystone/keystone.scad>
 
 $fn = 100;
 
