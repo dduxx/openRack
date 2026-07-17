@@ -17,6 +17,20 @@ SATA_CONNECTOR_THREAD_BUFFER = 0.2;
 MATERIAL_REMOVAL_FACTOR_X = 2.75;
 MATERIAL_REMOVAL_FACTOR_Y = 2.25;
 
+// Module: three_point_five_inch_enclosure()
+// Description: creates an enclosure for a 3.5" drive sled. includes an optional SATA
+//   connector mounting bracket, rounded exterior edges, and an interior cavity shaped to
+//   accept a drive sled.
+// Arguments:
+//   wall = the wall thickness of the enclosure and the sled. default is `DRIVE_SLED_WALL`
+//   drive_sled_floor = the floor thickness of the enclosure. default is `DRIVE_SLED_FLOOR`
+//   rad = the corner rounding radius. default is `DRIVE_SLED_EDGE_FILLET`
+//   fillet_top = if true, applies a fillet to the top edges. default is true.
+//   fillet_bottom = if true, applies a fillet to the bottom edges. default is true.
+//   has_sata_connector = if true, adds a SATA connector mounting bracket to the rear of the
+//     enclosure. default is true.
+//   sled_buffer = additional clearance between the sled and enclosure walls. default is
+//     `DRIVE_ENCLOSURE_SLED_BUFFER`
 module three_point_five_inch_enclosure(
     wall=DRIVE_SLED_WALL,
     drive_sled_floor=DRIVE_SLED_FLOOR,
@@ -134,6 +148,42 @@ module three_point_five_inch_enclosure(
     }
 }
 
+// Function: drive_enclosure_width()
+// Description: calculates the total exterior width of a drive enclosure based on the wall
+//   thickness.
+// Arguments:
+//   wall = the wall thickness of the enclosure
+function drive_enclosure_width(wall) = (2 * wall) + drive_sled_width(wall);
+
+// Function: drive_enclosure_depth()
+// Description: calculates the total depth of a drive enclosure (drive length plus front depth).
+function drive_enclosure_depth() = THREE_POINT_FIVE_HDD_DEPTH + DRIVE_SLED_FRONT_DEPTH;
+
+// Function: drive_enclosure_height()
+// Description: calculates the total exterior height of a drive enclosure based on the floor
+//   thickness and wall thickness.
+// Arguments:
+//   drive_sled_floor = the floor thickness of the enclosure
+//   wall = the wall thickness of the enclosure
+function drive_enclosure_height(drive_sled_floor, wall) = (2 * wall) +
+    drive_sled_height(drive_sled_floor);
+
+// Function: drive_sled_width()
+// Description: calculates the interior width available for a drive sled within the enclosure.
+// Arguments:
+//   wall = the wall thickness of the enclosure
+//   buffer = additional clearance added to the width. default is 0.
+function drive_sled_width(wall, buffer = 0) = (2 * wall) + THREE_POINT_FIVE_HDD_WIDTH + buffer;
+
+// Function: drive_sled_height()
+// Description: calculates the interior height available for a drive sled within the enclosure.
+// Arguments:
+//   drive_sled_floor = the floor thickness of the enclosure
+//   buffer = additional clearance added to the height. default is 0.
+function drive_sled_height(drive_sled_floor, buffer = 0) = drive_sled_floor +
+    THREE_POINT_FIVE_HDD_HEIGHT +
+    buffer;
+
 module _three_point_five_inch_enclosure_base(
     wall,
     drive_sled_floor,
@@ -177,16 +227,3 @@ module _sled_negative(
         anchor = BOTTOM + FRONT + LEFT
     );
 }
-
-function drive_enclosure_width(wall) = (2 * wall) + drive_sled_width(wall);
-
-function drive_enclosure_depth() = THREE_POINT_FIVE_HDD_DEPTH + DRIVE_SLED_FRONT_DEPTH;
-
-function drive_enclosure_height(drive_sled_floor, wall) = (2 * wall) +
-    drive_sled_height(drive_sled_floor);
-
-function drive_sled_width(wall, buffer = 0) = (2 * wall) + THREE_POINT_FIVE_HDD_WIDTH + buffer;
-
-function drive_sled_height(drive_sled_floor, buffer = 0) = drive_sled_floor +
-    THREE_POINT_FIVE_HDD_HEIGHT +
-    buffer;
