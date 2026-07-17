@@ -38,10 +38,27 @@ VENT_WIDTH = 2.5;
 LABEL_WIDTH = 45;
 LABEL_HEIGHT = 12.5;
 
+// Module: three_point_five_inch_drive_sled()
+// Description: creates a drive sled sized for a 3.5" hard drive. can optionally include screw
+//   mounting slots, a bottom cutout for reduced material usage, a connector cutout at the
+//   rear, front vents, and a front label plate.
+// Arguments:
+//   drive_sled_wall = the wall thickness of the sled. default is `DRIVE_SLED_WALL`
+//   drive_sled_floor = the floor thickness of the sled. default is `DRIVE_SLED_FLOOR`
+//   drive_sled_front_depth = the depth of the front panel portion. default is
+//     `DRIVE_SLED_FRONT_DEPTH`
+//   edge_fillet = the corner rounding radius. default is 1.
+//   has_bottom_cutout = if true, adds a cutout on the bottom of the sled for material saving.
+//     default is false.
+//   has_screw_slots = if true, adds slotted screw holes for mounting the drive. default is false.
+//   has_connector_cutout = if true, adds a cutout at the rear for SATA/power connectors.
+//     default is false.
+//   has_vents = if true, adds vertical vent slots to the front panel. default is false.
+//   has_label = if true, adds a label area on the front panel. default is false.
 module three_point_five_inch_drive_sled(
-    drive_sled_wall,
-    drive_sled_floor,
-    drive_sled_front_depth,
+    drive_sled_wall = DRIVE_SLED_WALL,
+    drive_sled_floor = DRIVE_SLED_FLOOR,
+    drive_sled_front_depth = DRIVE_SLED_FRONT_DEPTH,
     edge_fillet = 1,
     has_bottom_cutout = false,
     has_screw_slots = false,
@@ -90,7 +107,8 @@ module three_point_five_inch_drive_sled(
                     ) {
                         _sled_bottom_cutout(
                             THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD,
-                            THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH
+                            THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
+                            drive_sled_floor
                         );
                     }
                 }
@@ -103,7 +121,7 @@ module three_point_five_inch_drive_sled(
                 ) / 2;
 
                 // left bottom drive hole slot
-                right(HDD_BOTTOM_HOLE_EDGE_OFFSET + DRIVE_SLED_WALL) back(screw_mount_y_trans) {
+                right(HDD_BOTTOM_HOLE_EDGE_OFFSET + drive_sled_wall) back(screw_mount_y_trans) {
                     _screw_mount_cutout(
                         drive_sled_floor,
                         THREE_POINT_FIVE_SCREW_SLOT_LENGTH
@@ -150,10 +168,28 @@ module three_point_five_inch_drive_sled(
     );
 }
 
+// Module: three_point_five_to_two_point_five_inch_drive_sled()
+// Description: creates a drive sled adapter that fits a 2.5" drive into a 3.5" sled form
+//   factor. embeds a 2.5" adapter cavity into the standard 3.5" sled body. supports the same
+//   options as `three_point_five_inch_drive_sled`, with bottom cutouts, screw slots, and
+//   connector cutout options applied to the 2.5" adapter portion.
+// Arguments:
+//   drive_sled_wall = the wall thickness of the sled. default is `DRIVE_SLED_WALL`
+//   drive_sled_floor = the floor thickness of the sled. default is `DRIVE_SLED_FLOOR`
+//   drive_sled_front_depth = the depth of the front panel portion. default is
+//     `DRIVE_SLED_FRONT_DEPTH`
+//   edge_fillet = the corner rounding radius. default is 1.
+//   has_bottom_cutout = if true, adds a cutout on the bottom of the 2.5" adapter. default is false.
+//   has_screw_slots = if true, adds slotted screw holes for mounting the 2.5" drive. default is
+//     false.
+//   has_connector_cutout = if true, adds a cutout at the rear for SATA/power connectors on the
+//     2.5" drive. default is false.
+//   has_vents = if true, adds vertical vent slots to the front panel. default is false.
+//   has_label = if true, adds a label area on the front panel. default is false.
 module three_point_five_to_two_point_five_inch_drive_sled(
-    drive_sled_wall,
-    drive_sled_floor,
-    drive_sled_front_depth,
+    drive_sled_wall = DRIVE_SLED_WALL,
+    drive_sled_floor = DRIVE_SLED_FLOOR,
+    drive_sled_front_depth = DRIVE_SLED_FRONT_DEPTH,
     edge_fillet = 1,
     has_bottom_cutout = false,
     has_screw_slots = false,
@@ -280,12 +316,12 @@ module _vent_slot(vent_width, vent_height, vent_depth) {
     }
 }
 
-module _sled_bottom_cutout(bottom_cutout_rad, bottom_cutout_length) {
+module _sled_bottom_cutout(bottom_cutout_rad, bottom_cutout_length, thickness) {
     hull() {
-        cylinder(h=DRIVE_SLED_FLOOR, r=bottom_cutout_rad);
+        cylinder(h=thickness, r=bottom_cutout_rad);
 
         back(bottom_cutout_length - (2 * bottom_cutout_rad)) {
-            cylinder(h=DRIVE_SLED_FLOOR, r=bottom_cutout_rad);
+            cylinder(h=thickness, r=bottom_cutout_rad);
         }
     }
 }
@@ -392,7 +428,8 @@ module _two_point_five_adapter(
             right(xyz[0] / 2) back(y_trans + (TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD * 2) - 5) {
                 _sled_bottom_cutout(
                     TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD,
-                    TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH
+                    TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
+                    drive_sled_floor,
                 );
             }
         }
