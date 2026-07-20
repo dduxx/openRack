@@ -31,8 +31,7 @@ TWO_POINT_FIVE_CONNECTOR_COUTOUT_WIDTH = 55;
 TWO_POINT_FIVE_CONNECTOR_COUTOUT_DEPTH = 10;
 
 // front panel
-THUMB_SLOT_WIDTH = 17;
-THUMB_SLOT_TAPER = 1;
+THUMB_SLOT_WIDTH = 18;
 VENT_COUNT = 13;
 VENT_WIDTH = 2.5;
 LABEL_WIDTH = 45;
@@ -110,6 +109,24 @@ module three_point_five_inch_drive_sled(
                             THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
                             drive_sled_floor
                         );
+
+                        back(DRIVE_SLED_FRONT_DEPTH * 2) up(DRIVE_SLED_FLOOR / 2) {
+                            cuboid(
+                                [
+                                    (THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD * 2) +
+                                        (2 * drive_sled_wall),
+                                    THREE_POINT_FIVE_HDD_DEPTH,
+                                    drive_sled_floor / 2
+                                ],
+                                rounding = edge_fillet,
+                                anchor = BOTTOM,
+                                edges = [
+                                    BOTTOM + LEFT,
+                                    BOTTOM + RIGHT,
+                                    BOTTOM + FRONT,
+                                ]
+                            );
+                        }
                     }
                 }
             }
@@ -260,24 +277,40 @@ module _drive_sled_front(
             anchor = BOTTOM + LEFT + FRONT
         );
 
-        right((THUMB_SLOT_WIDTH / 2) + drive_sled_wall) up(z/2) back(y) {
-            xrot(90) {
-                cylinder(
-                    h = y,
-                    r1 = THUMB_SLOT_WIDTH/2,
-                    r2 = (THUMB_SLOT_WIDTH/2) - THUMB_SLOT_TAPER
-                );
-            }
+        right((THUMB_SLOT_WIDTH / 2) + drive_sled_wall) up(z/2) {
+            cuboid(
+                [
+                    THUMB_SLOT_WIDTH,
+                    DRIVE_SLED_FRONT_DEPTH,
+                    THUMB_SLOT_WIDTH,
+                ],
+                rounding = fillet,
+                edges = [
+                    LEFT + TOP,
+                    TOP + RIGHT,
+                    RIGHT + BOTTOM,
+                    BOTTOM + LEFT,
+                ],
+                anchor = FRONT
+            );
         }
 
-        right(x - (THUMB_SLOT_WIDTH / 2) - drive_sled_wall) up(z/2) back(y) {
-            xrot(90) {
-                cylinder(
-                    h = y,
-                    r1 = THUMB_SLOT_WIDTH/2,
-                    r2 = (THUMB_SLOT_WIDTH/2) - THUMB_SLOT_TAPER
-                );
-            }
+        right(x - (THUMB_SLOT_WIDTH / 2) - drive_sled_wall) up(z/2) {
+            cuboid(
+                [
+                    THUMB_SLOT_WIDTH,
+                    DRIVE_SLED_FRONT_DEPTH,
+                    THUMB_SLOT_WIDTH,
+                ],
+                rounding = fillet,
+                edges = [
+                    LEFT + TOP,
+                    TOP + RIGHT,
+                    RIGHT + BOTTOM,
+                    BOTTOM + LEFT,
+                ],
+                anchor = FRONT
+            );
         }
 
         if (has_vents) {
@@ -300,6 +333,41 @@ module _drive_sled_front(
         right(x / 2) up(z / 2) {
             cuboid([LABEL_WIDTH, drive_sled_wall, LABEL_HEIGHT], anchor=FRONT);
         }
+    }
+
+
+    right((THUMB_SLOT_WIDTH) + drive_sled_wall) up(z/2) {
+        cuboid(
+            [
+                THUMB_SLOT_WIDTH / 5,
+                DRIVE_SLED_FRONT_DEPTH / 4,
+                THUMB_SLOT_WIDTH,
+            ],
+            rounding = fillet,
+            edges = [
+                FRONT + LEFT,
+                TOP + RIGHT,
+                RIGHT + BOTTOM,
+            ],
+            anchor = FRONT + RIGHT
+        );
+    }
+
+    right(x - (THUMB_SLOT_WIDTH) - drive_sled_wall) up(z/2) {
+        cuboid(
+            [
+                THUMB_SLOT_WIDTH / 5,
+                DRIVE_SLED_FRONT_DEPTH / 4,
+                THUMB_SLOT_WIDTH,
+            ],
+            rounding = fillet,
+            edges = [
+                FRONT + RIGHT,
+                LEFT + TOP,
+                BOTTOM + LEFT,
+            ],
+            anchor = FRONT + LEFT
+        );
     }
 }
 
@@ -429,7 +497,7 @@ module _two_point_five_adapter(
                 _sled_bottom_cutout(
                     TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD,
                     TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
-                    drive_sled_floor,
+                    xyz[2] - TWO_POINT_FIVE_HDD_HEIGHT,
                 );
             }
         }
