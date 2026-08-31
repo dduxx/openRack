@@ -4,27 +4,7 @@ on:
   pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Install OpenSCAD nightly
-        run: sudo snap install openscad-nightly
-
-      - name: Install buildscad
-        run: |
-          git clone https://github.com/dduxx/buildscad /tmp/buildscad
-          cd /tmp/buildscad
-          git checkout v1.3.0
-          pip install -e .
-
-      - name: Build
-        run: buildscad build
+  ci:
+    uses: dduxx/buildscad-workflows/.github/workflows/ci.yml@v1.0.1
+    with:
+      openscad: openscad-nightly
