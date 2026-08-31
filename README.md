@@ -77,13 +77,20 @@ Pre-built artifacts (STL, PNG, 3MF) are published with each
 
 ## CI / CD
 
+CI/CD is driven by the shared reusable workflows in
+[`dduxx/buildscad-workflows`](https://github.com/dduxx/buildscad-workflows).
+This repository provides thin wrappers that invoke them with
+`openscad: openscad-nightly`.
+
 - **CI** (`.github/workflows/ci.yml`) — Builds all assemblies on every pull
   request to validate changes before merging.
 - **Release** (`.github/workflows/release.yml`) — On merge to `main`, the
   workflow auto-determines the next semantic version from conventional commit
-  messages (`feat:` → minor, `fix:` → patch, `BREAKING CHANGE` → major), bumps
-  `buildscad.properties`, tags the release, builds all artifacts, and publishes
-  a GitHub Release with a zip of STL/PNG/3MF outputs.
+  messages (`feat:` → minor, `fix:`/`perf:` → patch, `BREAKING CHANGE` → major),
+  bumps `buildscad.properties`, tags the release, builds all artifacts, and
+  publishes a GitHub Release with a zip of STL/PNG/3MF outputs. If no
+  version-affecting commit is present since the last tag, the release is
+  skipped.
 
 ## Contributions
 
