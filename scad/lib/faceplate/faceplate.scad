@@ -1,5 +1,6 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../fasteners/screws.scad>
+include <../fasteners/nuts.scad>
 include <../rack_units.scad>
 
 FRONT_PLATE_THICKNESS = 4;
@@ -11,6 +12,12 @@ FACEPLATE_JOIN_SUPPORT_Y = 10;
 FACEPLATE_JOIN_SUPPORT_KEY_Z = 10;
 
 FACEPLATE_SCREW_SLOT_ALLOWANCE = 5;
+
+FACEPLATE_COUNTERSINK_RAD = 4;
+
+FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT = 3;
+
+FACEPLATE_JOIN_SUPPORT_NUT_BUFFER = 0.2;
 
 // Module: faceplate()
 // Description = creates a front panel for rack mount appliances meant to be used as a base for
@@ -106,6 +113,58 @@ module faceplate(
                             }
                         }
                     }
+                }
+            }
+        }
+
+        if (join_support_left) {
+            right(FACEPLATE_JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4) {
+                xrot(270) {
+                    screw_cutout(
+                        screw_rad = M4_SCREW_RAD,
+                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_depth = thickness / 2,
+                        total_length = thickness,
+                        thread_buffer = 1
+                    );
+                }
+            }
+
+            right(FACEPLATE_JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4 * 3) {
+                xrot(270) {
+                    screw_cutout(
+                        screw_rad = M4_SCREW_RAD,
+                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_depth = thickness / 2,
+                        total_length = thickness,
+                        thread_buffer = 1
+                    );
+                }
+            }
+        }
+
+        if (join_support_right) {
+            right(-FACEPLATE_JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4) {
+                xrot(270) {
+                    screw_cutout(
+                        screw_rad = M4_SCREW_RAD,
+                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_depth = thickness / 2,
+                        total_length = thickness,
+                        thread_buffer = 0.2
+                    );
+                }
+            }
+
+            right(-FACEPLATE_JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4 * 3) {
+                xrot(270) {
+                    screw_cutout(
+                        screw_rad = M4_SCREW_RAD,
+                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_depth = thickness / 2,
+                        total_length = thickness,
+                        thread_buffer = 0.2
+                    );
                 }
             }
         }
@@ -322,6 +381,28 @@ module join_support_key(fillet) {
                     total_length = FACEPLATE_JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
                 );
+            }
+        }
+
+        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
+            up(FACEPLATE_JOIN_SUPPORT_Y / 2 - FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT) {
+                nut_cutout(
+                    flat_to_flat=M4_FLAT_TO_FLAT,
+                    nut_height=FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT,
+                    buffer=FACEPLATE_JOIN_SUPPORT_NUT_BUFFER
+                );
+            }
+        }
+
+        right((FACEPLATE_JOIN_SUPPORT_X / 2) + FACEPLATE_JOIN_SUPPORT_X) {
+            back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
+                up(FACEPLATE_JOIN_SUPPORT_Y / 2 - FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT) {
+                    nut_cutout(
+                        flat_to_flat=M4_FLAT_TO_FLAT,
+                        nut_height=FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT,
+                        buffer=FACEPLATE_JOIN_SUPPORT_NUT_BUFFER
+                    );
+                }
             }
         }
     }
