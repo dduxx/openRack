@@ -4,7 +4,7 @@ include <hdd.scad>
 include <sled_builder.scad>
 include <../../lib/utils/ellipse.scad>
 
-DRIVE_ENCLOSURE_SLED_BUFFER = 0.75;
+DRIVE_ENCLOSURE_SLED_BUFFER = 1.0;
 
 SATA_CONNECTOR_MOUNT_X = 60;
 SATA_CONNECTOR_MOUNT_Y = 15;
