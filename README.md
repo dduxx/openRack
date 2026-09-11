@@ -9,6 +9,7 @@ homelab accessories. Supports both 19-inch and 10-inch racks.
 
 | Assembly | 19" | 10" | Description |
 |---|---|---|---|
+| **Blank Panel** | 3 sections (L/M/R) | 2 sections (L/R) | Solid or vented 1 RU filler panel |
 | **Patch Panel** | 3 sections (L/M/R, 6 jacks/section) | 2 sections (L/R, 5 jacks/section) | Keystone jack faceplate for network/AV keystones |
 | **Join Key** | ✓ | ✓ | Connector key for securing faceplate sections together |
 | **JBOD Enclosure** | 3 sections (L/M/R, 3 drives/section) | 2 sections (L/R, 2 drives/section) | JBOD enclosure for 3.5" drives |
