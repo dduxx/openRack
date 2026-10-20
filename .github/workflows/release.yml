@@ -10,6 +10,7 @@ jobs:
     if: github.event.pull_request.merged == true
     permissions:
       contents: write
-    uses: dduxx/buildscad-workflows/.github/workflows/release.yml@v1.0.1
+    uses: dduxx/buildscad-workflows/.github/workflows/release.yml@v2.0.0
     with:
       openscad: openscad-nightly
+      artifacts: '[{"filter":"scad/assemblies/rack_studs/*","name":"rack_studs"},{"filter":"scad/assemblies/hdd/*","name":"hdd"},{"filter":"scad/assemblies/faceplate/*","name":"faceplate"},{"filter":"scad/assemblies/power/*","name":"power"},{"filter":"scad/assemblies/cable_management/*","name":"cable_management"}]'

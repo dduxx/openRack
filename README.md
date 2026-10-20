@@ -83,15 +83,17 @@ CI/CD is driven by the shared reusable workflows in
 This repository provides thin wrappers that invoke them with
 `openscad: openscad-nightly`.
 
-- **CI** (`.github/workflows/ci.yml`) — Builds all assemblies on every pull
-  request to validate changes before merging.
+- **CI** (`.github/workflows/ci.yml`) — Builds each assembly category
+  (`rack_studs`, `hdd`, `faceplate`, `power`, `cable_management`) in its own
+  job on every pull request to validate changes before merging. Builds are
+  filtered per category and not archived.
 - **Release** (`.github/workflows/release.yml`) — On merge to `main`, the
   workflow auto-determines the next semantic version from conventional commit
   messages (`feat:` → minor, `fix:`/`perf:` → patch, `BREAKING CHANGE` → major),
   bumps `buildscad.properties`, tags the release, builds all artifacts, and
-  publishes a GitHub Release with a zip of STL/PNG/3MF outputs. If no
-  version-affecting commit is present since the last tag, the release is
-  skipped.
+  publishes a GitHub Release with a separate zip of STL/PNG/3MF outputs for
+  each assembly category (e.g. `faceplate_v0.3.1.zip`). If no version-affecting
+  commit is present since the last tag, the release is skipped.
 
 ## Contributions
 
