@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         category: [rack_studs, hdd, faceplate, power, cable_management]
-    uses: dduxx/buildscad-workflows/.github/workflows/build.yml@v2.0.0
+    uses: dduxx/buildscad-workflows/.github/workflows/build.yml@v2.0.1
     with:
       openscad: openscad-nightly
       filter: scad/assemblies/${{ matrix.category }}/*
