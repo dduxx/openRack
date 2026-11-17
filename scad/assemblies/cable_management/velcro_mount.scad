@@ -1,6 +1,8 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../lib/fasteners/screws.scad>
 
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
 VELCRO_MOUNT_FILLET = 2;
@@ -60,7 +62,7 @@ difference() {
     up(VELCRO_MOUNT_BASE_Z) {
         zflip() {
             screw_cutout(
-                screw_rad = TEN_THIRTY_TWO_SCREW_RAD,
+                screw_rad = SCREWS__TEN_THIRTY_TWO_RAD,
                 countersink_rad = VELCRO_MOUNT_COUTERSINK_RAD,
                 countersink_depth = VELCRO_MOUNT_BASE_Z / 2,
                 total_length = VELCRO_MOUNT_BASE_Z,

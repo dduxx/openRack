@@ -2,6 +2,10 @@ include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../lib/fasteners/screws.scad>
 include <../../lib/fasteners/nuts.scad>
 
+HAS_SLOT_MOUNT = false;
+
+module __Customizer_Limit__ () {}
+
 $fn = 200;
 
 CIRCLE_COMB_OUTER_RAD = 20;
@@ -29,7 +33,6 @@ SLOT_MOUNT_HEIGHT_OFFSET = 4;
 SLOT_MOUNT_NUT_HEIGHT = 3.5;
 SLOT_MOUNT_NUT_BUFFER = 0.2;
 SLOT_MOUNT_NUT_OFFSET = 5;
-HAS_SLOT_MOUNT = false;
 
 
 difference() {
@@ -136,7 +139,7 @@ if (HAS_SLOT_MOUNT) {
                ) {
                     xrot(90) {
                         nut_cutout(
-                            M4_FLAT_TO_FLAT,
+                            NUTS__M4_FLAT_TO_FLAT,
                             buffer = SLOT_MOUNT_NUT_BUFFER,
                             nut_height = SLOT_MOUNT_NUT_HEIGHT,
                         );
@@ -154,7 +157,7 @@ if (HAS_SLOT_MOUNT) {
                         [
                             SLOT_MOUNT_BLOCK_X / 2,
                             SLOT_MOUNT_NUT_HEIGHT,
-                            M4_FLAT_TO_FLAT + SLOT_MOUNT_NUT_BUFFER
+                            NUTS__M4_FLAT_TO_FLAT + SLOT_MOUNT_NUT_BUFFER
                         ],
                         anchor = RIGHT + BACK
 
@@ -170,7 +173,7 @@ if (HAS_SLOT_MOUNT) {
                 ) {
                     xrot(90) {
                         screw_cutout(
-                            M4_SCREW_RAD,
+                            SCREWS__M4_RAD,
                             total_length = SLOT_MOUNT_BLOCK_Y - SLOT_MOUNT_OFFSET,
                         );
                     }

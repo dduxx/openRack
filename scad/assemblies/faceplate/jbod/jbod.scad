@@ -48,10 +48,10 @@ difference() {
                 [
                     JBOD_SECTION_WIDTH - (2 * inches_to_mm(5/8)),
                     drive_enclosure_depth(),
-                    ((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/2
+                    ((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED__WALL)))/2
                 ],
                 edges = [TOP + LEFT, LEFT + BOTTOM, TOP + RIGHT, RIGHT + BOTTOM],
-                rounding = DRIVE_SLED_EDGE_FILLET,
+                rounding = DRIVE_SLED__EDGE_FILLET,
                 anchor = BOTTOM + LEFT + FRONT
             );
         }
@@ -60,15 +60,15 @@ difference() {
     right(
         (
             JBOD_SECTION_WIDTH -
-                (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION)
+                (drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) * DRIVES_PER_SECTION)
             ) / 2
     ) {
-        up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/2) {
+        up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED__WALL)))/2) {
             cuboid(
                 [
-                    drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION,
+                    drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) * DRIVES_PER_SECTION,
                     drive_enclosure_depth(),
-                    drive_enclosure_width(DRIVE_SLED_WALL)
+                    drive_enclosure_width(DRIVE_SLED__WALL)
                 ],
                 edges = [
                     LEFT + TOP,
@@ -77,17 +77,17 @@ difference() {
                     RIGHT + BOTTOM,
                 ],
                 anchor = FRONT + LEFT + BOTTOM,
-                rounding = DRIVE_SLED_EDGE_FILLET
+                rounding = DRIVE_SLED__EDGE_FILLET
             );
         }
     }
 
 
-    back(QUARTER_INCH_THREADED_ROD_RAD + JDBO_FASTNER_BUFFER + FACEPLATE__PLATE_THICKNESS * 4) {
-        up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
+    back(ROD__QUARTER_INCH_THREADED_RAD + JDBO_FASTNER_BUFFER + FACEPLATE__PLATE_THICKNESS * 4) {
+        up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED__WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
-                    QUARTER_INCH_THREADED_ROD_RAD,
+                    ROD__QUARTER_INCH_THREADED_RAD,
                     JBOD_SECTION_WIDTH,
                     buffer = JDBO_FASTNER_BUFFER,
                 );
@@ -96,13 +96,13 @@ difference() {
     }
 
     back(drive_enclosure_depth() -
-        QUARTER_INCH_THREADED_ROD_RAD -
+        ROD__QUARTER_INCH_THREADED_RAD -
         JDBO_FASTNER_BUFFER - FACEPLATE__PLATE_THICKNESS * 4
     ) {
-        up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
+        up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED__WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
-                    QUARTER_INCH_THREADED_ROD_RAD,
+                    ROD__QUARTER_INCH_THREADED_RAD,
                     JBOD_SECTION_WIDTH,
                     buffer = JDBO_FASTNER_BUFFER,
                 );
@@ -115,20 +115,20 @@ difference() {
         (
             (
                 JBOD_SECTION_WIDTH -
-                    (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION)
+                    (drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) * DRIVES_PER_SECTION)
             ) / 2
-        ) + ((drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) / 2))
+        ) + ((drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) / 2))
     ) {
         for (i = [0 : DRIVES_PER_SECTION - 1]) {
-            right (i * drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL)) {
+            right (i * drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL)) {
                 back(drive_enclosure_depth() / 2) {
                     elliptic_cylinder([
                         (
-                            drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) /
-                                MATERIAL_REMOVAL_FACTOR_X
+                            drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) /
+                                SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_X
                         ) * 2,
-                        (drive_enclosure_depth() / MATERIAL_REMOVAL_FACTOR_Y) * 2,
-                        ((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL))) /
+                        (drive_enclosure_depth() / SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_Y) * 2,
+                        ((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED__WALL))) /
                             2
                     ]);
                 }
@@ -136,7 +136,7 @@ difference() {
 
             // 40mm fan mounts
             left(
-                (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) + inches_to_mm(5/8)) /
+                (drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) + inches_to_mm(5/8)) /
                     2
             ) {
                 back(drive_enclosure_depth()) {
@@ -144,16 +144,16 @@ difference() {
                         (
                             (
                                 (JBOD_RACK_UNITS * RACK_UNIT) -
-                                    (drive_enclosure_width(DRIVE_SLED_WALL))
+                                    (drive_enclosure_width(DRIVE_SLED__WALL))
                             ) / 2
-                        ) - (2 * (DRIVE_SLED_WALL + FAN_BUFFER))
+                        ) - (2 * (DRIVE_SLED__WALL + FAN_BUFFER))
                     ) {
-                        right((FORTY_MM_FAN_XY / 2) + (i * (FAN_BUFFER + FORTY_MM_FAN_XY))) {
-                            up(FORTY_MM_FAN_XY / 2) {
+                        right((FAN__FORTY_MM_XY / 2) + (i * (FAN_BUFFER + FAN__FORTY_MM_XY))) {
+                            up(FAN__FORTY_MM_XY / 2) {
                                 xrot(90) {
                                     fan_mounting_holes(
-                                        hole_spacing = FORTY_MM_FAN_HOLE_SPACING,
-                                        hole_rad = M3_SCREW_RAD,
+                                        hole_spacing = FAN__FORTY_MM_HOLE_SPACING,
+                                        hole_rad = SCREWS__M3_RAD,
                                         hole_depth = 20,
                                         thread_buffer = -JDBO_FASTNER_BUFFER,
                                         holes = [0, 1]
@@ -172,21 +172,21 @@ right (
     (
         (
             JBOD_SECTION_WIDTH -
-                (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL) * DRIVES_PER_SECTION)
+                (drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) * DRIVES_PER_SECTION)
         ) / 2
-    ) + (drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL))
+    ) + (drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL))
 ) {
-    up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/2) {
+    up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED__WALL)))/2) {
         for (i = [0 : DRIVES_PER_SECTION - 1]) {
-            right(i * drive_enclosure_height(DRIVE_SLED_FLOOR, DRIVE_SLED_WALL)) {
+            right(i * drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL)) {
                 yrot(-90) {
                     three_point_five_inch_enclosure(
-                        wall=DRIVE_SLED_WALL,
-                        rad=DRIVE_SLED_EDGE_FILLET,
+                        wall=DRIVE_SLED__WALL,
+                        rad=DRIVE_SLED__EDGE_FILLET,
                         fillet_top = i == 0,
                         fillet_bottom = i == DRIVES_PER_SECTION - 1,
                         has_sata_connector = true,
-                        sled_buffer = DRIVE_ENCLOSURE_SLED_BUFFER,
+                        sled_buffer = SLED_ENCLOSURE__BUFFER,
                     );
                 }
             }

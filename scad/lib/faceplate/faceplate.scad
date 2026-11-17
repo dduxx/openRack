@@ -80,8 +80,8 @@ module faceplate(
                             ) {
                                 rotate([-90, 0, 0]) {
                                     screw_slot(
-                                        TEN_THIRTY_TWO_SCREW_RAD,
-                                        (TEN_THIRTY_TWO_SCREW_RAD * 2) +
+                                        SCREWS__TEN_THIRTY_TWO_RAD,
+                                        (SCREWS__TEN_THIRTY_TWO_RAD * 2) +
                                             faceplate_screw_slot_allowance,
                                         countersink_rad = countersink_rad,
                                         countersink_depth = thickness / 2
@@ -100,8 +100,8 @@ module faceplate(
                             ) {
                                 rotate([-90, 0, 0]) {
                                     screw_slot(
-                                        TEN_THIRTY_TWO_SCREW_RAD,
-                                        (TEN_THIRTY_TWO_SCREW_RAD * 2) +
+                                        SCREWS__TEN_THIRTY_TWO_RAD,
+                                        (SCREWS__TEN_THIRTY_TWO_RAD * 2) +
                                             faceplate_screw_slot_allowance,
                                         countersink_rad = countersink_rad,
                                         countersink_depth = thickness / 2
@@ -118,7 +118,7 @@ module faceplate(
             right(FACEPLATE__JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4) {
                 xrot(270) {
                     screw_cutout(
-                        screw_rad = M4_SCREW_RAD,
+                        screw_rad = SCREWS__M4_RAD,
                         countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
@@ -130,7 +130,7 @@ module faceplate(
             right(FACEPLATE__JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4 * 3) {
                 xrot(270) {
                     screw_cutout(
-                        screw_rad = M4_SCREW_RAD,
+                        screw_rad = SCREWS__M4_RAD,
                         countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
@@ -144,7 +144,7 @@ module faceplate(
             right(-FACEPLATE__JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4) {
                 xrot(270) {
                     screw_cutout(
-                        screw_rad = M4_SCREW_RAD,
+                        screw_rad = SCREWS__M4_RAD,
                         countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
@@ -156,7 +156,7 @@ module faceplate(
             right(-FACEPLATE__JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4 * 3) {
                 xrot(270) {
                     screw_cutout(
-                        screw_rad = M4_SCREW_RAD,
+                        screw_rad = SCREWS__M4_RAD,
                         countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
@@ -303,8 +303,8 @@ module _join_support(rack_units, fillet) {
         right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_Y) up(z / 4) {
             xrot(90) {
                 screw_cutout(
-                    screw_rad = M4_SCREW_RAD,
-                    countersink_rad = 2 * M4_SCREW_RAD,
+                    screw_rad = SCREWS__M4_RAD,
+                    countersink_rad = 2 * SCREWS__M4_RAD,
                     countersink_depth = 0,
                     total_length = FACEPLATE__JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
@@ -330,8 +330,8 @@ module _join_support(rack_units, fillet) {
         right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_Y) up(z - (z / 4)) {
             xrot(90) {
                 screw_cutout(
-                    screw_rad = M4_SCREW_RAD,
-                    countersink_rad = 2 * M4_SCREW_RAD,
+                    screw_rad = SCREWS__M4_RAD,
+                    countersink_rad = 2 * SCREWS__M4_RAD,
                     countersink_depth = 0,
                     total_length = FACEPLATE__JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
@@ -361,8 +361,8 @@ module join_support_key(fillet) {
 
         right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
             screw_cutout(
-                screw_rad = M4_SCREW_RAD,
-                countersink_rad = 2 * M4_SCREW_RAD,
+                screw_rad = SCREWS__M4_RAD,
+                countersink_rad = 2 * SCREWS__M4_RAD,
                 countersink_depth = 0,
                 total_length = FACEPLATE__JOIN_SUPPORT_Y,
                 thread_buffer = 0.2
@@ -372,8 +372,8 @@ module join_support_key(fillet) {
         right((FACEPLATE__JOIN_SUPPORT_X / 2) + FACEPLATE__JOIN_SUPPORT_X) {
             back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
                 screw_cutout(
-                    screw_rad = M4_SCREW_RAD,
-                    countersink_rad = 2 * M4_SCREW_RAD,
+                    screw_rad = SCREWS__M4_RAD,
+                    countersink_rad = 2 * SCREWS__M4_RAD,
                     countersink_depth = 0,
                     total_length = FACEPLATE__JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
@@ -384,7 +384,7 @@ module join_support_key(fillet) {
         right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
             up(FACEPLATE__JOIN_SUPPORT_Y / 2 - FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT) {
                 nut_cutout(
-                    flat_to_flat=M4_FLAT_TO_FLAT,
+                    flat_to_flat=NUTS__M4_FLAT_TO_FLAT,
                     nut_height=FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT,
                     buffer=FACEPLATE__JOIN_SUPPORT_NUT_BUFFER
                 );
@@ -395,7 +395,7 @@ module join_support_key(fillet) {
             back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
                 up(FACEPLATE__JOIN_SUPPORT_Y / 2 - FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT) {
                     nut_cutout(
-                        flat_to_flat=M4_FLAT_TO_FLAT,
+                        flat_to_flat=NUTS__M4_FLAT_TO_FLAT,
                         nut_height=FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT,
                         buffer=FACEPLATE__JOIN_SUPPORT_NUT_BUFFER
                     );

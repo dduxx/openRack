@@ -33,14 +33,14 @@ up(2) {
 
         up(1) {
             nut_cutout(
-                flat_to_flat=THREE_EIGHTHS_NUT_FLAT_TO_FLAT,
+                flat_to_flat=NUTS__THREE_EIGHTHS_FLAT_TO_FLAT,
                 nut_height=NUT_HEIGHT,
                 buffer=NUT_BUFFER
             );
         }
 
         down(2) {
-            screw_cutout(TEN_THIRTY_TWO_SCREW_RAD);
+            screw_cutout(SCREWS__TEN_THIRTY_TWO_RAD);
         }
     }
 }

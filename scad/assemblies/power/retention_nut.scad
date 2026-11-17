@@ -40,11 +40,11 @@ difference() {
     }
 
     up(1) {
-        nut_cutout(M4_FLAT_TO_FLAT, nut_height = HEIGHT - 1, faces = 6, buffer = 0.2);
+        nut_cutout(NUTS__M4_FLAT_TO_FLAT, nut_height = HEIGHT - 1, faces = 6, buffer = 0.2);
     }
 
     screw_cutout(
-        M4_SCREW_RAD,
+        SCREWS__M4_RAD,
         total_length = HEIGHT,
         thread_buffer = 1
     );

@@ -1,6 +1,6 @@
 include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
 
-QUARTER_INCH_THREADED_ROD_RAD = inches_to_mm(1/4) / 2;
+ROD__QUARTER_INCH_THREADED_RAD = inches_to_mm(1/4) / 2;
 
 // Module: threaded_rod_cutout()
 // Description: creates a negative volume (cutout) for a threaded rod.

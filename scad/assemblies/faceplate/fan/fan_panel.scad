@@ -48,7 +48,7 @@ difference() {
                             right((i * FAN_SIZE_MM) + (i * FAN_SPACING)) {
                                 fan_mounting_holes(
                                     hole_spacing = FAN_HOLE_SPACING,
-                                    hole_rad = M4_SCREW_RAD * 2,
+                                    hole_rad = SCREWS__M4_RAD * 2,
                                     hole_depth = FACEPLATE__PLATE_THICKNESS,
                                     thread_buffer = 0,
                                     holes = [0, 1, 2, 3],
@@ -72,7 +72,7 @@ right((FAN_PANEL_SECTION_WIDTH - (FANS_PER_SECTION * FAN_SPACING * FAN_SIZE_MM) 
                             difference() {
                                 fan_mounting_holes(
                                     hole_spacing = FAN_HOLE_SPACING,
-                                    hole_rad = M4_SCREW_RAD * 2,
+                                    hole_rad = SCREWS__M4_RAD * 2,
                                     hole_depth = FACEPLATE__PLATE_THICKNESS,
                                     thread_buffer = 0,
                                     holes = [0, 1, 2, 3],
@@ -80,7 +80,7 @@ right((FAN_PANEL_SECTION_WIDTH - (FANS_PER_SECTION * FAN_SPACING * FAN_SIZE_MM) 
 
                                 fan_mounting_holes(
                                     hole_spacing = FAN_HOLE_SPACING,
-                                    hole_rad = M4_SCREW_RAD,
+                                    hole_rad = SCREWS__M4_RAD,
                                     hole_depth = FACEPLATE__PLATE_THICKNESS,
                                     thread_buffer = 0,
                                     holes = [0, 1, 2, 3],
