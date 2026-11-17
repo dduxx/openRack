@@ -1,5 +1,7 @@
 include <../../lib/faceplate/faceplate.scad>
 
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
-join_support_key(fillet = FACEPLATE_FILLET_RAD);
+join_support_key(fillet = FACEPLATE__FILLET_RAD);

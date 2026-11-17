@@ -24,11 +24,11 @@ TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD = 15;
 TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH = TWO_POINT_FIVE_SCREW_SLOT_LENGTH;
 
 // connector cutouts
-CONNECTOR_COUTOUT_SCALE_FACTOR = 0.8;
+CONNECTOR_CUTOUT_SCALE_FACTOR = 0.8;
 THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH = 80;
 THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH = 10;
-TWO_POINT_FIVE_CONNECTOR_COUTOUT_WIDTH = 55;
-TWO_POINT_FIVE_CONNECTOR_COUTOUT_DEPTH = 10;
+TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH = 55;
+TWO_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH = 10;
 
 // front panel
 THUMB_SLOT_WIDTH = 18;
@@ -167,7 +167,7 @@ module three_point_five_inch_drive_sled(
                             drive_sled_floor,
                             THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
                             THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
-                            CONNECTOR_COUTOUT_SCALE_FACTOR,
+                            CONNECTOR_CUTOUT_SCALE_FACTOR,
                             edge_fillet,
                         );
                     }
@@ -477,13 +477,13 @@ module _two_point_five_adapter(
 
         // connector cutout
         if (has_connector_cutout) {
-            right(TWO_POINT_FIVE_HDD_WIDTH - TWO_POINT_FIVE_CONNECTOR_COUTOUT_WIDTH + x_trans) {
+            right(TWO_POINT_FIVE_HDD_WIDTH - TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH + x_trans) {
                 back(TWO_POINT_FIVE_HDD_DEPTH + y_trans) {
                     _connector_cutout(
                         z_trans,
-                        TWO_POINT_FIVE_CONNECTOR_COUTOUT_DEPTH,
-                        TWO_POINT_FIVE_CONNECTOR_COUTOUT_WIDTH,
-                        CONNECTOR_COUTOUT_SCALE_FACTOR,
+                        TWO_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
+                        TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
+                        CONNECTOR_CUTOUT_SCALE_FACTOR,
                         fillet,
                     );
                 }

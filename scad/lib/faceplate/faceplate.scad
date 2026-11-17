@@ -3,21 +3,15 @@ include <../fasteners/screws.scad>
 include <../fasteners/nuts.scad>
 include <../rack_units.scad>
 
-FRONT_PLATE_THICKNESS = 4;
-FACEPLATE_FILLET_RAD = 2;
-
-FACEPLATE_JOIN_SUPPORT_X = 10;
-FACEPLATE_JOIN_SUPPORT_Y = 10;
-
-FACEPLATE_JOIN_SUPPORT_KEY_Z = 10;
-
-FACEPLATE_SCREW_SLOT_ALLOWANCE = 5;
-
-FACEPLATE_COUNTERSINK_RAD = 4;
-
-FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT = 3;
-
-FACEPLATE_JOIN_SUPPORT_NUT_BUFFER = 0.2;
+FACEPLATE__PLATE_THICKNESS = 4;
+FACEPLATE__FILLET_RAD = 2;
+FACEPLATE__JOIN_SUPPORT_X = 10;
+FACEPLATE__JOIN_SUPPORT_Y = 10;
+FACEPLATE__JOIN_SUPPORT_KEY_Z = 10;
+FACEPLATE__SCREW_SLOT_ALLOWANCE = 5;
+FACEPLATE__COUNTERSINK_RAD = 4;
+FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT = 3;
+FACEPLATE__JOIN_SUPPORT_NUT_BUFFER = 0.2;
 
 // Module: faceplate()
 // Description = creates a front panel for rack mount appliances meant to be used as a base for
@@ -25,8 +19,8 @@ FACEPLATE_JOIN_SUPPORT_NUT_BUFFER = 0.2;
 // Arguments:
 //   rack_units = number of rack units the faceplate should occupy. default is 1
 //   width = the width of the front panel. default is `NINETEEN_INCH_STANDARD_WIDTH`
-//   thickness = the thickness of the faceplate. default is `FRONT_PLATE_THICKNESS`
-//   rad = the corner radius used on the front panel. default is `FACEPLATE_FILLET_RAD`
+//   thickness = the thickness of the faceplate. default is `FACEPLATE__PLATE_THICKNESS`
+//   rad = the corner radius used on the front panel. default is `FACEPLATE__FILLET_RAD`
 //   skip_holes = a list of screw hole numbers to skip. holes are numbered from the bottom up
 //     starting at 0. default is an empty list (all holes included)
 //   holes_on_left = boolean flag that will enable or disable mounting holes on the left side of the
@@ -41,13 +35,15 @@ FACEPLATE_JOIN_SUPPORT_NUT_BUFFER = 0.2;
 //     side of the front panel. default is false
 //   join_support_right = boolean flag that will enable or disable the join support beam on the
 //     right side of the front panel. default is false
+//   faceplate_screw_slot_allowance = extra allowance added to the width of the rack screw slots.
+//     default is `FACEPLATE__SCREW_SLOT_ALLOWANCE`
 //   countersink_rad = radius of an optional countersink for the front panel mounting screws.
 //     default is 0.
 module faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
-    thickness = FRONT_PLATE_THICKNESS,
-    rad = FACEPLATE_FILLET_RAD,
+    thickness = FACEPLATE__PLATE_THICKNESS,
+    rad = FACEPLATE__FILLET_RAD,
     skip_holes = [],
     holes_on_left = true,
     holes_on_right = true,
@@ -55,6 +51,7 @@ module faceplate(
     fillet_right = true,
     join_support_left = false,
     join_support_right = false,
+    faceplate_screw_slot_allowance = FACEPLATE__SCREW_SLOT_ALLOWANCE,
     countersink_rad = 0,
 ) {
     left_edge = fillet_left ? [LEFT + BOTTOM, LEFT + TOP] : [];
@@ -85,9 +82,9 @@ module faceplate(
                                     screw_slot(
                                         TEN_THIRTY_TWO_SCREW_RAD,
                                         (TEN_THIRTY_TWO_SCREW_RAD * 2) +
-                                            FACEPLATE_SCREW_SLOT_ALLOWANCE,
+                                            faceplate_screw_slot_allowance,
                                         countersink_rad = countersink_rad,
-                                        countersink_depth = FRONT_PLATE_THICKNESS / 2
+                                        countersink_depth = thickness / 2
                                     );
                                 }
                             }
@@ -105,9 +102,9 @@ module faceplate(
                                     screw_slot(
                                         TEN_THIRTY_TWO_SCREW_RAD,
                                         (TEN_THIRTY_TWO_SCREW_RAD * 2) +
-                                            FACEPLATE_SCREW_SLOT_ALLOWANCE,
+                                            faceplate_screw_slot_allowance,
                                         countersink_rad = countersink_rad,
-                                        countersink_depth = FRONT_PLATE_THICKNESS / 2
+                                        countersink_depth = thickness / 2
                                     );
                                 }
                             }
@@ -118,11 +115,11 @@ module faceplate(
         }
 
         if (join_support_left) {
-            right(FACEPLATE_JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4) {
+            right(FACEPLATE__JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4) {
                 xrot(270) {
                     screw_cutout(
                         screw_rad = M4_SCREW_RAD,
-                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
                         thread_buffer = 1
@@ -130,11 +127,11 @@ module faceplate(
                 }
             }
 
-            right(FACEPLATE_JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4 * 3) {
+            right(FACEPLATE__JOIN_SUPPORT_X / 2) up(RACK_UNIT * rack_units / 4 * 3) {
                 xrot(270) {
                     screw_cutout(
                         screw_rad = M4_SCREW_RAD,
-                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
                         thread_buffer = 1
@@ -144,11 +141,11 @@ module faceplate(
         }
 
         if (join_support_right) {
-            right(-FACEPLATE_JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4) {
+            right(-FACEPLATE__JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4) {
                 xrot(270) {
                     screw_cutout(
                         screw_rad = M4_SCREW_RAD,
-                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
                         thread_buffer = 0.2
@@ -156,11 +153,11 @@ module faceplate(
                 }
             }
 
-            right(-FACEPLATE_JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4 * 3) {
+            right(-FACEPLATE__JOIN_SUPPORT_X / 2 + width) up(RACK_UNIT * rack_units / 4 * 3) {
                 xrot(270) {
                     screw_cutout(
                         screw_rad = M4_SCREW_RAD,
-                        countersink_rad = FACEPLATE_COUNTERSINK_RAD,
+                        countersink_rad = FACEPLATE__COUNTERSINK_RAD,
                         countersink_depth = thickness / 2,
                         total_length = thickness,
                         thread_buffer = 0.2
@@ -179,20 +176,20 @@ module faceplate(
 
     // right join support
     if (join_support_right) {
-        right(width - FACEPLATE_JOIN_SUPPORT_X) back(thickness) {
+        right(width - FACEPLATE__JOIN_SUPPORT_X) back(thickness) {
             _join_support(rack_units, rad);
         }
     }
 }
 
-// Module: faceplate()
+// Module: vented_faceplate()
 // Description = creates a vented front panel for rack mount appliances meant to be used as a base
 //   for creating new assemblies.
 // Arguments:
 //   rack_units = number of rack units the faceplate should occupy. default is 1
 //   width = the width of the front panel. default is `NINETEEN_INCH_STANDARD_WIDTH`
-//   thickness = the thickness of the faceplate. default is `FRONT_PLATE_THICKNESS`
-//   rad = the corner radius used on the front panel. default is `FACEPLATE_FILLET_RAD`
+//   thickness = the thickness of the faceplate. default is `FACEPLATE__PLATE_THICKNESS`
+//   rad = the corner radius used on the front panel. default is `FACEPLATE__FILLET_RAD`
 //   skip_holes = a list of screw hole numbers to skip. holes are numbered from the bottom up
 //     starting at 0. default is an empty list (all holes included)
 //   holes_on_left = boolean flag that will enable or disable mounting holes on the left side of the
@@ -210,12 +207,12 @@ module faceplate(
 //   countersink_rad = radius of an optional countersink for the front panel mounting screws.
 //     default is 0.
 //   vent_width = the width of the vent holes. default is 3.5
-//   vent_sperator_width = the speration between each vent hole. default is 1.5
+//   vent_separator_width = the separation between each vent hole. default is 1.5
 module vented_faceplate(
     rack_units = 1,
     width = NINETEEN_INCH_STANDARD_WIDTH,
-    thickness = FRONT_PLATE_THICKNESS,
-    rad = FACEPLATE_FILLET_RAD,
+    thickness = FACEPLATE__PLATE_THICKNESS,
+    rad = FACEPLATE__FILLET_RAD,
     skip_holes = [],
     holes_on_left = true,
     holes_on_right = true,
@@ -225,7 +222,7 @@ module vented_faceplate(
     join_support_right = false,
     countersink_rad = 0,
     vent_width = 3.5,
-    vent_sperator_width = 1.5
+    vent_separator_width = 1.5
 ) {
     difference() {
         faceplate(
@@ -246,14 +243,14 @@ module vented_faceplate(
         vented_area_width = width - (5 * RACK_UNIT_HOLE_SIDE_EDGE_OFFSET);
         vented_area_height = RACK_UNIT - (2 * RACK_UNIT_HOLE_BOTTOM_EDGE_OFFSET);
 
-        num_vents = floor(vented_area_width / (vent_width + vent_sperator_width));
-        actual_vented_area_width = (num_vents * (vent_width + vent_sperator_width)) +
-            vent_sperator_width;
+        num_vents = floor(vented_area_width / (vent_width + vent_separator_width));
+        actual_vented_area_width = (num_vents * (vent_width + vent_separator_width)) +
+            vent_separator_width;
 
         for (i = [0:rack_units - 1]) {
             translate([(width - vented_area_width) / 2, 0, i * (RACK_UNIT)]) {
                 for (j = [0:num_vents - 1]) {
-                    right(vent_width + (j * vent_width) + (j * vent_sperator_width)) {
+                    right(vent_width + (j * vent_width) + (j * vent_separator_width)) {
                         back(thickness) {
                             up((vent_width / 2) + (RACK_UNIT - vented_area_height) / 2) {
                                 rotate([90, 0, 0]) {
@@ -281,7 +278,7 @@ module _join_support(rack_units, fillet) {
         // join post
         cuboid(
             [
-                FACEPLATE_JOIN_SUPPORT_X, FACEPLATE_JOIN_SUPPORT_Y, z
+                FACEPLATE__JOIN_SUPPORT_X, FACEPLATE__JOIN_SUPPORT_Y, z
             ],
             anchor = BOTTOM + LEFT + FRONT,
             edges = [LEFT + BACK, BACK + RIGHT],
@@ -289,12 +286,12 @@ module _join_support(rack_units, fillet) {
         );
 
         // join key cutout bottom
-        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y / 2) up(z / 4) {
+        right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_Y / 2) up(z / 4) {
             cuboid(
                 [
-                    FACEPLATE_JOIN_SUPPORT_X,
-                    FACEPLATE_JOIN_SUPPORT_Y / 2 + 1,
-                    FACEPLATE_JOIN_SUPPORT_KEY_Z + 1
+                    FACEPLATE__JOIN_SUPPORT_X,
+                    FACEPLATE__JOIN_SUPPORT_Y / 2 + 1,
+                    FACEPLATE__JOIN_SUPPORT_KEY_Z + 1
                 ],
                 anchor = FRONT,
                 edges = [LEFT + BACK, BACK + RIGHT],
@@ -303,25 +300,25 @@ module _join_support(rack_units, fillet) {
         }
 
         // join key hole bottom
-        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y) up(z / 4) {
+        right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_Y) up(z / 4) {
             xrot(90) {
                 screw_cutout(
                     screw_rad = M4_SCREW_RAD,
                     countersink_rad = 2 * M4_SCREW_RAD,
                     countersink_depth = 0,
-                    total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                    total_length = FACEPLATE__JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
                 );
             }
         }
 
         // join key cutout top
-        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y / 2) up(z - (z / 4)) {
+        right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_Y / 2) up(z - (z / 4)) {
             cuboid(
                 [
-                    FACEPLATE_JOIN_SUPPORT_X,
-                    FACEPLATE_JOIN_SUPPORT_Y / 2 + 1,
-                    FACEPLATE_JOIN_SUPPORT_KEY_Z + 1
+                    FACEPLATE__JOIN_SUPPORT_X,
+                    FACEPLATE__JOIN_SUPPORT_Y / 2 + 1,
+                    FACEPLATE__JOIN_SUPPORT_KEY_Z + 1
                 ],
                 anchor = FRONT,
                 edges = [LEFT + BACK, BACK + RIGHT],
@@ -330,13 +327,13 @@ module _join_support(rack_units, fillet) {
         }
 
         // join key hole top
-        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_Y) up(z - (z / 4)) {
+        right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_Y) up(z - (z / 4)) {
             xrot(90) {
                 screw_cutout(
                     screw_rad = M4_SCREW_RAD,
                     countersink_rad = 2 * M4_SCREW_RAD,
                     countersink_depth = 0,
-                    total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                    total_length = FACEPLATE__JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
                 );
             }
@@ -353,54 +350,54 @@ module join_support_key(fillet) {
     difference() {
         cuboid(
             [
-                FACEPLATE_JOIN_SUPPORT_X * 2,
-                FACEPLATE_JOIN_SUPPORT_KEY_Z,
-                FACEPLATE_JOIN_SUPPORT_Y / 2
+                FACEPLATE__JOIN_SUPPORT_X * 2,
+                FACEPLATE__JOIN_SUPPORT_KEY_Z,
+                FACEPLATE__JOIN_SUPPORT_Y / 2
             ],
             rounding = fillet,
             edges = [LEFT + TOP, TOP + RIGHT],
             anchor = BOTTOM + FRONT + LEFT
         );
 
-        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
+        right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
             screw_cutout(
                 screw_rad = M4_SCREW_RAD,
                 countersink_rad = 2 * M4_SCREW_RAD,
                 countersink_depth = 0,
-                total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                total_length = FACEPLATE__JOIN_SUPPORT_Y,
                 thread_buffer = 0.2
             );
         }
 
-        right((FACEPLATE_JOIN_SUPPORT_X / 2) + FACEPLATE_JOIN_SUPPORT_X) {
-            back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
+        right((FACEPLATE__JOIN_SUPPORT_X / 2) + FACEPLATE__JOIN_SUPPORT_X) {
+            back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
                 screw_cutout(
                     screw_rad = M4_SCREW_RAD,
                     countersink_rad = 2 * M4_SCREW_RAD,
                     countersink_depth = 0,
-                    total_length = FACEPLATE_JOIN_SUPPORT_Y,
+                    total_length = FACEPLATE__JOIN_SUPPORT_Y,
                     thread_buffer = 0.2
                 );
             }
         }
 
-        right(FACEPLATE_JOIN_SUPPORT_X / 2) back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
-            up(FACEPLATE_JOIN_SUPPORT_Y / 2 - FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT) {
+        right(FACEPLATE__JOIN_SUPPORT_X / 2) back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
+            up(FACEPLATE__JOIN_SUPPORT_Y / 2 - FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT) {
                 nut_cutout(
                     flat_to_flat=M4_FLAT_TO_FLAT,
-                    nut_height=FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT,
-                    buffer=FACEPLATE_JOIN_SUPPORT_NUT_BUFFER
+                    nut_height=FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT,
+                    buffer=FACEPLATE__JOIN_SUPPORT_NUT_BUFFER
                 );
             }
         }
 
-        right((FACEPLATE_JOIN_SUPPORT_X / 2) + FACEPLATE_JOIN_SUPPORT_X) {
-            back(FACEPLATE_JOIN_SUPPORT_KEY_Z / 2) {
-                up(FACEPLATE_JOIN_SUPPORT_Y / 2 - FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT) {
+        right((FACEPLATE__JOIN_SUPPORT_X / 2) + FACEPLATE__JOIN_SUPPORT_X) {
+            back(FACEPLATE__JOIN_SUPPORT_KEY_Z / 2) {
+                up(FACEPLATE__JOIN_SUPPORT_Y / 2 - FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT) {
                     nut_cutout(
                         flat_to_flat=M4_FLAT_TO_FLAT,
-                        nut_height=FACEPLATE_JOIN_SUPPORT_NUT_HEIGHT,
-                        buffer=FACEPLATE_JOIN_SUPPORT_NUT_BUFFER
+                        nut_height=FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT,
+                        buffer=FACEPLATE__JOIN_SUPPORT_NUT_BUFFER
                     );
                 }
             }

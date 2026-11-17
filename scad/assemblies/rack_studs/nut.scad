@@ -4,6 +4,8 @@ include <../../lib/fasteners/nuts.scad>
 include <../../lib/fasteners/screws.scad>
 include <../../lib/rack_units.scad>
 
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
 NUT_BUFFER = 0.2;

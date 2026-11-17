@@ -123,9 +123,9 @@ module keystone_negative(
 ) {
     cuboid(
         [
-            calcualte_keystone_panel_width(columns, spacing),
+            calculate_keystone_panel_width(columns, spacing),
             KEYSTONE_OUTER_Y,
-            calcualte_keystone_panel_height(rows, spacing)
+            calculate_keystone_panel_height(rows, spacing)
         ],
         rounding = rad,
         anchor = BOTTOM + LEFT + FRONT,
@@ -138,23 +138,23 @@ module keystone_negative(
     );
 }
 
-// Function: calcualte_keystone_panel_width()
+// Function: calculate_keystone_panel_width()
 // Description: calculates the total width of a keystone panel given the number of columns and
 //   the spacing between them.
 // Arguments:
 //   columns = number of keystone columns. default is 1.
 //   spacing = additional gap between adjacent keystone bays. default is 0.
-function calcualte_keystone_panel_width(
+function calculate_keystone_panel_width(
     columns = 1, spacing = 0
 ) = (KEYSTONE_OUTER_X * columns) + (spacing * columns);
 
-// Function: calcualte_keystone_panel_height()
+// Function: calculate_keystone_panel_height()
 // Description: calculates the total height of a keystone panel given the number of rows and the
 //   spacing between them.
 // Arguments:
 //   rows = number of keystone rows. default is 1.
 //   spacing = additional gap between adjacent keystone bays. default is 0.
-function calcualte_keystone_panel_height(
+function calculate_keystone_panel_height(
     rows = 1, spacing = 0
 ) = (KEYSTONE_OUTER_Z * rows) + (spacing * rows);
 
