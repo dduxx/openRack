@@ -6,11 +6,15 @@ include <../../../lib/fasteners/rod.scad>
 include <../../../lib/hdd/sled_enclosure_builder.scad>
 include <../../../lib/utils/ellipse.scad>
 
+JBOD_RACK_TYPE = "NINETEEN_INCH"; // [NINETEEN_INCH, TEN_INCH]
+JBOD_SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
+
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
 JBOD_RACK_UNITS = 3;
-JBOD_RACK_TYPE = "NINETEEN_INCH"; // [NINETEEN_INCH, TEN_INCH]
-JBOD_SECTIONS = 3;
+JBOD_SECTIONS = JBOD_RACK_TYPE == "NINETEEN_INCH" ? 3 : 2;
 JBOD_SECTION_WIDTH = JBOD_RACK_TYPE == "NINETEEN_INCH" ?
     NINETEEN_INCH_STANDARD_WIDTH / JBOD_SECTIONS :
     TEN_INCH_STANDARD_WIDTH / JBOD_SECTIONS;
@@ -18,9 +22,7 @@ JBOD_SKIPPED_HOLES = [1, 3, 4, 5, 7];
 
 JDBO_FASTNER_BUFFER = 0.2;
 
-SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
-
-DRIVES_PER_SECTION = 3;
+DRIVES_PER_SECTION = JBOD_RACK_TYPE == "NINETEEN_INCH" ? 3 : 2;
 
 FAN_BUFFER = 2;
 
@@ -29,15 +31,15 @@ difference() {
         faceplate(
             rack_units = JBOD_RACK_UNITS,
             width = JBOD_SECTION_WIDTH,
-            thickness = FRONT_PLATE_THICKNESS,
-            rad = FACEPLATE_FILLET_RAD,
+            thickness = FACEPLATE__PLATE_THICKNESS,
+            rad = FACEPLATE__FILLET_RAD,
             skip_holes = JBOD_SKIPPED_HOLES,
-            holes_on_left = SECTION == "LEFT",
-            holes_on_right = SECTION == "RIGHT",
-            fillet_left = SECTION == "LEFT",
-            fillet_right = SECTION == "RIGHT",
-            join_support_left = SECTION != "LEFT",
-            join_support_right = SECTION != "RIGHT",
+            holes_on_left = JBOD_SECTION == "LEFT",
+            holes_on_right = JBOD_SECTION == "RIGHT",
+            fillet_left = JBOD_SECTION == "LEFT",
+            fillet_right = JBOD_SECTION == "RIGHT",
+            join_support_left = JBOD_SECTION != "LEFT",
+            join_support_right = JBOD_SECTION != "RIGHT",
             countersink_rad = 0,
         );
 
@@ -81,7 +83,7 @@ difference() {
     }
 
 
-    back(QUARTER_INCH_THREADED_ROD_RAD + JDBO_FASTNER_BUFFER + FRONT_PLATE_THICKNESS * 4) {
+    back(QUARTER_INCH_THREADED_ROD_RAD + JDBO_FASTNER_BUFFER + FACEPLATE__PLATE_THICKNESS * 4) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {
                 threaded_rod_cutout(
@@ -95,7 +97,7 @@ difference() {
 
     back(drive_enclosure_depth() -
         QUARTER_INCH_THREADED_ROD_RAD -
-        JDBO_FASTNER_BUFFER - FRONT_PLATE_THICKNESS * 4
+        JDBO_FASTNER_BUFFER - FACEPLATE__PLATE_THICKNESS * 4
     ) {
         up (((JBOD_RACK_UNITS * RACK_UNIT) - (drive_enclosure_width(DRIVE_SLED_WALL)))/4) {
             yrot(90) {

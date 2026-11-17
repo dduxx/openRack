@@ -11,8 +11,8 @@ include <./faceplate.scad>
 //     (false). default is true
 //   rack_units = number of rack units the ear should occupy. default is 1
 //   thickness = the thickness of the faceplate portion of the ear. default is
-//     `FRONT_PLATE_THICKNESS`
-//   rad = the corner radius used on the ear and faceplate. default is `FACEPLATE_FILLET_RAD`
+//     `FACEPLATE__PLATE_THICKNESS`
+//   rad = the corner radius used on the ear and faceplate. default is `FACEPLATE__FILLET_RAD`
 //   skip_holes = a list of screw hole numbers to skip. holes are numbered from the bottom up
 //     starting at 0. default is an empty list (all holes included)
 //   has_bottom_support = boolean flag that enables or disables a triangular support under the ear.
@@ -23,8 +23,8 @@ module rack_ear(
     ear_depth,
     is_left_ear = true,
     rack_units = 1,
-    thickness = FRONT_PLATE_THICKNESS,
-    rad = FACEPLATE_FILLET_RAD,
+    thickness = FACEPLATE__PLATE_THICKNESS,
+    rad = FACEPLATE__FILLET_RAD,
     skip_holes = [],
     has_bottom_support = true,
     countersink_rad = 0,

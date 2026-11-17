@@ -3,21 +3,21 @@ include <../../../lib/faceplate/faceplate.scad>
 include <../../../lib/fan.scad>
 include <../../../lib/fasteners/screws.scad>
 
+FAN_PANEL_RACK_TYPE = "NINETEEN_INCH"; // [NINETEEN_INCH, TEN_INCH]
+FAN_PANEL_SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
+FANS_PER_SECTION = 3;
+FAN_PANEL_RACK_UNITS = 1;
+FAN_SIZE_MM = 40;
+FAN_HOLE_SPACING = 32;
+
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
-FAN_PANEL_RACK_UNITS = 1;
-FAN_PANEL_SECTIONS = 3;
-FAN_PANEL_RACK_TYPE = "NINETEEN_INCH"; // [NINETEEN_INCH, TEN_INCH]
+FAN_PANEL_SECTIONS = FAN_PANEL_RACK_TYPE == "NINETEEN_INCH" ? 3 : 2;
 FAN_PANEL_SECTION_WIDTH = FAN_PANEL_RACK_TYPE == "NINETEEN_INCH" ?
     NINETEEN_INCH_STANDARD_WIDTH / FAN_PANEL_SECTIONS :
     TEN_INCH_STANDARD_WIDTH / FAN_PANEL_SECTIONS;
-
-FAN_PANEL_SECTION = "LEFT"; // [LEFT, MIDDLE, RIGHT]
-
-FANS_PER_SECTION = 3;
-
-FAN_SIZE_MM = FORTY_MM_FAN_XY;
-FAN_HOLE_SPACING = FORTY_MM_FAN_HOLE_SPACING;
 
 FAN_SPACING = 2;
 
@@ -27,8 +27,8 @@ difference() {
     vented_faceplate(
         rack_units = FAN_PANEL_RACK_UNITS,
         width = FAN_PANEL_SECTION_WIDTH,
-        thickness = FRONT_PLATE_THICKNESS,
-        rad = FACEPLATE_FILLET_RAD,
+        thickness = FACEPLATE__PLATE_THICKNESS,
+        rad = FACEPLATE__FILLET_RAD,
         skip_holes = SKIP_HOLES,
         holes_on_left = FAN_PANEL_SECTION == "LEFT",
         holes_on_right = FAN_PANEL_SECTION == "RIGHT",
@@ -40,7 +40,7 @@ difference() {
     );
 
     right((FAN_PANEL_SECTION_WIDTH - (FANS_PER_SECTION * FAN_SPACING * FAN_SIZE_MM) / 2)) {
-        back(FRONT_PLATE_THICKNESS) {
+        back(FACEPLATE__PLATE_THICKNESS) {
             up(((RACK_UNIT * FAN_PANEL_RACK_UNITS) - FAN_SIZE_MM) / 2) {
                 for (i = [0 : FANS_PER_SECTION - 1]) {
                     up(FAN_SIZE_MM / 2) {
@@ -49,7 +49,7 @@ difference() {
                                 fan_mounting_holes(
                                     hole_spacing = FAN_HOLE_SPACING,
                                     hole_rad = M4_SCREW_RAD * 2,
-                                    hole_depth = FRONT_PLATE_THICKNESS,
+                                    hole_depth = FACEPLATE__PLATE_THICKNESS,
                                     thread_buffer = 0,
                                     holes = [0, 1, 2, 3],
                                 );
@@ -63,7 +63,7 @@ difference() {
 }
 
 right((FAN_PANEL_SECTION_WIDTH - (FANS_PER_SECTION * FAN_SPACING * FAN_SIZE_MM) / 2)) {
-    back(FRONT_PLATE_THICKNESS) {
+    back(FACEPLATE__PLATE_THICKNESS) {
         up(((RACK_UNIT * FAN_PANEL_RACK_UNITS) - FAN_SIZE_MM) / 2) {
             for (i = [0 : FANS_PER_SECTION - 1]) {
                 up(FAN_SIZE_MM / 2) {
@@ -73,7 +73,7 @@ right((FAN_PANEL_SECTION_WIDTH - (FANS_PER_SECTION * FAN_SPACING * FAN_SIZE_MM) 
                                 fan_mounting_holes(
                                     hole_spacing = FAN_HOLE_SPACING,
                                     hole_rad = M4_SCREW_RAD * 2,
-                                    hole_depth = FRONT_PLATE_THICKNESS,
+                                    hole_depth = FACEPLATE__PLATE_THICKNESS,
                                     thread_buffer = 0,
                                     holes = [0, 1, 2, 3],
                                 );
@@ -81,7 +81,7 @@ right((FAN_PANEL_SECTION_WIDTH - (FANS_PER_SECTION * FAN_SPACING * FAN_SIZE_MM) 
                                 fan_mounting_holes(
                                     hole_spacing = FAN_HOLE_SPACING,
                                     hole_rad = M4_SCREW_RAD,
-                                    hole_depth = FRONT_PLATE_THICKNESS,
+                                    hole_depth = FACEPLATE__PLATE_THICKNESS,
                                     thread_buffer = 0,
                                     holes = [0, 1, 2, 3],
                                 );

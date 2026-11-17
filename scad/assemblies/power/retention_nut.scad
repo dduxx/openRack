@@ -2,6 +2,8 @@ include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../lib/fasteners/screws.scad>
 include <../../lib/fasteners/nuts.scad>
 
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
 HEIGHT = 5;

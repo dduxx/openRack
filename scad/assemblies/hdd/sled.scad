@@ -1,5 +1,10 @@
 include <../../lib/hdd/sled_builder.scad>
 
+SLED_TYPE = "default"; // [default, 2_5_adapter]
+HAS_LABEL = true;
+
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
 // cutouts
@@ -9,14 +14,6 @@ HAS_CONNECTOR_CUTOUT = true;
 
 // front panel
 HAS_VENTS = true;
-HAS_LABEL = true;
-
-SLED_TYPES = [
-    "default",
-    "2_5_adapter"
-];
-
-SLED_TYPE = "default";
 
 if (SLED_TYPE == "default") {
     three_point_five_inch_drive_sled(

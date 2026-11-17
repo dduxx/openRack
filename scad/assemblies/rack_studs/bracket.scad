@@ -4,6 +4,8 @@ include <../../lib/fasteners/nuts.scad>
 include <../../lib/fasteners/screws.scad>
 include <../../lib/rack_units.scad>
 
+module __Customizer_Limit__ () {}
+
 $fn = 100;
 
 NUT_RETAINER_XY = RACK_UNIT_HOLE_SPACING - ( (RACK_UNIT_HOLE_SPACING - RACK_SQUARE_HOLE_XY) / 2);
