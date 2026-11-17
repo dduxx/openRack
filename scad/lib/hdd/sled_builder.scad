@@ -3,50 +3,50 @@ include <../fasteners/screws.scad>
 include <hdd.scad>
 
 // general sled dimensions
-DRIVE_SLED_FLOOR = 4;
-DRIVE_SLED_WALL = 2;
-DRIVE_SLED_FRONT_DEPTH = 10;
+DRIVE_SLED__FLOOR = 4;
+DRIVE_SLED__WALL = 2;
+DRIVE_SLED__FRONT_DEPTH = 10;
 
-DRIVE_SLED_EDGE_FILLET = 1;
+DRIVE_SLED__EDGE_FILLET = 1;
 
 
 // screw slots
-HDD_SCREW_SLOT_WIDTH = HDD_SCREW_RAD * 2;
-HDD_SCREW_HEAD_RAD = 8 / 2;
+DRIVE_SLED__HDD_SCREW_SLOT_WIDTH = SCREWS__HDD_RAD * 2;
+DRIVE_SLED__HDD_SCREW_HEAD_RAD = 8 / 2;
 
-THREE_POINT_FIVE_SCREW_SLOT_LENGTH = 100;
-TWO_POINT_FIVE_SCREW_SLOT_LENGTH = 80;
+DRIVE_SLED__THREE_POINT_FIVE_SCREW_SLOT_LENGTH = 100;
+DRIVE_SLED__TWO_POINT_FIVE_SCREW_SLOT_LENGTH = 80;
 
 // bottom cutouts for material removal
-THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD = 30;
-THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH = THREE_POINT_FIVE_SCREW_SLOT_LENGTH;
-TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD = 15;
-TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH = TWO_POINT_FIVE_SCREW_SLOT_LENGTH;
+DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD = 30;
+DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH = DRIVE_SLED__THREE_POINT_FIVE_SCREW_SLOT_LENGTH;
+DRIVE_SLED__TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD = 15;
+DRIVE_SLED__TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH = DRIVE_SLED__TWO_POINT_FIVE_SCREW_SLOT_LENGTH;
 
 // connector cutouts
-CONNECTOR_CUTOUT_SCALE_FACTOR = 0.8;
-THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH = 80;
-THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH = 10;
-TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH = 55;
-TWO_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH = 10;
+DRIVE_SLED__CONNECTOR_CUTOUT_SCALE_FACTOR = 0.8;
+DRIVE_SLED__THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH = 80;
+DRIVE_SLED__THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH = 10;
+DRIVE_SLED__TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH = 55;
+DRIVE_SLED__TWO_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH = 10;
 
 // front panel
-THUMB_SLOT_WIDTH = 18;
-VENT_COUNT = 13;
-VENT_WIDTH = 2.5;
-LABEL_WIDTH = 45;
-LABEL_HEIGHT = 12.5;
+DRIVE_SLED__THUMB_SLOT_WIDTH = 18;
+DRIVE_SLED__VENT_COUNT = 13;
+DRIVE_SLED__VENT_WIDTH = 2.5;
+DRIVE_SLED__LABEL_WIDTH = 45;
+DRIVE_SLED__LABEL_HEIGHT = 12.5;
 
 // Module: three_point_five_inch_drive_sled()
 // Description: creates a drive sled sized for a 3.5" hard drive. can optionally include screw
 //   mounting slots, a bottom cutout for reduced material usage, a connector cutout at the
 //   rear, front vents, and a front label plate.
 // Arguments:
-//   drive_sled_wall = the wall thickness of the sled. default is `DRIVE_SLED_WALL`
-//   drive_sled_floor = the floor thickness of the sled. default is `DRIVE_SLED_FLOOR`
+//   drive_sled_wall = the wall thickness of the sled. default is `DRIVE_SLED__WALL`
+//   drive_sled_floor = the floor thickness of the sled. default is `DRIVE_SLED__FLOOR`
 //   drive_sled_front_depth = the depth of the front panel portion. default is
-//     `DRIVE_SLED_FRONT_DEPTH`
-//   edge_fillet = the corner rounding radius. default is 1.
+//     `DRIVE_SLED__FRONT_DEPTH`
+//   edge_fillet = the corner rounding radius. default is `DRIVE_SLED__EDGE_FILLET`
 //   has_bottom_cutout = if true, adds a cutout on the bottom of the sled for material saving.
 //     default is false.
 //   has_screw_slots = if true, adds slotted screw holes for mounting the drive. default is false.
@@ -55,19 +55,19 @@ LABEL_HEIGHT = 12.5;
 //   has_vents = if true, adds vertical vent slots to the front panel. default is false.
 //   has_label = if true, adds a label area on the front panel. default is false.
 module three_point_five_inch_drive_sled(
-    drive_sled_wall = DRIVE_SLED_WALL,
-    drive_sled_floor = DRIVE_SLED_FLOOR,
-    drive_sled_front_depth = DRIVE_SLED_FRONT_DEPTH,
-    edge_fillet = 1,
+    drive_sled_wall = DRIVE_SLED__WALL,
+    drive_sled_floor = DRIVE_SLED__FLOOR,
+    drive_sled_front_depth = DRIVE_SLED__FRONT_DEPTH,
+    edge_fillet = DRIVE_SLED__EDGE_FILLET,
     has_bottom_cutout = false,
     has_screw_slots = false,
     has_connector_cutout = false,
     has_vents = false,
     has_label = false
 ) {
-    sled_x = (2 * drive_sled_wall) + THREE_POINT_FIVE_HDD_WIDTH;
-    sled_y = THREE_POINT_FIVE_HDD_DEPTH;
-    sled_z = drive_sled_floor + THREE_POINT_FIVE_HDD_HEIGHT;
+    sled_x = (2 * drive_sled_wall) + HDD__THREE_POINT_FIVE_WIDTH;
+    sled_y = HDD__THREE_POINT_FIVE_DEPTH;
+    sled_z = drive_sled_floor + HDD__THREE_POINT_FIVE_HEIGHT;
 
     back(drive_sled_front_depth) {
         difference() {
@@ -90,9 +90,9 @@ module three_point_five_inch_drive_sled(
             // 3.5 inch drive negative
             right(drive_sled_wall) up(drive_sled_floor) {
                 cube([
-                    THREE_POINT_FIVE_HDD_WIDTH,
-                    THREE_POINT_FIVE_HDD_DEPTH,
-                    THREE_POINT_FIVE_HDD_HEIGHT
+                    HDD__THREE_POINT_FIVE_WIDTH,
+                    HDD__THREE_POINT_FIVE_DEPTH,
+                    HDD__THREE_POINT_FIVE_HEIGHT
                 ]);
             }
 
@@ -101,21 +101,21 @@ module three_point_five_inch_drive_sled(
                 right(sled_x / 2) {
                     back(
                         (
-                            (sled_y - THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH) / 2
-                        ) + THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD
+                            (sled_y - DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH) / 2
+                        ) + DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD
                     ) {
                         _sled_bottom_cutout(
-                            THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD,
-                            THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
+                            DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD,
+                            DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
                             drive_sled_floor
                         );
 
-                        back(DRIVE_SLED_FRONT_DEPTH * 2) up(DRIVE_SLED_FLOOR / 2) {
+                        back(drive_sled_front_depth * 2) up(drive_sled_floor / 2) {
                             cuboid(
                                 [
-                                    (THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD * 2) +
+                                    (DRIVE_SLED__THREE_POINT_FIVE_BOTTOM_CUTOUT_RAD * 2) +
                                         (2 * drive_sled_wall),
-                                    THREE_POINT_FIVE_HDD_DEPTH,
+                                    HDD__THREE_POINT_FIVE_DEPTH,
                                     drive_sled_floor / 2
                                 ],
                                 rounding = edge_fillet,
@@ -134,23 +134,23 @@ module three_point_five_inch_drive_sled(
             // screw slots
             if (has_screw_slots) {
                 screw_mount_y_trans = (
-                    THREE_POINT_FIVE_HDD_DEPTH
+                    HDD__THREE_POINT_FIVE_DEPTH
                 ) / 2;
 
                 // left bottom drive hole slot
-                right(HDD_BOTTOM_HOLE_EDGE_OFFSET + drive_sled_wall) back(screw_mount_y_trans) {
+                right(HDD__BOTTOM_HOLE_EDGE_OFFSET + drive_sled_wall) back(screw_mount_y_trans) {
                     _screw_mount_cutout(
                         drive_sled_floor,
-                        THREE_POINT_FIVE_SCREW_SLOT_LENGTH
+                        DRIVE_SLED__THREE_POINT_FIVE_SCREW_SLOT_LENGTH
                     );
                 }
 
                 // right bottom drive hole slot
-                right(THREE_POINT_FIVE_HDD_WIDTH - HDD_BOTTOM_HOLE_EDGE_OFFSET + drive_sled_wall) {
+                right(HDD__THREE_POINT_FIVE_WIDTH - HDD__BOTTOM_HOLE_EDGE_OFFSET + drive_sled_wall) {
                     back(screw_mount_y_trans) {
                         _screw_mount_cutout(
                             drive_sled_floor,
-                            THREE_POINT_FIVE_SCREW_SLOT_LENGTH
+                            DRIVE_SLED__THREE_POINT_FIVE_SCREW_SLOT_LENGTH
                         );
                     }
                 }
@@ -159,15 +159,15 @@ module three_point_five_inch_drive_sled(
             // connector cutout
             if (has_connector_cutout) {
                 right(
-                    THREE_POINT_FIVE_HDD_WIDTH - THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH +
+                    HDD__THREE_POINT_FIVE_WIDTH - DRIVE_SLED__THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH +
                         drive_sled_wall
                 ) {
-                    back(THREE_POINT_FIVE_HDD_DEPTH) {
+                    back(HDD__THREE_POINT_FIVE_DEPTH) {
                         _connector_cutout(
                             drive_sled_floor,
-                            THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
-                            THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
-                            CONNECTOR_CUTOUT_SCALE_FACTOR,
+                            DRIVE_SLED__THREE_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
+                            DRIVE_SLED__THREE_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
+                            DRIVE_SLED__CONNECTOR_CUTOUT_SCALE_FACTOR,
                             edge_fillet,
                         );
                     }
@@ -191,11 +191,11 @@ module three_point_five_inch_drive_sled(
 //   options as `three_point_five_inch_drive_sled`, with bottom cutouts, screw slots, and
 //   connector cutout options applied to the 2.5" adapter portion.
 // Arguments:
-//   drive_sled_wall = the wall thickness of the sled. default is `DRIVE_SLED_WALL`
-//   drive_sled_floor = the floor thickness of the sled. default is `DRIVE_SLED_FLOOR`
+//   drive_sled_wall = the wall thickness of the sled. default is `DRIVE_SLED__WALL`
+//   drive_sled_floor = the floor thickness of the sled. default is `DRIVE_SLED__FLOOR`
 //   drive_sled_front_depth = the depth of the front panel portion. default is
-//     `DRIVE_SLED_FRONT_DEPTH`
-//   edge_fillet = the corner rounding radius. default is 1.
+//     `DRIVE_SLED__FRONT_DEPTH`
+//   edge_fillet = the corner rounding radius. default is `DRIVE_SLED__EDGE_FILLET`
 //   has_bottom_cutout = if true, adds a cutout on the bottom of the 2.5" adapter. default is false.
 //   has_screw_slots = if true, adds slotted screw holes for mounting the 2.5" drive. default is
 //     false.
@@ -204,23 +204,23 @@ module three_point_five_inch_drive_sled(
 //   has_vents = if true, adds vertical vent slots to the front panel. default is false.
 //   has_label = if true, adds a label area on the front panel. default is false.
 module three_point_five_to_two_point_five_inch_drive_sled(
-    drive_sled_wall = DRIVE_SLED_WALL,
-    drive_sled_floor = DRIVE_SLED_FLOOR,
-    drive_sled_front_depth = DRIVE_SLED_FRONT_DEPTH,
-    edge_fillet = 1,
+    drive_sled_wall = DRIVE_SLED__WALL,
+    drive_sled_floor = DRIVE_SLED__FLOOR,
+    drive_sled_front_depth = DRIVE_SLED__FRONT_DEPTH,
+    edge_fillet = DRIVE_SLED__EDGE_FILLET,
     has_bottom_cutout = false,
     has_screw_slots = false,
     has_connector_cutout = false,
     has_vents = false,
     has_label = false
 ) {
-    sled_x = (2 * drive_sled_wall) + THREE_POINT_FIVE_HDD_WIDTH;
-    sled_y = THREE_POINT_FIVE_HDD_DEPTH;
-    sled_z = drive_sled_floor + THREE_POINT_FIVE_HDD_HEIGHT;
+    sled_x = (2 * drive_sled_wall) + HDD__THREE_POINT_FIVE_WIDTH;
+    sled_y = HDD__THREE_POINT_FIVE_DEPTH;
+    sled_z = drive_sled_floor + HDD__THREE_POINT_FIVE_HEIGHT;
 
-    adapter_x = (2 * drive_sled_wall) + TWO_POINT_FIVE_HDD_WIDTH;
-    adapter_y = drive_sled_wall + TWO_POINT_FIVE_HDD_DEPTH;
-    adapter_z = drive_sled_floor + TWO_POINT_FIVE_HDD_HEIGHT;
+    adapter_x = (2 * drive_sled_wall) + HDD__TWO_POINT_FIVE_WIDTH;
+    adapter_y = drive_sled_wall + HDD__TWO_POINT_FIVE_DEPTH;
+    adapter_z = drive_sled_floor + HDD__TWO_POINT_FIVE_HEIGHT;
 
     difference() {
         three_point_five_inch_drive_sled(
@@ -265,9 +265,9 @@ module _drive_sled_front(
     has_vents = false,
     has_label = false
 ) {
-    x = (2 * drive_sled_wall) + THREE_POINT_FIVE_HDD_WIDTH;
+    x = (2 * drive_sled_wall) + HDD__THREE_POINT_FIVE_WIDTH;
     y = drive_sled_front_depth;
-    z = drive_sled_floor + THREE_POINT_FIVE_HDD_HEIGHT;
+    z = drive_sled_floor + HDD__THREE_POINT_FIVE_HEIGHT;
 
     difference() {
         cuboid(
@@ -277,12 +277,12 @@ module _drive_sled_front(
             anchor = BOTTOM + LEFT + FRONT
         );
 
-        right((THUMB_SLOT_WIDTH / 2) + drive_sled_wall) up(z/2) {
+        right((DRIVE_SLED__THUMB_SLOT_WIDTH / 2) + drive_sled_wall) up(z/2) {
             cuboid(
                 [
-                    THUMB_SLOT_WIDTH,
-                    DRIVE_SLED_FRONT_DEPTH,
-                    THUMB_SLOT_WIDTH,
+                    DRIVE_SLED__THUMB_SLOT_WIDTH,
+                    drive_sled_front_depth,
+                    DRIVE_SLED__THUMB_SLOT_WIDTH,
                 ],
                 rounding = fillet,
                 edges = [
@@ -295,12 +295,12 @@ module _drive_sled_front(
             );
         }
 
-        right(x - (THUMB_SLOT_WIDTH / 2) - drive_sled_wall) up(z/2) {
+        right(x - (DRIVE_SLED__THUMB_SLOT_WIDTH / 2) - drive_sled_wall) up(z/2) {
             cuboid(
                 [
-                    THUMB_SLOT_WIDTH,
-                    DRIVE_SLED_FRONT_DEPTH,
-                    THUMB_SLOT_WIDTH,
+                    DRIVE_SLED__THUMB_SLOT_WIDTH,
+                    drive_sled_front_depth,
+                    DRIVE_SLED__THUMB_SLOT_WIDTH,
                 ],
                 rounding = fillet,
                 edges = [
@@ -315,14 +315,14 @@ module _drive_sled_front(
 
         if (has_vents) {
             right(x / 2) up(drive_sled_wall) {
-                _vent_slot(VENT_WIDTH, z - (2 * drive_sled_wall), drive_sled_front_depth);
+                _vent_slot(DRIVE_SLED__VENT_WIDTH, z - (2 * drive_sled_wall), drive_sled_front_depth);
 
-                for (i = [1 : (VENT_COUNT - 1) / 2]) {
-                    right((i * VENT_WIDTH * 2)) {
-                        _vent_slot(VENT_WIDTH, z - (2 * drive_sled_wall), drive_sled_front_depth);
+                for (i = [1 : (DRIVE_SLED__VENT_COUNT - 1) / 2]) {
+                    right((i * DRIVE_SLED__VENT_WIDTH * 2)) {
+                        _vent_slot(DRIVE_SLED__VENT_WIDTH, z - (2 * drive_sled_wall), drive_sled_front_depth);
                     }
-                    left((i * VENT_WIDTH * 2)) {
-                        _vent_slot(VENT_WIDTH, z - (2 * drive_sled_wall), drive_sled_front_depth);
+                    left((i * DRIVE_SLED__VENT_WIDTH * 2)) {
+                        _vent_slot(DRIVE_SLED__VENT_WIDTH, z - (2 * drive_sled_wall), drive_sled_front_depth);
                     }
                 }
             }
@@ -331,17 +331,17 @@ module _drive_sled_front(
 
     if (has_label) {
         right(x / 2) up(z / 2) {
-            cuboid([LABEL_WIDTH, drive_sled_wall, LABEL_HEIGHT], anchor=FRONT);
+            cuboid([DRIVE_SLED__LABEL_WIDTH, drive_sled_wall, DRIVE_SLED__LABEL_HEIGHT], anchor=FRONT);
         }
     }
 
 
-    right((THUMB_SLOT_WIDTH) + drive_sled_wall) up(z/2) {
+    right((DRIVE_SLED__THUMB_SLOT_WIDTH) + drive_sled_wall) up(z/2) {
         cuboid(
             [
-                THUMB_SLOT_WIDTH / 5,
-                DRIVE_SLED_FRONT_DEPTH / 4,
-                THUMB_SLOT_WIDTH,
+                DRIVE_SLED__THUMB_SLOT_WIDTH / 5,
+                drive_sled_front_depth / 4,
+                DRIVE_SLED__THUMB_SLOT_WIDTH,
             ],
             rounding = fillet,
             edges = [
@@ -353,12 +353,12 @@ module _drive_sled_front(
         );
     }
 
-    right(x - (THUMB_SLOT_WIDTH) - drive_sled_wall) up(z/2) {
+    right(x - (DRIVE_SLED__THUMB_SLOT_WIDTH) - drive_sled_wall) up(z/2) {
         cuboid(
             [
-                THUMB_SLOT_WIDTH / 5,
-                DRIVE_SLED_FRONT_DEPTH / 4,
-                THUMB_SLOT_WIDTH,
+                DRIVE_SLED__THUMB_SLOT_WIDTH / 5,
+                drive_sled_front_depth / 4,
+                DRIVE_SLED__THUMB_SLOT_WIDTH,
             ],
             rounding = fillet,
             edges = [
@@ -397,9 +397,9 @@ module _sled_bottom_cutout(bottom_cutout_rad, bottom_cutout_length, thickness) {
 module _screw_mount_cutout(height, screw_mount_cutout_length) {
     zrot(90) {
         screw_slot(
-            HDD_SCREW_SLOT_WIDTH/2,
+            DRIVE_SLED__HDD_SCREW_SLOT_WIDTH/2,
             screw_mount_cutout_length,
-            countersink_rad = HDD_SCREW_HEAD_RAD,
+            countersink_rad = DRIVE_SLED__HDD_SCREW_HEAD_RAD,
             countersink_depth = height - 1,
             total_length = height,
             thread_buffer = 0,
@@ -443,9 +443,9 @@ module _two_point_five_adapter(
     has_screw_slots = false,
     has_connector_cutout = false
 ) {
-    x_trans = (xyz[0] - TWO_POINT_FIVE_HDD_WIDTH)  / 2;
-    y_trans = xyz[1] - TWO_POINT_FIVE_HDD_DEPTH;
-    z_trans = xyz[2] - TWO_POINT_FIVE_HDD_HEIGHT;
+    x_trans = (xyz[0] - HDD__TWO_POINT_FIVE_WIDTH)  / 2;
+    y_trans = xyz[1] - HDD__TWO_POINT_FIVE_DEPTH;
+    z_trans = xyz[2] - HDD__TWO_POINT_FIVE_HEIGHT;
 
     difference() {
         _two_point_five_adapter_base(xyz, fillet);
@@ -453,37 +453,37 @@ module _two_point_five_adapter(
         // drive negative
         right(x_trans) back(y_trans) up(z_trans) {
             cube([
-                TWO_POINT_FIVE_HDD_WIDTH,
-                TWO_POINT_FIVE_HDD_DEPTH,
-                TWO_POINT_FIVE_HDD_HEIGHT
+                HDD__TWO_POINT_FIVE_WIDTH,
+                HDD__TWO_POINT_FIVE_DEPTH,
+                HDD__TWO_POINT_FIVE_HEIGHT
             ]);
         }
 
         if (has_screw_slots) {
             // left screw hole cutout
-            right(x_trans + HDD_BOTTOM_HOLE_EDGE_OFFSET) {
+            right(x_trans + HDD__BOTTOM_HOLE_EDGE_OFFSET) {
                 back(xyz[1] / 2) {
-                    _screw_mount_cutout(z_trans, TWO_POINT_FIVE_SCREW_SLOT_LENGTH);
+                    _screw_mount_cutout(z_trans, DRIVE_SLED__TWO_POINT_FIVE_SCREW_SLOT_LENGTH);
                 }
             }
 
             // right screw hole cutout
-            right(xyz[0] - HDD_BOTTOM_HOLE_EDGE_OFFSET - x_trans) {
+            right(xyz[0] - HDD__BOTTOM_HOLE_EDGE_OFFSET - x_trans) {
                 back(xyz[1] / 2) {
-                    _screw_mount_cutout(z_trans, TWO_POINT_FIVE_SCREW_SLOT_LENGTH);
+                    _screw_mount_cutout(z_trans, DRIVE_SLED__TWO_POINT_FIVE_SCREW_SLOT_LENGTH);
                 }
             }
         }
 
         // connector cutout
         if (has_connector_cutout) {
-            right(TWO_POINT_FIVE_HDD_WIDTH - TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH + x_trans) {
-                back(TWO_POINT_FIVE_HDD_DEPTH + y_trans) {
+            right(HDD__TWO_POINT_FIVE_WIDTH - DRIVE_SLED__TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH + x_trans) {
+                back(HDD__TWO_POINT_FIVE_DEPTH + y_trans) {
                     _connector_cutout(
                         z_trans,
-                        TWO_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
-                        TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
-                        CONNECTOR_CUTOUT_SCALE_FACTOR,
+                        DRIVE_SLED__TWO_POINT_FIVE_CONNECTOR_CUTOUT_DEPTH,
+                        DRIVE_SLED__TWO_POINT_FIVE_CONNECTOR_CUTOUT_WIDTH,
+                        DRIVE_SLED__CONNECTOR_CUTOUT_SCALE_FACTOR,
                         fillet,
                     );
                 }
@@ -493,11 +493,11 @@ module _two_point_five_adapter(
 
         // bottom cutout
         if (has_bottom_cutout) {
-            right(xyz[0] / 2) back(y_trans + (TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD * 2) - 5) {
+            right(xyz[0] / 2) back(y_trans + (DRIVE_SLED__TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD * 2) - 5) {
                 _sled_bottom_cutout(
-                    TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD,
-                    TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
-                    xyz[2] - TWO_POINT_FIVE_HDD_HEIGHT,
+                    DRIVE_SLED__TWO_POINT_FIVE_BOTTOM_CUTOUT_RAD,
+                    DRIVE_SLED__TWO_POINT_FIVE_BOTTOM_CUTOUT_LENGTH,
+                    xyz[2] - HDD__TWO_POINT_FIVE_HEIGHT,
                 );
             }
         }

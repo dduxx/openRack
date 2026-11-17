@@ -80,11 +80,11 @@ difference() {
     }
 
     nut_cutout(
-        flat_to_flat=THREE_EIGHTHS_NUT_FLAT_TO_FLAT, nut_height=NUT_HEIGHT, buffer=NUT_BUFFER
+        flat_to_flat=NUTS__THREE_EIGHTHS_FLAT_TO_FLAT, nut_height=NUT_HEIGHT, buffer=NUT_BUFFER
     );
 
     screw_cutout(
-        screw_rad = TEN_THIRTY_TWO_SCREW_RAD,
+        screw_rad = SCREWS__TEN_THIRTY_TWO_RAD,
         total_length=BASE_HEIGHT + HANDLE_HEIGHT
     );
 }

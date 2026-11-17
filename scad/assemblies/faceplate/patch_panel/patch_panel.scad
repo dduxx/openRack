@@ -42,7 +42,7 @@ difference() {
                 keystone_negative(
                     rows = 1,
                     columns = JACKS_PER_SECTION,
-                    rad = KEYSTONE_OUTER_RAD,
+                    rad = KEYSTONE__OUTER_RAD,
                     spacing = 0
                 );
             }
@@ -50,7 +50,7 @@ difference() {
     }
 }
 
-right(PATCH_PANEL_SECTION_WIDTH / 2) back(KEYSTONE_OUTER_Y) up(RACK_UNIT / 2) {
+right(PATCH_PANEL_SECTION_WIDTH / 2) back(KEYSTONE__OUTER_Y) up(RACK_UNIT / 2) {
     yflip() {
         // centering the panel
         left(calculate_keystone_panel_width(JACKS_PER_SECTION) / 2) {
@@ -58,7 +58,7 @@ right(PATCH_PANEL_SECTION_WIDTH / 2) back(KEYSTONE_OUTER_Y) up(RACK_UNIT / 2) {
                 keystone(
                     rows = 1,
                     columns = JACKS_PER_SECTION,
-                    rad = KEYSTONE_OUTER_RAD,
+                    rad = KEYSTONE__OUTER_RAD,
                     spacing = 0
                 );
             }

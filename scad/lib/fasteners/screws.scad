@@ -1,12 +1,12 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../../dependencies/dduxx:scadUnitConversionLib:v1.0.0/scad/lib/conversion.scad>
 
-HDD_SCREW_RAD = 3.5 / 2;
+SCREWS__HDD_RAD = 3.5 / 2;
 
-TEN_THIRTY_TWO_SCREW_RAD = inches_to_mm(3/16) / 2;
+SCREWS__TEN_THIRTY_TWO_RAD = inches_to_mm(3/16) / 2;
 
-M4_SCREW_RAD = 2;
-M3_SCREW_RAD = 1.5;
+SCREWS__M4_RAD = 2;
+SCREWS__M3_RAD = 1.5;
 
 // Module: screw_cutout()
 // Description: creates a negative volume (cutout) for a screw. includes an optional countersink

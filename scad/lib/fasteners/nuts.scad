@@ -1,6 +1,6 @@
-THREE_EIGHTHS_NUT_FLAT_TO_FLAT = inches_to_mm(3 / 8);
+NUTS__THREE_EIGHTHS_FLAT_TO_FLAT = inches_to_mm(3 / 8);
 
-M4_FLAT_TO_FLAT = 7;
+NUTS__M4_FLAT_TO_FLAT = 7;
 
 // Module: nut_cutout()
 // Description: creates a negative volume (cutout) for a nut.

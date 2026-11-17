@@ -4,41 +4,41 @@ include <hdd.scad>
 include <sled_builder.scad>
 include <../../lib/utils/ellipse.scad>
 
-DRIVE_ENCLOSURE_SLED_BUFFER = 1.0;
+SLED_ENCLOSURE__BUFFER = 1.0;
 
-SATA_CONNECTOR_MOUNT_X = 60;
-SATA_CONNECTOR_MOUNT_Y = 15;
-SATA_CONNECTOR_Z_BUFFER = 2;
-SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET = 12;
-SATA_CONNECTOR_HOLE_DISTANCE = 40;
-SATA_CONNECTOR_HOLE_Y_OFFSET = 7.5;
-SATA_CONNECTOR_THREAD_BUFFER = 0.2;
+SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X = 60;
+SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_Y = 15;
+SLED_ENCLOSURE__SATA_CONNECTOR_Z_BUFFER = 2;
+SLED_ENCLOSURE__SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET = 12;
+SLED_ENCLOSURE__SATA_CONNECTOR_HOLE_DISTANCE = 40;
+SLED_ENCLOSURE__SATA_CONNECTOR_HOLE_Y_OFFSET = 7.5;
+SLED_ENCLOSURE__SATA_CONNECTOR_THREAD_BUFFER = 0.2;
 
-MATERIAL_REMOVAL_FACTOR_X = 2.75;
-MATERIAL_REMOVAL_FACTOR_Y = 2.25;
+SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_X = 2.75;
+SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_Y = 2.25;
 
 // Module: three_point_five_inch_enclosure()
 // Description: creates an enclosure for a 3.5" drive sled. includes an optional SATA
 //   connector mounting bracket, rounded exterior edges, and an interior cavity shaped to
 //   accept a drive sled.
 // Arguments:
-//   wall = the wall thickness of the enclosure and the sled. default is `DRIVE_SLED_WALL`
-//   drive_sled_floor = the floor thickness of the enclosure. default is `DRIVE_SLED_FLOOR`
-//   rad = the corner rounding radius. default is `DRIVE_SLED_EDGE_FILLET`
+//   wall = the wall thickness of the enclosure and the sled. default is `DRIVE_SLED__WALL`
+//   drive_sled_floor = the floor thickness of the enclosure. default is `DRIVE_SLED__FLOOR`
+//   rad = the corner rounding radius. default is `DRIVE_SLED__EDGE_FILLET`
 //   fillet_top = if true, applies a fillet to the top edges. default is true.
 //   fillet_bottom = if true, applies a fillet to the bottom edges. default is true.
 //   has_sata_connector = if true, adds a SATA connector mounting bracket to the rear of the
 //     enclosure. default is true.
 //   sled_buffer = additional clearance between the sled and enclosure walls. default is
-//     `DRIVE_ENCLOSURE_SLED_BUFFER`
+//     `SLED_ENCLOSURE__BUFFER`
 module three_point_five_inch_enclosure(
-    wall=DRIVE_SLED_WALL,
-    drive_sled_floor=DRIVE_SLED_FLOOR,
-    rad=DRIVE_SLED_EDGE_FILLET,
+    wall=DRIVE_SLED__WALL,
+    drive_sled_floor=DRIVE_SLED__FLOOR,
+    rad=DRIVE_SLED__EDGE_FILLET,
     fillet_top = true,
     fillet_bottom = true,
     has_sata_connector = true,
-    sled_buffer = DRIVE_ENCLOSURE_SLED_BUFFER,
+    sled_buffer = SLED_ENCLOSURE__BUFFER,
 ) {
     difference() {
         _three_point_five_inch_enclosure_base(
@@ -61,8 +61,8 @@ module three_point_five_inch_enclosure(
 
         right(drive_enclosure_width(wall) / 2) back(drive_enclosure_depth() / 2) {
             elliptic_cylinder([
-                (drive_enclosure_width(wall) / MATERIAL_REMOVAL_FACTOR_X) * 2,
-                (drive_enclosure_depth() / MATERIAL_REMOVAL_FACTOR_Y) * 2,
+                (drive_enclosure_width(wall) / SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_X) * 2,
+                (drive_enclosure_depth() / SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_Y) * 2,
                 drive_enclosure_height(drive_sled_floor, wall)
             ]);
         }
@@ -70,9 +70,9 @@ module three_point_five_inch_enclosure(
         back(drive_enclosure_depth() / 2) up(drive_enclosure_height(drive_sled_floor, wall) / 2) {
             yrot(90) {
                 elliptic_cylinder([
-                    (drive_enclosure_height(drive_sled_floor, wall) / MATERIAL_REMOVAL_FACTOR_X) *
+                    (drive_enclosure_height(drive_sled_floor, wall) / SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_X) *
                         2,
-                    (drive_enclosure_depth() / MATERIAL_REMOVAL_FACTOR_Y) *
+                    (drive_enclosure_depth() / SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_Y) *
                         2,
                     drive_enclosure_width(wall)
                 ]);
@@ -81,14 +81,14 @@ module three_point_five_inch_enclosure(
     }
 
     if (has_sata_connector) {
-        right(drive_enclosure_width(wall) - SATA_CONNECTOR_MOUNT_X - wall) {
+        right(drive_enclosure_width(wall) - SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X - wall) {
             back(drive_enclosure_depth()) {
                 difference() {
                     union() {
                         cuboid(
                             [
-                                SATA_CONNECTOR_MOUNT_X,
-                                SATA_CONNECTOR_MOUNT_Y,
+                                SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X,
+                                SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_Y,
                                 wall
                             ],
                             rounding = rad,
@@ -98,9 +98,9 @@ module three_point_five_inch_enclosure(
 
                         back(wall) up(wall) {
                             xrot(90) yrot(90) xflip() {
-                                linear_extrude(SATA_CONNECTOR_MOUNT_X)
+                                linear_extrude(SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X)
                                 right_triangle(
-                                    [wall, drive_sled_floor - SATA_CONNECTOR_Z_BUFFER]
+                                    [wall, drive_sled_floor - SLED_ENCLOSURE__SATA_CONNECTOR_Z_BUFFER]
                                 );
                             }
                         }
@@ -108,9 +108,9 @@ module three_point_five_inch_enclosure(
                         back(wall) up(wall) {
                             cuboid(
                                 [
-                                    SATA_CONNECTOR_MOUNT_X,
-                                    SATA_CONNECTOR_MOUNT_Y - wall,
-                                    drive_sled_floor - SATA_CONNECTOR_Z_BUFFER
+                                    SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X,
+                                    SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_Y - wall,
+                                    drive_sled_floor - SLED_ENCLOSURE__SATA_CONNECTOR_Z_BUFFER
                                 ],
                                 rounding = rad,
                                 edges = [LEFT + BACK, BACK + RIGHT],
@@ -120,25 +120,25 @@ module three_point_five_inch_enclosure(
 
                     }
 
-                    right(SATA_CONNECTOR_MOUNT_X - SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET) {
-                        back(SATA_CONNECTOR_HOLE_Y_OFFSET) {
+                    right(SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X - SLED_ENCLOSURE__SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET) {
+                        back(SLED_ENCLOSURE__SATA_CONNECTOR_HOLE_Y_OFFSET) {
                             screw_cutout(
-                                M3_SCREW_RAD,
+                                SCREWS__M3_RAD,
                                 total_length = wall + drive_sled_floor,
-                                thread_buffer = SATA_CONNECTOR_THREAD_BUFFER,
+                                thread_buffer = SLED_ENCLOSURE__SATA_CONNECTOR_THREAD_BUFFER,
                             );
                         }
                     }
 
-                    right(SATA_CONNECTOR_MOUNT_X -
-                        SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET -
-                        SATA_CONNECTOR_HOLE_DISTANCE
+                    right(SLED_ENCLOSURE__SATA_CONNECTOR_MOUNT_X -
+                        SLED_ENCLOSURE__SATA_CONNECTOR_RIGHT_EDGE_HOLE_OFFSET -
+                        SLED_ENCLOSURE__SATA_CONNECTOR_HOLE_DISTANCE
                     ) {
-                        back(SATA_CONNECTOR_HOLE_Y_OFFSET) {
+                        back(SLED_ENCLOSURE__SATA_CONNECTOR_HOLE_Y_OFFSET) {
                             screw_cutout(
-                                M3_SCREW_RAD,
+                                SCREWS__M3_RAD,
                                 total_length = wall + drive_sled_floor,
-                                thread_buffer = SATA_CONNECTOR_THREAD_BUFFER,
+                                thread_buffer = SLED_ENCLOSURE__SATA_CONNECTOR_THREAD_BUFFER,
                             );
                         }
                     }
@@ -157,7 +157,7 @@ function drive_enclosure_width(wall) = (2 * wall) + drive_sled_width(wall);
 
 // Function: drive_enclosure_depth()
 // Description: calculates the total depth of a drive enclosure (drive length plus front depth).
-function drive_enclosure_depth() = THREE_POINT_FIVE_HDD_DEPTH + DRIVE_SLED_FRONT_DEPTH;
+function drive_enclosure_depth() = HDD__THREE_POINT_FIVE_DEPTH + DRIVE_SLED__FRONT_DEPTH;
 
 // Function: drive_enclosure_height()
 // Description: calculates the total exterior height of a drive enclosure based on the floor
@@ -173,7 +173,7 @@ function drive_enclosure_height(drive_sled_floor, wall) = (2 * wall) +
 // Arguments:
 //   wall = the wall thickness of the enclosure
 //   buffer = additional clearance added to the width. default is 0.
-function drive_sled_width(wall, buffer = 0) = (2 * wall) + THREE_POINT_FIVE_HDD_WIDTH + buffer;
+function drive_sled_width(wall, buffer = 0) = (2 * wall) + HDD__THREE_POINT_FIVE_WIDTH + buffer;
 
 // Function: drive_sled_height()
 // Description: calculates the interior height available for a drive sled within the enclosure.
@@ -181,7 +181,7 @@ function drive_sled_width(wall, buffer = 0) = (2 * wall) + THREE_POINT_FIVE_HDD_
 //   drive_sled_floor = the floor thickness of the enclosure
 //   buffer = additional clearance added to the height. default is 0.
 function drive_sled_height(drive_sled_floor, buffer = 0) = drive_sled_floor +
-    THREE_POINT_FIVE_HDD_HEIGHT +
+    HDD__THREE_POINT_FIVE_HEIGHT +
     buffer;
 
 module _three_point_five_inch_enclosure_base(

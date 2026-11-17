@@ -2,11 +2,11 @@ include <../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../lib/fasteners/screws.scad>
 include <../lib/utils/list.scad>
 
-FORTY_MM_FAN_XY = 40;
-FORTY_MM_FAN_HOLE_SPACING = 32;
+FAN__FORTY_MM_XY = 40;
+FAN__FORTY_MM_HOLE_SPACING = 32;
 
-ONE_TWENTY_MM_FAN_XY = 120;
-ONE_TWENTY_MM_FAN_HOLE_SPACING = 105;
+FAN__ONE_TWENTY_MM_XY = 120;
+FAN__ONE_TWENTY_MM_HOLE_SPACING = 105;
 
 // Module: fan_negative()
 // Description: creates a negative volume (cutout) for a square fan. can be centered on any axis
