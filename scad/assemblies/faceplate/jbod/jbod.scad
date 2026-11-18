@@ -133,37 +133,6 @@ difference() {
                     ]);
                 }
             }
-
-            // 40mm fan mounts
-            left(
-                (drive_enclosure_height(DRIVE_SLED__FLOOR, DRIVE_SLED__WALL) + inches_to_mm(5/8)) /
-                    2
-            ) {
-                back(drive_enclosure_depth()) {
-                    up(
-                        (
-                            (
-                                (JBOD_RACK_UNITS * RACK_UNIT) -
-                                    (drive_enclosure_width(DRIVE_SLED__WALL))
-                            ) / 2
-                        ) - (2 * (DRIVE_SLED__WALL + FAN_BUFFER))
-                    ) {
-                        right((FAN__FORTY_MM_XY / 2) + (i * (FAN_BUFFER + FAN__FORTY_MM_XY))) {
-                            up(FAN__FORTY_MM_XY / 2) {
-                                xrot(90) {
-                                    fan_mounting_holes(
-                                        hole_spacing = FAN__FORTY_MM_HOLE_SPACING,
-                                        hole_rad = SCREWS__M3_RAD,
-                                        hole_depth = 20,
-                                        thread_buffer = -JDBO_FASTNER_BUFFER,
-                                        holes = [0, 1]
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
