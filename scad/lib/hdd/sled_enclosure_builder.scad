@@ -17,7 +17,7 @@ SLED_ENCLOSURE__SATA_CONNECTOR_THREAD_BUFFER = 0.2;
 SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_X = 2.75;
 SLED_ENCLOSURE__MATERIAL_REMOVAL_FACTOR_Y = 2.25;
 
-// Module: three_point_five_inch_enclosure()
+// Module: three_point_five_inch_enclosure(wall, drive_sled_floor, rad, fillet_top, fillet_bottom, has_sata_connector, sled_buffer)
 // Description: creates an enclosure for a 3.5" drive sled. includes an optional SATA
 //   connector mounting bracket, rounded exterior edges, and an interior cavity shaped to
 //   accept a drive sled.
@@ -148,7 +148,7 @@ module three_point_five_inch_enclosure(
     }
 }
 
-// Function: drive_enclosure_width()
+// Function: drive_enclosure_width(wall)
 // Description: calculates the total exterior width of a drive enclosure based on the wall
 //   thickness.
 // Arguments:
@@ -159,7 +159,7 @@ function drive_enclosure_width(wall) = (2 * wall) + drive_sled_width(wall);
 // Description: calculates the total depth of a drive enclosure (drive length plus front depth).
 function drive_enclosure_depth() = HDD__THREE_POINT_FIVE_DEPTH + DRIVE_SLED__FRONT_DEPTH;
 
-// Function: drive_enclosure_height()
+// Function: drive_enclosure_height(drive_sled_floor, wall)
 // Description: calculates the total exterior height of a drive enclosure based on the floor
 //   thickness and wall thickness.
 // Arguments:
@@ -168,14 +168,14 @@ function drive_enclosure_depth() = HDD__THREE_POINT_FIVE_DEPTH + DRIVE_SLED__FRO
 function drive_enclosure_height(drive_sled_floor, wall) = (2 * wall) +
     drive_sled_height(drive_sled_floor);
 
-// Function: drive_sled_width()
+// Function: drive_sled_width(wall, buffer)
 // Description: calculates the interior width available for a drive sled within the enclosure.
 // Arguments:
 //   wall = the wall thickness of the enclosure
 //   buffer = additional clearance added to the width. default is 0.
 function drive_sled_width(wall, buffer = 0) = (2 * wall) + HDD__THREE_POINT_FIVE_WIDTH + buffer;
 
-// Function: drive_sled_height()
+// Function: drive_sled_height(drive_sled_floor, buffer)
 // Description: calculates the interior height available for a drive sled within the enclosure.
 // Arguments:
 //   drive_sled_floor = the floor thickness of the enclosure

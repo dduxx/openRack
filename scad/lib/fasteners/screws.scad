@@ -8,7 +8,7 @@ SCREWS__TEN_THIRTY_TWO_RAD = inches_to_mm(3/16) / 2;
 SCREWS__M4_RAD = 2;
 SCREWS__M3_RAD = 1.5;
 
-// Module: screw_cutout()
+// Module: screw_cutout(screw_rad, countersink_rad, countersink_depth, total_length, thread_buffer)
 // Description: creates a negative volume (cutout) for a screw. includes an optional countersink
 //   pocket on top of the screw shaft.
 // Arguments:
@@ -31,7 +31,7 @@ module screw_cutout(
     }
 }
 
-// Module: screw_slot()
+// Module: screw_slot(screw_rad, slot_width, countersink_rad, countersink_depth, total_length, thread_buffer)
 // Description: creates a negative volume (cutout) shaped as an elongated slot for a screw.
 //   useful for rack mounting holes that need horizontal adjustment. includes an optional
 //   countersink pocket.

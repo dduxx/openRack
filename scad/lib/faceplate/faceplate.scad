@@ -13,7 +13,7 @@ FACEPLATE__COUNTERSINK_RAD = 4;
 FACEPLATE__JOIN_SUPPORT_NUT_HEIGHT = 3;
 FACEPLATE__JOIN_SUPPORT_NUT_BUFFER = 0.2;
 
-// Module: faceplate()
+// Module: faceplate(rack_units, width, thickness, rad, skip_holes, holes_on_left, holes_on_right, fillet_left, fillet_right, join_support_left, join_support_right, faceplate_screw_slot_allowance, countersink_rad)
 // Description = creates a front panel for rack mount appliances meant to be used as a base for
 //   creating new assemblies.
 // Arguments:
@@ -182,7 +182,7 @@ module faceplate(
     }
 }
 
-// Module: vented_faceplate()
+// Module: vented_faceplate(rack_units, width, thickness, rad, skip_holes, holes_on_left, holes_on_right, fillet_left, fillet_right, join_support_left, join_support_right, countersink_rad, vent_width, vent_separator_width)
 // Description = creates a vented front panel for rack mount appliances meant to be used as a base
 //   for creating new assemblies.
 // Arguments:
@@ -341,11 +341,11 @@ module _join_support(rack_units, fillet) {
     }
 }
 
-// Module: join_support_key()
+// Module: join_support_key(fillet)
 // Description: key used to fasten 2 front panels together. sized to fit within the join support
 //   post that can be added to the faceplates.
 // Arguments:
-//   fillet: fillet radius used to round the top corners of the join key
+//   fillet = the fillet radius used to round the top corners of the join key
 module join_support_key(fillet) {
     difference() {
         cuboid(

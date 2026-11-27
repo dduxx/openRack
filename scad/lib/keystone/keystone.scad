@@ -19,7 +19,7 @@ KEYSTONE__FRONT_WALL_THICKNESS = 1;
 KEYSTONE__FRONT_WALL_TOP_HEIGHT = 3.7;
 KEYSTONE__FRONT_WALL_BOTTOM_HEIGHT = KEYSTONE__LATCH_HEIGHT;
 
-// Module: keystone()
+// Module: keystone(rows, columns, rad, spacing)
 // Description: creates a keystone jack panel with a grid of keystone bays. each bay includes
 //   latch hooks and front wall retainers to secure standard keystone insert modules.
 // Arguments:
@@ -107,7 +107,7 @@ module keystone(rows = 1, columns = 1, rad = KEYSTONE__OUTER_RAD, spacing = 0) {
     }
 }
 
-// Module: keystone_negative()
+// Module: keystone_negative(rows, columns, rad, spacing)
 // Description: creates a negative volume (cutout) for a keystone panel. can be used with
 //   `difference()` to carve keystone bays into another object.
 // Arguments:
@@ -138,7 +138,7 @@ module keystone_negative(
     );
 }
 
-// Function: calculate_keystone_panel_width()
+// Function: calculate_keystone_panel_width(columns, spacing)
 // Description: calculates the total width of a keystone panel given the number of columns and
 //   the spacing between them.
 // Arguments:
@@ -148,7 +148,7 @@ function calculate_keystone_panel_width(
     columns = 1, spacing = 0
 ) = (KEYSTONE__OUTER_X * columns) + (spacing * columns);
 
-// Function: calculate_keystone_panel_height()
+// Function: calculate_keystone_panel_height(rows, spacing)
 // Description: calculates the total height of a keystone panel given the number of rows and the
 //   spacing between them.
 // Arguments:

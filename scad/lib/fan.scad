@@ -8,7 +8,7 @@ FAN__FORTY_MM_HOLE_SPACING = 32;
 FAN__ONE_TWENTY_MM_XY = 120;
 FAN__ONE_TWENTY_MM_HOLE_SPACING = 105;
 
-// Module: fan_negative()
+// Module: fan_negative(xy_val, z, buffer, fillet, x_center, y_center, z_center)
 // Description: creates a negative volume (cutout) for a square fan. can be centered on any axis
 //   and includes a configurable buffer for clearance.
 // Arguments:
@@ -53,7 +53,7 @@ module fan_negative(
     }
 }
 
-// Module: fan_mounting_holes()
+// Module: fan_mounting_holes(hole_spacing, hole_rad, hole_depth, thread_buffer, holes)
 // Description: creates negative volumes (screw cutouts) for fan mounting holes arranged in a
 //   square pattern. each hole can be individually toggled via the `holes` parameter.
 //   hole 0 = front-left, hole 1 = front-right, hole 2 = back-right, hole 3 = back-left.
