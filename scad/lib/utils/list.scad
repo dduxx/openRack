@@ -1,4 +1,4 @@
-// Function: contains()
+// Function: contains(target, values, i)
 // Description: recursively searches a list for a target value. returns true if the value is
 //   found, false otherwise.
 // Arguments:

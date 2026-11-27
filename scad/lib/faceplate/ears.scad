@@ -2,7 +2,7 @@ include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 include <../../lib/rack_units.scad>
 include <./faceplate.scad>
 
-// Module: rack_ear()
+// Module: rack_ear(width, ear_depth, is_left_ear, rack_units, thickness, rad, skip_holes, has_bottom_support, countersink_rad)
 // Description: creates a rack mounting ear with an integrated faceplate section.
 // Arguments:
 //   width = the total width of the ear including the faceplate portion

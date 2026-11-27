@@ -1,12 +1,12 @@
 include <../../../dependencies/BelfrySCAD:BOSL2:v2.0.741/std.scad>
 
-// Module: ellipse()
+// Module: ellipse(xy, center)
 // Description: Creates a 2d ellipse of a given width and length
 // Arguments:
 //   xy = a vector representing the width of the entire ellipse in the x direction and the length in
 //     the y direction.
-//   center = a boolean value used to center the shape on the origin. if false the ellipse will be
-//     shifted right by half the x value and back by half the y value.
+//   center = a boolean value used to center the shape on the origin. default is true. if false the
+//     ellipse will be shifted right by half the x value and back by half the y value.
 module ellipse(xy, center = true) {
     assert(is_list(xy) && len(xy) == 2, "xy arg expected a vector with [x, y] values");
     assert(is_bool(center), "center arg expected a boolean");
@@ -33,15 +33,16 @@ module ellipse(xy, center = true) {
     }
 }
 
-// Module: elliptic_cylinder()
+// Module: elliptic_cylinder(xyz, xy_center, z_center)
 // Description: Extrudes an ellipse of a given width and length to the given height
 // Arguments:
 //   xyz = a vector representing the width of the entire ellipse in the x direction, the length in
 //     the y direction, and the height to extrude in the z direction.
 //   xy_center = a boolean value used to center the shape on the origin in the x and y directions.
-//     if false the ellipse will be shifted right by half the x value and back by half the y value.
-//   z_center = a boolean value used to center the extrusion in the z direction. if true the shape
-//     will be shifted down by half the z value.
+//     default is true. if false the ellipse will be shifted right by half the x value and back by
+//     half the y value.
+//   z_center = a boolean value used to center the extrusion in the z direction. default is false.
+//     if true the shape will be shifted down by half the z value.
 module elliptic_cylinder(xyz, xy_center = true, z_center = false) {
     assert(is_list(xyz) && len(xyz) == 3, "xyz arg expected a vector with [x, y, z] values");
     assert(is_bool(xy_center), "center arg expected a boolean");

@@ -37,7 +37,7 @@ DRIVE_SLED__VENT_WIDTH = 2.5;
 DRIVE_SLED__LABEL_WIDTH = 45;
 DRIVE_SLED__LABEL_HEIGHT = 12.5;
 
-// Module: three_point_five_inch_drive_sled()
+// Module: three_point_five_inch_drive_sled(drive_sled_wall, drive_sled_floor, drive_sled_front_depth, edge_fillet, has_bottom_cutout, has_screw_slots, has_connector_cutout, has_vents, has_label)
 // Description: creates a drive sled sized for a 3.5" hard drive. can optionally include screw
 //   mounting slots, a bottom cutout for reduced material usage, a connector cutout at the
 //   rear, front vents, and a front label plate.
@@ -185,7 +185,7 @@ module three_point_five_inch_drive_sled(
     );
 }
 
-// Module: three_point_five_to_two_point_five_inch_drive_sled()
+// Module: three_point_five_to_two_point_five_inch_drive_sled(drive_sled_wall, drive_sled_floor, drive_sled_front_depth, edge_fillet, has_bottom_cutout, has_screw_slots, has_connector_cutout, has_vents, has_label)
 // Description: creates a drive sled adapter that fits a 2.5" drive into a 3.5" sled form
 //   factor. embeds a 2.5" adapter cavity into the standard 3.5" sled body. supports the same
 //   options as `three_point_five_inch_drive_sled`, with bottom cutouts, screw slots, and
